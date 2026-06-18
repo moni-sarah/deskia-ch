@@ -35,7 +35,7 @@ const t = {
       "Replies to FAQs, collects leads and books meetings — automatically in French and English, trained on your FAQs and documents.",
     ctaDashboard: "Open dashboard",
     ctaDemo: "Try the live demo",
-    aboutTitle: "Deskia AI – Your 24/7 AI Receptionist",
+    aboutTitle: "Deskia AI – Your 24/7 Receptionist",
     aboutSubtitle: "Never miss another call or customer.",
     aboutDesc:
       "Deskia automatically answers calls, qualifies leads, books appointments and answers your customers' questions in French, English, German and Italian.",
@@ -99,7 +99,7 @@ const t = {
       "Répond aux FAQ, collecte les prospects et planifie les rendez-vous — automatiquement en français et en anglais, formée sur vos FAQ et documents.",
     ctaDashboard: "Ouvrir le tableau de bord",
     ctaDemo: "Essayer la démo en direct",
-    aboutTitle: "Deskia AI – Votre réceptionniste IA 24h/24",
+    aboutTitle: "Deskia AI – Votre réceptionniste 24h/24",
     aboutSubtitle: "Ne manquez plus aucun appel ni aucun client.",
     aboutDesc:
       "Deskia répond automatiquement aux appels, qualifie les prospects, prend les rendez-vous et répond aux questions de vos clients en français, anglais, allemand et italien.",
