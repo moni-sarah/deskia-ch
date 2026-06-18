@@ -1,18 +1,34 @@
 import { createServerFn } from "@tanstack/react-start";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { z } from "zod";
 
-export const getMyReceptionist = createServerFn({ method: "GET" })
-  .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => {
-    const { data, error } = await context.supabase
-      .from("receptionists")
-      .select("*")
-      .eq("user_id", context.userId)
-      .maybeSingle();
-    if (error) throw new Error(error.message);
-    return data;
-  });
+async function admin() {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  return supabaseAdmin;
+}
+
+async function getSingleton() {
+  const sb = await admin();
+  const { data, error } = await sb
+    .from("receptionists")
+    .select("*")
+    .order("created_at", { ascending: true })
+    .limit(1)
+    .maybeSingle();
+  if (error) throw new Error(error.message);
+  if (data) return data;
+  // Auto-seed if missing
+  const { data: inserted, error: insErr } = await sb
+    .from("receptionists")
+    .insert({ slug: "demo", business_name: "My Business" })
+    .select()
+    .single();
+  if (insErr) throw new Error(insErr.message);
+  return inserted;
+}
+
+export const getMyReceptionist = createServerFn({ method: "GET" }).handler(async () => {
+  return await getSingleton();
+});
 
 const UpdateSchema = z.object({
   business_name: z.string().trim().min(1).max(120),
@@ -33,9 +49,9 @@ const UpdateSchema = z.object({
 });
 
 export const updateMyReceptionist = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => UpdateSchema.parse(input))
-  .handler(async ({ data, context }) => {
+  .handler(async ({ data }) => {
+    const r = await getSingleton();
     const clean = {
       ...data,
       calendly_15: data.calendly_15 || null,
@@ -44,38 +60,30 @@ export const updateMyReceptionist = createServerFn({ method: "POST" })
       notif_email: data.notif_email || null,
       whatsapp_number: data.whatsapp_number || null,
     };
-    const { error } = await context.supabase
-      .from("receptionists")
-      .update(clean)
-      .eq("user_id", context.userId);
+    const sb = await admin();
+    const { error } = await sb.from("receptionists").update(clean).eq("id", r.id);
     if (error) throw new Error(error.message);
     return { ok: true };
   });
 
-export const getMyLeads = createServerFn({ method: "GET" })
-  .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => {
-    const { data: r } = await context.supabase
-      .from("receptionists")
-      .select("id")
-      .eq("user_id", context.userId)
-      .maybeSingle();
-    if (!r) return [];
-    const { data, error } = await context.supabase
-      .from("leads")
-      .select("*")
-      .eq("receptionist_id", r.id)
-      .order("created_at", { ascending: false })
-      .limit(200);
-    if (error) throw new Error(error.message);
-    return data ?? [];
-  });
+export const getMyLeads = createServerFn({ method: "GET" }).handler(async () => {
+  const r = await getSingleton();
+  const sb = await admin();
+  const { data, error } = await sb
+    .from("leads")
+    .select("*")
+    .eq("receptionist_id", r.id)
+    .order("created_at", { ascending: false })
+    .limit(200);
+  if (error) throw new Error(error.message);
+  return data ?? [];
+});
 
 export const deleteLead = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
   .inputValidator((input: unknown) => z.object({ id: z.string().uuid() }).parse(input))
-  .handler(async ({ data, context }) => {
-    const { error } = await context.supabase.from("leads").delete().eq("id", data.id);
+  .handler(async ({ data }) => {
+    const sb = await admin();
+    const { error } = await sb.from("leads").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
   });
