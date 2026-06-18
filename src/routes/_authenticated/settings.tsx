@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
+import { KnowledgeEditor } from "@/components/KnowledgeEditor";
 
 export const Route = createFileRoute("/_authenticated/settings")({
   ssr: false,
@@ -54,10 +55,23 @@ function Settings() {
           <Field label="Short description" hint="One or two sentences about what you do.">
             <Textarea rows={2} value={form.description || ""} onChange={(e) => set("description", e.target.value)} />
           </Field>
-          <Field label="FAQs / knowledge" hint="Prices, services, opening hours, anything the AI should know. Plain text is fine.">
-            <Textarea rows={10} value={form.faqs || ""} onChange={(e) => set("faqs", e.target.value)}
-              placeholder={"Opening hours: Mon–Fri 9–18\nServices:\n - Haircut — 30€\n - Color — 70€\n..."} />
-          </Field>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Knowledge base</CardTitle>
+          <p className="text-xs text-muted-foreground">
+            Add the FAQs your AI receptionist should answer — prices, services,
+            opening hours, policies. The AI uses ONLY this info to answer
+            customers, in English or French.
+          </p>
+        </CardHeader>
+        <CardContent>
+          <KnowledgeEditor
+            value={form.faqs || ""}
+            onChange={(next) => set("faqs", next)}
+          />
         </CardContent>
       </Card>
 
