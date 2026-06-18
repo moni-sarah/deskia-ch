@@ -94,7 +94,7 @@ export function ChatWidget({
     <Card className="overflow-hidden">
       <div className="bg-primary/5 px-4 py-3 border-b flex items-center gap-2">
         <Bot className="size-5 text-primary" />
-        <span className="font-medium text-sm">AI Receptionist · 24/7</span>
+        <span className="font-medium text-sm">Deskia · 24/7</span>
       </div>
 
       <div ref={scrollRef} className="h-[420px] overflow-y-auto p-4 space-y-4">

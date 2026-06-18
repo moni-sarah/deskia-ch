@@ -23,7 +23,7 @@ const t = {
     navSettings: "Settings",
     navDemo: "Demo",
     badge: "Powered by your own knowledge base",
-    heroTitle: "A 24/7 AI receptionist that answers, captures & books",
+    heroTitle: "A 24/7 AI assistant that answers, captures & books",
     heroHighlight: "answers, captures & books",
     heroDesc:
       "Replies to FAQs, collects leads and books meetings — automatically in French and English, trained on your FAQs and documents.",
@@ -32,7 +32,7 @@ const t = {
     badge24: "24/7 availability",
     badgeLang: "FR & EN auto-detect",
     badgeData: "Your data, your rules",
-    featuresTitle: "Everything a receptionist does — without the wait",
+    featuresTitle: "Everything a front-desk does — without the wait",
     featuresSubtitle:
       "One AI agent on your site that handles the repetitive work and routes the rest to you.",
     feat1Title: "Answers FAQs instantly",
@@ -57,16 +57,16 @@ const t = {
     step1Title: "Add your knowledge",
     step1Desc: "Paste FAQs or import a PDF / Word document in Settings.",
     step2Title: "Share your link",
-    step2Desc: "Send your receptionist page to customers or embed it on your site.",
+    step2Desc: "Send your Deskia page to customers or embed it on your site.",
     step3Title: "Get notified",
     step3Desc:
       "Leads appear in your dashboard with optional email or WhatsApp alerts.",
     demoTitle: "Ready to see it answer your customers?",
     demoDesc:
-      "Add your FAQs, upload a PDF, and share your receptionist link.",
-    demoConfigure: "Configure your receptionist",
+      "Add your FAQs, upload a PDF, and share your Deskia link.",
+    demoConfigure: "Configure Deskia",
     demoOpen: "Open demo page",
-    footerCopy: "AI Receptionist",
+    footerCopy: "Deskia",
     footerDashboard: "Dashboard",
     footerSettings: "Settings",
     langLabel: "EN",
@@ -76,7 +76,7 @@ const t = {
     navSettings: "Paramètres",
     navDemo: "Démo",
     badge: "Alimenté par votre propre base de connaissances",
-    heroTitle: "Une réceptionniste IA 24h/24 qui répond, capture et planifie",
+    heroTitle: "Une IA d'accueil 24h/24 qui répond, capture et planifie",
     heroHighlight: "répond, capture et planifie",
     heroDesc:
       "Répond aux FAQ, collecte les prospects et planifie les rendez-vous — automatiquement en français et en anglais, formée sur vos FAQ et documents.",
@@ -85,7 +85,7 @@ const t = {
     badge24: "Disponible 24h/24",
     badgeLang: "FR & EN détection auto",
     badgeData: "Vos données, vos règles",
-    featuresTitle: "Tout ce qu'une réceptionniste fait — sans l'attente",
+    featuresTitle: "Tout ce qu'une secrétaire fait — sans l'attente",
     featuresSubtitle:
       "Un agent IA sur votre site qui gère le travail répétitif et vous transmet le reste.",
     feat1Title: "Répond aux FAQ instantanément",
@@ -112,16 +112,16 @@ const t = {
       "Collez des FAQ ou importez un PDF / document Word dans les Paramètres.",
     step2Title: "Partagez votre lien",
     step2Desc:
-      "Envoyez votre page réceptionniste aux clients ou intégrez-la sur votre site.",
+      "Envoyez votre page Deskia aux clients ou intégrez-la sur votre site.",
     step3Title: "Soyez notifié",
     step3Desc:
       "Les prospects apparaissent dans votre tableau de bord avec alertes e-mail ou WhatsApp optionnelles.",
     demoTitle: "Prêt à la voir répondre à vos clients ?",
     demoDesc:
-      "Ajoutez vos FAQ, importez un PDF et partagez votre lien réceptionniste.",
-    demoConfigure: "Configurer votre réceptionniste",
+      "Ajoutez vos FAQ, importez un PDF et partagez votre lien Deskia.",
+    demoConfigure: "Configurer Deskia",
     demoOpen: "Ouvrir la page démo",
-    footerCopy: "AI Receptionist",
+    footerCopy: "Deskia",
     footerDashboard: "Tableau de bord",
     footerSettings: "Paramètres",
     langLabel: "FR",
@@ -144,13 +144,13 @@ function useLang(): [Lang, (l: Lang) => void] {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "AI Receptionist — 24/7 Lead Capture in French & English" },
+      { title: "Deskia — 24/7 Lead Capture in French & English" },
       {
         name: "description",
         content:
-          "An AI receptionist that answers FAQs, captures leads and books meetings in French and English — trained on your own knowledge base.",
+          "An AI assistant that answers FAQs, captures leads and books meetings in French and English — trained on your own knowledge base.",
       },
-      { property: "og:title", content: "AI Receptionist — 24/7 Lead Capture" },
+      { property: "og:title", content: "Deskia — 24/7 Lead Capture" },
       {
         property: "og:description",
         content:
@@ -188,7 +188,7 @@ function HomePage() {
             <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
               <Bot className="h-5 w-5" />
             </div>
-            <span className="font-semibold tracking-tight">AI Receptionist</span>
+            <span className="font-semibold tracking-tight">Deskia</span>
           </div>
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
             <Link to="/app" className="hover:text-foreground">{copy.navDashboard}</Link>

@@ -18,7 +18,7 @@ import { Building2, BookOpen, FlaskConical, CalendarCheck, Share2, MessageCircle
 
 export const Route = createFileRoute("/_authenticated/settings")({
   ssr: false,
-  head: () => ({ meta: [{ title: "Settings — AI Receptionist" }] }),
+  head: () => ({ meta: [{ title: "Settings — Deskia" }] }),
   component: Settings,
 });
 
