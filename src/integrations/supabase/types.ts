@@ -14,7 +14,101 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      leads: {
+        Row: {
+          company: string | null
+          created_at: string
+          email: string
+          id: string
+          language: string | null
+          message: string
+          name: string
+          phone: string
+          receptionist_id: string
+        }
+        Insert: {
+          company?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          language?: string | null
+          message: string
+          name: string
+          phone: string
+          receptionist_id: string
+        }
+        Update: {
+          company?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          language?: string | null
+          message?: string
+          name?: string
+          phone?: string
+          receptionist_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leads_receptionist_id_fkey"
+            columns: ["receptionist_id"]
+            isOneToOne: false
+            referencedRelation: "receptionists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      receptionists: {
+        Row: {
+          business_name: string
+          calendly_15: string | null
+          calendly_30: string | null
+          created_at: string
+          description: string
+          faqs: string
+          id: string
+          notif_email: string | null
+          sheet_url: string | null
+          slug: string
+          updated_at: string
+          user_id: string
+          whatsapp_enabled: boolean
+          whatsapp_number: string | null
+        }
+        Insert: {
+          business_name?: string
+          calendly_15?: string | null
+          calendly_30?: string | null
+          created_at?: string
+          description?: string
+          faqs?: string
+          id?: string
+          notif_email?: string | null
+          sheet_url?: string | null
+          slug: string
+          updated_at?: string
+          user_id: string
+          whatsapp_enabled?: boolean
+          whatsapp_number?: string | null
+        }
+        Update: {
+          business_name?: string
+          calendly_15?: string | null
+          calendly_30?: string | null
+          created_at?: string
+          description?: string
+          faqs?: string
+          id?: string
+          notif_email?: string | null
+          sheet_url?: string | null
+          slug?: string
+          updated_at?: string
+          user_id?: string
+          whatsapp_enabled?: boolean
+          whatsapp_number?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
