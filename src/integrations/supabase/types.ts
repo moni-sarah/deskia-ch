@@ -72,6 +72,7 @@ export type Database = {
           slug: string
           updated_at: string
           user_id: string | null
+          webhook_url: string | null
           whatsapp_enabled: boolean
           whatsapp_number: string | null
         }
@@ -88,6 +89,7 @@ export type Database = {
           slug: string
           updated_at?: string
           user_id?: string | null
+          webhook_url?: string | null
           whatsapp_enabled?: boolean
           whatsapp_number?: string | null
         }
@@ -104,6 +106,7 @@ export type Database = {
           slug?: string
           updated_at?: string
           user_id?: string | null
+          webhook_url?: string | null
           whatsapp_enabled?: boolean
           whatsapp_number?: string | null
         }
