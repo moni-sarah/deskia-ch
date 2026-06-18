@@ -13,6 +13,133 @@ import {
   Languages,
   ShieldCheck,
 } from "lucide-react";
+import { useState, useEffect } from "react";
+
+type Lang = "en" | "fr";
+
+const t = {
+  en: {
+    navDashboard: "Dashboard",
+    navSettings: "Settings",
+    navDemo: "Demo",
+    badge: "Powered by your own knowledge base",
+    heroTitle: "A 24/7 AI receptionist that answers, captures & books",
+    heroHighlight: "answers, captures & books",
+    heroDesc:
+      "Replies to FAQs, collects leads and books meetings — automatically in French and English, trained on your FAQs and documents.",
+    ctaDashboard: "Open dashboard",
+    ctaDemo: "Try the live demo",
+    badge24: "24/7 availability",
+    badgeLang: "FR & EN auto-detect",
+    badgeData: "Your data, your rules",
+    featuresTitle: "Everything a receptionist does — without the wait",
+    featuresSubtitle:
+      "One AI agent on your site that handles the repetitive work and routes the rest to you.",
+    feat1Title: "Answers FAQs instantly",
+    feat1Desc:
+      "Prices, services, hours — replied to in seconds using your own knowledge base.",
+    feat2Title: "Captures leads",
+    feat2Desc:
+      "Collects name, phone, email and request, saved to your dashboard.",
+    feat3Title: "Books meetings",
+    feat3Desc:
+      "Shares your Calendly link for 15-min calls or 30-min consultations.",
+    feat4Title: "French & English",
+    feat4Desc:
+      "Detects the customer's language automatically and replies in kind.",
+    feat5Title: "Trained on your docs",
+    feat5Desc:
+      "Upload PDFs or Word documents — the AI uses them to answer.",
+    feat6Title: "Always on",
+    feat6Desc:
+      "Working 24/7 so you never miss another lead, even after hours.",
+    howTitle: "How it works",
+    step1Title: "Add your knowledge",
+    step1Desc: "Paste FAQs or import a PDF / Word document in Settings.",
+    step2Title: "Share your link",
+    step2Desc: "Send your receptionist page to customers or embed it on your site.",
+    step3Title: "Get notified",
+    step3Desc:
+      "Leads appear in your dashboard with optional email or WhatsApp alerts.",
+    demoTitle: "Ready to see it answer your customers?",
+    demoDesc:
+      "Add your FAQs, upload a PDF, and share your receptionist link.",
+    demoConfigure: "Configure your receptionist",
+    demoOpen: "Open demo page",
+    footerCopy: "AI Receptionist",
+    footerDashboard: "Dashboard",
+    footerSettings: "Settings",
+    langLabel: "EN",
+  },
+  fr: {
+    navDashboard: "Tableau de bord",
+    navSettings: "Paramètres",
+    navDemo: "Démo",
+    badge: "Alimenté par votre propre base de connaissances",
+    heroTitle: "Une réceptionniste IA 24h/24 qui répond, capture et planifie",
+    heroHighlight: "répond, capture et planifie",
+    heroDesc:
+      "Répond aux FAQ, collecte les prospects et planifie les rendez-vous — automatiquement en français et en anglais, formée sur vos FAQ et documents.",
+    ctaDashboard: "Ouvrir le tableau de bord",
+    ctaDemo: "Essayer la démo en direct",
+    badge24: "Disponible 24h/24",
+    badgeLang: "FR & EN détection auto",
+    badgeData: "Vos données, vos règles",
+    featuresTitle: "Tout ce qu'une réceptionniste fait — sans l'attente",
+    featuresSubtitle:
+      "Un agent IA sur votre site qui gère le travail répétitif et vous transmet le reste.",
+    feat1Title: "Répond aux FAQ instantanément",
+    feat1Desc:
+      "Prix, services, horaires — répondu en quelques secondes grâce à votre base de connaissances.",
+    feat2Title: "Capture les prospects",
+    feat2Desc:
+      "Collecte nom, téléphone, e-mail et demande, enregistrés dans votre tableau de bord.",
+    feat3Title: "Planifie les rendez-vous",
+    feat3Desc:
+      "Partage votre lien Calendly pour appels de 15 min ou consultations de 30 min.",
+    feat4Title: "Français & Anglais",
+    feat4Desc:
+      "Détecte automatiquement la langue du client et répond dans la même langue.",
+    feat5Title: "Formée sur vos documents",
+    feat5Desc:
+      "Importez des PDF ou Word — l'IA les utilise pour répondre.",
+    feat6Title: "Toujours disponible",
+    feat6Desc:
+      "Opérationnelle 24h/24 pour ne plus jamais manquer un prospect, même en dehors des heures.",
+    howTitle: "Comment ça marche",
+    step1Title: "Ajoutez vos connaissances",
+    step1Desc:
+      "Collez des FAQ ou importez un PDF / document Word dans les Paramètres.",
+    step2Title: "Partagez votre lien",
+    step2Desc:
+      "Envoyez votre page réceptionniste aux clients ou intégrez-la sur votre site.",
+    step3Title: "Soyez notifié",
+    step3Desc:
+      "Les prospects apparaissent dans votre tableau de bord avec alertes e-mail ou WhatsApp optionnelles.",
+    demoTitle: "Prêt à la voir répondre à vos clients ?",
+    demoDesc:
+      "Ajoutez vos FAQ, importez un PDF et partagez votre lien réceptionniste.",
+    demoConfigure: "Configurer votre réceptionniste",
+    demoOpen: "Ouvrir la page démo",
+    footerCopy: "AI Receptionist",
+    footerDashboard: "Tableau de bord",
+    footerSettings: "Paramètres",
+    langLabel: "FR",
+  },
+};
+
+function useLang(): [Lang, (l: Lang) => void] {
+  const [lang, setLang] = useState<Lang>("en");
+  useEffect(() => {
+    const saved = localStorage.getItem("homepage-lang");
+    if (saved === "en" || saved === "fr") setLang(saved);
+  }, []);
+  const set = (l: Lang) => {
+    localStorage.setItem("homepage-lang", l);
+    setLang(l);
+  };
+  return [lang, set];
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
