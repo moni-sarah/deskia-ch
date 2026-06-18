@@ -167,6 +167,33 @@ export const submitLead = createServerFn({ method: "POST" })
       }
     }
 
+    // Generic webhook (Zapier / Make / any CRM or appointment software)
+    if (r.webhook_url) {
+      try {
+        const res = await fetch(r.webhook_url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            event: "lead.created",
+            lead_id: inserted.id,
+            created_at: inserted.created_at,
+            business_name: r.business_name,
+            name: data.name,
+            phone: data.phone,
+            email: data.email,
+            company: data.company || "",
+            message: data.message,
+            language: data.language ?? "",
+            source: "ai-receptionist",
+          }),
+        });
+        if (res.ok) integrations.push("webhook");
+        else errors.push(`webhook:${res.status}`);
+      } catch (e) {
+        errors.push(`webhook:${(e as Error).message}`);
+      }
+    }
+
     return { ok: true, id: inserted.id, integrations, errors };
   });
 
