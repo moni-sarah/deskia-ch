@@ -44,7 +44,7 @@ function Shell() {
               <img
                 src={logoAsset.url}
                 alt="Deskia AI"
-                className="h-8 w-auto"
+                className="h-10 w-auto rounded-lg border border-border/60 bg-white p-1"
               />
             </Link>
           </div>

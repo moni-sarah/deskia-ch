@@ -26,7 +26,7 @@ function PrivacyPage() {
             <img
               src={logoAsset.url}
               alt="Deskia AI"
-              className="h-9 w-auto"
+              className="h-12 w-auto rounded-lg border border-border/60 bg-white p-1"
             />
           </Link>
           <Button asChild variant="ghost" size="sm">
