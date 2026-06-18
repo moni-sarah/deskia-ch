@@ -9,6 +9,8 @@ const dict = {
     nav_leads: "Leads",
     nav_settings: "Settings",
     lang_toggle: "FR",
+    back: "Back",
+    home: "Home",
     // Dashboard
     your_receptionist: "Your receptionist",
     dash_subtitle: "Share your AI receptionist with visitors and watch leads come in.",
@@ -59,6 +61,8 @@ const dict = {
     nav_leads: "Prospects",
     nav_settings: "Paramètres",
     lang_toggle: "EN",
+    back: "Retour",
+    home: "Accueil",
     your_receptionist: "Votre réceptionniste",
     dash_subtitle: "Partagez votre réceptionniste IA avec vos visiteurs et recevez des prospects.",
     configure: "Configurer",

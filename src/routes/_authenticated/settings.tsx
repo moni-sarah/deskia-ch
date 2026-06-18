@@ -45,10 +45,13 @@ function Settings() {
 
   return (
     <div className="max-w-3xl mx-auto p-4 md:p-8 space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold">{t.settings_title}</h1>
+      <div className="space-y-1">
+        <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-br from-foreground to-foreground/60 bg-clip-text text-transparent">
+          {t.settings_title}
+        </h1>
         <p className="text-sm text-muted-foreground">{t.settings_subtitle}</p>
       </div>
+
 
       <Card>
         <CardHeader><CardTitle className="text-base">{t.business}</CardTitle></CardHeader>
@@ -136,22 +139,26 @@ function Settings() {
         </CardContent>
       </Card>
 
-      <div className="flex justify-end gap-2">
-        <Button onClick={() => m.mutate({
-          business_name: form.business_name,
-          description: form.description || "",
-          faqs: form.faqs || "",
-          calendly_15: form.calendly_15 || "",
-          calendly_30: form.calendly_30 || "",
-          sheet_url: form.sheet_url || "",
-          notif_email: form.notif_email || "",
-          webhook_url: form.webhook_url || "",
-          whatsapp_enabled: !!form.whatsapp_enabled,
-          whatsapp_number: form.whatsapp_number || "",
-        })} disabled={m.isPending}>
+      <div className="sticky bottom-4 flex justify-end">
+        <Button
+          size="lg"
+          className="rounded-full shadow-lg shadow-primary/20"
+          onClick={() => m.mutate({
+            business_name: form.business_name,
+            description: form.description || "",
+            faqs: form.faqs || "",
+            calendly_15: form.calendly_15 || "",
+            calendly_30: form.calendly_30 || "",
+            sheet_url: form.sheet_url || "",
+            notif_email: form.notif_email || "",
+            webhook_url: form.webhook_url || "",
+            whatsapp_enabled: !!form.whatsapp_enabled,
+            whatsapp_number: form.whatsapp_number || "",
+          })} disabled={m.isPending}>
           {m.isPending ? t.saving : t.save}
         </Button>
       </div>
+
     </div>
   );
 }
