@@ -85,6 +85,8 @@ const t = {
     footerCopy: "Deskia",
     footerDashboard: "Dashboard",
     footerSettings: "Settings",
+    footerPrivacy: "Privacy",
+    footerContact: "Contact",
     langLabel: "EN",
   },
   fr: {
@@ -151,6 +153,8 @@ const t = {
     footerCopy: "Deskia",
     footerDashboard: "Tableau de bord",
     footerSettings: "Paramètres",
+    footerPrivacy: "Confidentialité",
+    footerContact: "Contact",
     langLabel: "FR",
   },
 };
@@ -416,11 +420,13 @@ function HomePage() {
       </section>
 
       <footer className="border-t border-border/60">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-6 py-8 text-sm text-muted-foreground md:flex-row">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 text-sm text-muted-foreground md:flex-row">
           <span>© {new Date().getFullYear()} {copy.footerCopy}</span>
-          <div className="flex gap-4">
+          <div className="flex flex-wrap justify-center gap-4">
             <Link to="/app" className="hover:text-foreground">{copy.footerDashboard}</Link>
             <Link to="/settings" className="hover:text-foreground">{copy.footerSettings}</Link>
+            <Link to="/privacy" className="hover:text-foreground">{copy.footerPrivacy}</Link>
+            <Link to="/contact" className="hover:text-foreground">{copy.footerContact}</Link>
           </div>
         </div>
       </footer>
