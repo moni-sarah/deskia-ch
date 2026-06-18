@@ -40,6 +40,13 @@ function Dashboard() {
   const today = new Date().toDateString();
   const todaysLeads = leads.filter((l: any) => new Date(l.created_at).toDateString() === today).length;
 
+  // Heuristic: a lead counts as a booked appointment if the captured message
+  // mentions a booking/appointment intent. Customer "questions" = every lead message.
+  const bookingRe = /\b(book|booking|appointment|appt|schedule|reservation|reserve|rendez[- ]?vous|réserv|rdv|consult)/i;
+  const appointmentsBooked = leads.filter((l: any) => bookingRe.test(l.message || "")).length;
+  const conversionRate = totalLeads > 0 ? Math.round((appointmentsBooked / totalLeads) * 100) : 0;
+  const customerQuestions = leads.filter((l: any) => (l.message || "").trim().length > 0).length;
+
   const destinations = [
     rQuery.data?.sheet_url,
     rQuery.data?.notif_email,
@@ -56,18 +63,25 @@ function Dashboard() {
       iconBg: "bg-chart-2/15",
     },
     {
-      label: t.todays_leads,
-      value: todaysLeads,
-      icon: CalendarDays,
+      label: t.appointments_booked,
+      value: appointmentsBooked,
+      icon: CalendarCheck,
       color: "bg-chart-1/10 text-chart-1",
       iconBg: "bg-chart-1/15",
     },
     {
-      label: t.active_destinations,
-      value: destinations,
-      icon: Zap,
+      label: t.conversion_rate,
+      value: `${conversionRate}%`,
+      icon: TrendingUp,
       color: "bg-chart-3/10 text-chart-3",
       iconBg: "bg-chart-3/15",
+    },
+    {
+      label: t.customer_questions,
+      value: customerQuestions,
+      icon: MessageCircleQuestion,
+      color: "bg-chart-5/10 text-chart-5",
+      iconBg: "bg-chart-5/15",
     },
     {
       label: rQuery.data ? t.widget_live : t.widget_offline,
@@ -75,6 +89,13 @@ function Dashboard() {
       icon: Radio,
       color: rQuery.data ? "bg-chart-4/10 text-chart-4" : "bg-muted text-muted-foreground",
       iconBg: rQuery.data ? "bg-chart-4/15" : "bg-muted",
+    },
+    {
+      label: t.active_destinations,
+      value: destinations,
+      icon: Radio,
+      color: "bg-chart-4/10 text-chart-4",
+      iconBg: "bg-chart-4/15",
     },
   ];
 
