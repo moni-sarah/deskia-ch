@@ -38,7 +38,7 @@ function Dashboard() {
   const leads = lQuery.data ?? [];
   const totalLeads = leads.length;
   const today = new Date().toDateString();
-  const todaysLeads = leads.filter((l: any) => new Date(l.created_at).toDateString() === today).length;
+  void leads.filter((l: any) => new Date(l.created_at).toDateString() === today);
 
   // Heuristic: a lead counts as a booked appointment if the captured message
   // mentions a booking/appointment intent. Customer "questions" = every lead message.
