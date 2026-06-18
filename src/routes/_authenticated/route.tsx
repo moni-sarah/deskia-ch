@@ -40,11 +40,12 @@ function Shell() {
             <Link to="/" className="hidden sm:inline-flex items-center justify-center size-9 rounded-full border border-border/60 hover:bg-accent/60 transition-colors" aria-label={t.home}>
               <Home className="size-4" />
             </Link>
-            <Link to="/app" className="ml-1 flex items-center gap-2 font-semibold tracking-tight">
-              <span className="inline-flex items-center justify-center size-8 rounded-xl bg-gradient-to-br from-primary to-primary/60 text-primary-foreground shadow-sm">
-                <Bot className="size-4" />
-              </span>
-              <span className="hidden sm:inline">{t.brand}</span>
+            <Link to="/app" className="ml-1 flex items-center gap-2">
+              <img
+                src={logoAsset.url}
+                alt="Deskia AI"
+                className="h-8 w-auto"
+              />
             </Link>
           </div>
 
