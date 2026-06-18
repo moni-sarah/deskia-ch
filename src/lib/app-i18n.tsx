@@ -111,6 +111,12 @@ const dict = {
     save: "Enregistrer",
     saving: "Enregistrement…",
     saved: "Enregistré",
+    total_leads: "Prospects total",
+    todays_leads: "Aujourd'hui",
+    active_destinations: "Destinations actives",
+    widget_live: "Widget actif",
+    widget_offline: "Widget inactif",
+    sources: "Sources",
   },
 } as const;
 
