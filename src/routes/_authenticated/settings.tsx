@@ -115,6 +115,10 @@ function Settings() {
           <Field label={t.notif_email} hint={t.notif_hint}>
             <Input type="email" value={form.notif_email || ""} onChange={(e) => set("notif_email", e.target.value)} />
           </Field>
+          <Field label={t.webhook_url} hint={t.webhook_hint}>
+            <Input placeholder="https://hooks.zapier.com/hooks/catch/..." value={form.webhook_url || ""}
+              onChange={(e) => set("webhook_url", e.target.value)} />
+          </Field>
           <div className="flex items-center justify-between rounded-md border p-3">
             <div>
               <div className="text-sm font-medium">{t.wa_title}</div>
