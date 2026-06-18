@@ -38,6 +38,7 @@ const UpdateSchema = z.object({
   calendly_30: z.string().trim().url().or(z.literal("")).nullable().optional(),
   sheet_url: z.string().trim().url().or(z.literal("")).nullable().optional(),
   notif_email: z.string().trim().email().or(z.literal("")).nullable().optional(),
+  webhook_url: z.string().trim().url().or(z.literal("")).nullable().optional(),
   whatsapp_enabled: z.boolean(),
   whatsapp_number: z
     .string()
