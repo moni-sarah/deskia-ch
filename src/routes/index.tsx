@@ -12,6 +12,11 @@ import {
   Clock,
   Languages,
   ShieldCheck,
+  Check,
+  Headphones,
+  Users,
+  TrendingUp,
+  HeartHandshake,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -19,6 +24,7 @@ type Lang = "en" | "fr";
 
 const t = {
   en: {
+    navAbout: "About",
     navDashboard: "Dashboard",
     navSettings: "Settings",
     navDemo: "Demo",
@@ -29,6 +35,16 @@ const t = {
       "Replies to FAQs, collects leads and books meetings — automatically in French and English, trained on your FAQs and documents.",
     ctaDashboard: "Open dashboard",
     ctaDemo: "Try the live demo",
+    aboutTitle: "Deskia AI – Your 24/7 AI Receptionist",
+    aboutSubtitle: "Never miss another call or customer.",
+    aboutDesc:
+      "Deskia automatically answers calls, qualifies leads, books appointments and answers your customers' questions in French, English, German and Italian.",
+    aboutChecks: [
+      "Available 24/7",
+      "Reduces admin costs",
+      "Generates more appointments",
+      "Improves customer experience",
+    ],
     badge24: "24/7 availability",
     badgeLang: "FR & EN auto-detect",
     badgeData: "Your data, your rules",
@@ -72,6 +88,7 @@ const t = {
     langLabel: "EN",
   },
   fr: {
+    navAbout: "À propos",
     navDashboard: "Tableau de bord",
     navSettings: "Paramètres",
     navDemo: "Démo",
@@ -82,6 +99,16 @@ const t = {
       "Répond aux FAQ, collecte les prospects et planifie les rendez-vous — automatiquement en français et en anglais, formée sur vos FAQ et documents.",
     ctaDashboard: "Ouvrir le tableau de bord",
     ctaDemo: "Essayer la démo en direct",
+    aboutTitle: "Deskia AI – Votre réceptionniste IA 24h/24",
+    aboutSubtitle: "Ne manquez plus aucun appel ni aucun client.",
+    aboutDesc:
+      "Deskia répond automatiquement aux appels, qualifie les prospects, prend les rendez-vous et répond aux questions de vos clients en français, anglais, allemand et italien.",
+    aboutChecks: [
+      "Disponible 24h/24",
+      "Réduit les coûts administratifs",
+      "Génère plus de rendez-vous",
+      "Améliore l'expérience client",
+    ],
     badge24: "Disponible 24h/24",
     badgeLang: "FR & EN détection auto",
     badgeData: "Vos données, vos règles",
@@ -191,6 +218,7 @@ function HomePage() {
             <span className="font-semibold tracking-tight">Deskia</span>
           </div>
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
+            <a href="#about" className="hover:text-foreground">{copy.navAbout}</a>
             <Link to="/app" className="hover:text-foreground">{copy.navDashboard}</Link>
             <Link to="/settings" className="hover:text-foreground">{copy.navSettings}</Link>
             <Link to="/r/$slug" params={{ slug: "demo" }} className="hover:text-foreground">{copy.navDemo}</Link>
@@ -246,6 +274,89 @@ function HomePage() {
             <span className="inline-flex items-center gap-2"><Clock className="h-4 w-4 text-primary" /> {copy.badge24}</span>
             <span className="inline-flex items-center gap-2"><Languages className="h-4 w-4 text-primary" /> {copy.badgeLang}</span>
             <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-primary" /> {copy.badgeData}</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="about" className="border-t border-border/60 bg-muted/20">
+        <div className="mx-auto max-w-6xl px-6 py-20">
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+            <div>
+              <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1 text-xs text-muted-foreground">
+                <Headphones className="h-3.5 w-3.5 text-chart-1" />
+                Deskia AI
+              </div>
+              <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+                {copy.aboutTitle}
+              </h2>
+              <p className="mt-4 text-lg text-muted-foreground">
+                {copy.aboutSubtitle}
+              </p>
+              <p className="mt-4 text-muted-foreground leading-relaxed">
+                {copy.aboutDesc}
+              </p>
+              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                {copy.aboutChecks.map((check, i) => {
+                  const icons = [
+                    <Clock className="h-4 w-4 text-chart-1" />,
+                    <TrendingUp className="h-4 w-4 text-chart-2" />,
+                    <CalendarCheck className="h-4 w-4 text-chart-3" />,
+                    <HeartHandshake className="h-4 w-4 text-chart-4" />,
+                  ];
+                  return (
+                    <div
+                      key={i}
+                      className="flex items-center gap-3 rounded-lg border border-border/60 bg-background p-3"
+                    >
+                      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-chart-1/10">
+                        {icons[i]}
+                      </div>
+                      <span className="text-sm font-medium">{check}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="relative">
+              <div className="rounded-2xl border border-border/60 bg-background p-6 shadow-sm">
+                <div className="flex items-center gap-3 border-b border-border/60 pb-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-chart-1/10">
+                    <Bot className="h-5 w-5 text-chart-1" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold">Deskia</p>
+                    <p className="text-xs text-muted-foreground">24/7 AI Receptionist</p>
+                  </div>
+                  <span className="ml-auto inline-flex items-center gap-1 rounded-full bg-chart-2/10 px-2 py-0.5 text-xs font-medium text-chart-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-chart-2" />
+                    Online
+                  </span>
+                </div>
+                <div className="mt-4 space-y-3">
+                  <div className="flex gap-3">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted">
+                      <Users className="h-4 w-4 text-muted-foreground" />
+                    </div>
+                    <div className="rounded-xl rounded-tl-none bg-muted/60 px-4 py-2 text-sm text-foreground">
+                      Bonjour ! Comment puis-je vous aider aujourd'hui ?
+                    </div>
+                  </div>
+                  <div className="flex gap-3 justify-end">
+                    <div className="rounded-xl rounded-tr-none bg-primary px-4 py-2 text-sm text-primary-foreground">
+                      Je voudrais prendre rendez-vous
+                    </div>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-chart-3/10">
+                      <Bot className="h-4 w-4 text-chart-3" />
+                    </div>
+                    <div className="rounded-xl rounded-tl-none bg-muted/60 px-4 py-2 text-sm text-foreground">
+                      Bien sûr ! Quel jour vous conviendrait ?
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
