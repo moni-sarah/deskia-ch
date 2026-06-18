@@ -1,3 +1,4 @@
+import logoAsset from "@/assets/deskia-logo.png.asset.json";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";

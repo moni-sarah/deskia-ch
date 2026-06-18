@@ -1,7 +1,8 @@
+import logoAsset from "@/assets/deskia-logo.png.asset.json";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Bot, ShieldCheck, ArrowLeft, Lock, Eye, Trash2, Server, Scale, ChevronRight } from "lucide-react";
+import { ShieldCheck, ArrowLeft, Lock, Eye, Trash2, Server, Scale, ChevronRight } from "lucide-react";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({

@@ -1,6 +1,7 @@
 import { createFileRoute, Outlet, Link, useRouter } from "@tanstack/react-router";
-import { Bot, Languages, ArrowLeft, Home, Inbox, Settings as SettingsIcon } from "lucide-react";
+import { Languages, ArrowLeft, Home, Inbox, Settings as SettingsIcon } from "lucide-react";
 import { LangProvider, useLang } from "@/lib/app-i18n";
+import logoAsset from "@/assets/deskia-logo.png.asset.json";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
