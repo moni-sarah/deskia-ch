@@ -139,22 +139,26 @@ function Settings() {
         </CardContent>
       </Card>
 
-      <div className="flex justify-end gap-2">
-        <Button onClick={() => m.mutate({
-          business_name: form.business_name,
-          description: form.description || "",
-          faqs: form.faqs || "",
-          calendly_15: form.calendly_15 || "",
-          calendly_30: form.calendly_30 || "",
-          sheet_url: form.sheet_url || "",
-          notif_email: form.notif_email || "",
-          webhook_url: form.webhook_url || "",
-          whatsapp_enabled: !!form.whatsapp_enabled,
-          whatsapp_number: form.whatsapp_number || "",
-        })} disabled={m.isPending}>
+      <div className="sticky bottom-4 flex justify-end">
+        <Button
+          size="lg"
+          className="rounded-full shadow-lg shadow-primary/20"
+          onClick={() => m.mutate({
+            business_name: form.business_name,
+            description: form.description || "",
+            faqs: form.faqs || "",
+            calendly_15: form.calendly_15 || "",
+            calendly_30: form.calendly_30 || "",
+            sheet_url: form.sheet_url || "",
+            notif_email: form.notif_email || "",
+            webhook_url: form.webhook_url || "",
+            whatsapp_enabled: !!form.whatsapp_enabled,
+            whatsapp_number: form.whatsapp_number || "",
+          })} disabled={m.isPending}>
           {m.isPending ? t.saving : t.save}
         </Button>
       </div>
+
     </div>
   );
 }
