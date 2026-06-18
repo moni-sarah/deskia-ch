@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Bot, ShieldCheck, ArrowLeft, Lock, Eye, Trash2, Server } from "lucide-react";
+import { Bot, ShieldCheck, ArrowLeft, Lock, Eye, Trash2, Server, Scale, ChevronRight } from "lucide-react";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
@@ -116,6 +116,108 @@ function PrivacyPage() {
               To make a privacy request, contact us via the Contact page or email the address listed there.
               We will respond within 30 days.
             </p>
+          </section>
+
+          <section className="rounded-2xl border border-border/60 bg-muted/20 p-6 sm:p-8">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-chart-1/10 text-chart-1">
+                <Scale className="h-5 w-5" />
+              </div>
+              <h2 className="text-xl font-semibold">GDPR Compliance</h2>
+            </div>
+            <p className="mt-4 text-muted-foreground leading-relaxed">
+              Deskia is committed to complying with the General Data Protection Regulation (GDPR).
+              Below is how we handle your data in accordance with GDPR principles.
+            </p>
+
+            <div className="mt-8 space-y-8">
+              <div>
+                <h3 className="flex items-center gap-2 font-semibold text-foreground">
+                  <ChevronRight className="h-4 w-4 text-chart-1" />
+                  Lawful basis for processing
+                </h3>
+                <p className="mt-2 text-muted-foreground leading-relaxed">
+                  We process personal data on the basis of <strong>contractual necessity</strong> (to provide the Deskia service you signed up for)
+                  and <strong>legitimate interest</strong> (to improve service quality and prevent abuse).
+                  For optional marketing communications, we rely on <strong>consent</strong>, which you can withdraw at any time.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="flex items-center gap-2 font-semibold text-foreground">
+                  <ChevronRight className="h-4 w-4 text-chart-2" />
+                  What data we collect and why
+                </h3>
+                <p className="mt-2 text-muted-foreground leading-relaxed">
+                  We collect only what is necessary:
+                </p>
+                <ul className="mt-2 list-disc space-y-1 pl-5 text-muted-foreground">
+                  <li>
+                    <strong>Account data:</strong> email, password hash, business name — to authenticate you and personalise your experience.
+                  </li>
+                  <li>
+                    <strong>Conversation data:</strong> chat transcripts and lead details (name, phone, email) — to deliver the AI receptionist service and let you follow up with prospects.
+                  </li>
+                  <li>
+                    <strong>Knowledge-base content:</strong> FAQs and documents you upload — so the AI can answer accurately on your behalf.
+                  </li>
+                  <li>
+                    <strong>Technical logs:</strong> IP address, browser type, timestamps — for security, debugging, and fraud prevention (retained for 90 days).
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="flex items-center gap-2 font-semibold text-foreground">
+                  <ChevronRight className="h-4 w-4 text-chart-3" />
+                  Data retention
+                </h3>
+                <p className="mt-2 text-muted-foreground leading-relaxed">
+                  We retain personal data only for as long as necessary:
+                </p>
+                <ul className="mt-2 list-disc space-y-1 pl-5 text-muted-foreground">
+                  <li>Account and lead data: retained while your account is active.</li>
+                  <li>Inactive accounts: automatically reviewed after 24 months; you are notified before any deletion.</li>
+                  <li>Technical logs: deleted after 90 days.</li>
+                  <li>Deleted accounts: all personal data is permanently erased within 30 days of deletion.</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="flex items-center gap-2 font-semibold text-foreground">
+                  <ChevronRight className="h-4 w-4 text-chart-4" />
+                  Your GDPR rights
+                </h3>
+                <p className="mt-2 text-muted-foreground leading-relaxed">
+                  Under GDPR you have the following rights regarding your personal data:
+                </p>
+                <ul className="mt-2 list-disc space-y-1 pl-5 text-muted-foreground">
+                  <li><strong>Right to access:</strong> request a copy of all data we hold about you.</li>
+                  <li><strong>Right to rectification:</strong> correct inaccurate or incomplete data.</li>
+                  <li><strong>Right to erasure (&ldquo;right to be forgotten&rdquo;):</strong> request deletion of your personal data.</li>
+                  <li><strong>Right to restrict processing:</strong> limit how we use your data in certain circumstances.</li>
+                  <li><strong>Right to data portability:</strong> receive your data in a structured, machine-readable format.</li>
+                  <li><strong>Right to object:</strong> object to processing based on legitimate interests or direct marketing.</li>
+                  <li><strong>Right to withdraw consent:</strong> withdraw consent at any time where processing is based on consent.</li>
+                </ul>
+                <p className="mt-3 text-muted-foreground leading-relaxed">
+                  To exercise any of these rights, contact us via the <Link to="/contact" className="text-primary hover:underline">Contact page</Link>.
+                  We will respond within 30 days. You also have the right to lodge a complaint with your local data protection authority.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="flex items-center gap-2 font-semibold text-foreground">
+                  <ChevronRight className="h-4 w-4 text-chart-5" />
+                  International transfers
+                </h3>
+                <p className="mt-2 text-muted-foreground leading-relaxed">
+                  Deskia&apos;s infrastructure is hosted within the European Economic Area (EEA).
+                  Where we use subprocessors outside the EEA (e.g. AI providers), we ensure appropriate safeguards are in place,
+                  such as Standard Contractual Clauses (SCCs) approved by the European Commission, to protect your data.
+                </p>
+              </div>
+            </div>
           </section>
         </div>
 
