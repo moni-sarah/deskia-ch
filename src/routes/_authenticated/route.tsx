@@ -1,24 +1,12 @@
-import { createFileRoute, Outlet, redirect, Link, useNavigate } from "@tanstack/react-router";
-import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
+import { createFileRoute, Outlet, Link } from "@tanstack/react-router";
 import { Bot } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
-  beforeLoad: async () => {
-    const { data, error } = await supabase.auth.getUser();
-    if (error || !data.user) throw redirect({ to: "/auth" });
-    return { user: data.user };
-  },
-  component: AuthedLayout,
+  component: AppLayout,
 });
 
-function AuthedLayout() {
-  const navigate = useNavigate();
-  async function signOut() {
-    await supabase.auth.signOut();
-    navigate({ to: "/auth" });
-  }
+function AppLayout() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <header className="border-b">
@@ -36,7 +24,6 @@ function AuthedLayout() {
               activeProps={{ className: "px-3 py-1.5 text-sm rounded-md bg-accent" }}>
               Settings
             </Link>
-            <Button variant="ghost" size="sm" onClick={signOut}>Sign out</Button>
           </nav>
         </div>
       </header>
