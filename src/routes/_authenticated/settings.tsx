@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { KnowledgeEditor } from "@/components/KnowledgeEditor";
 import { KnowledgeTester } from "@/components/KnowledgeTester";
 import { DocumentImporter } from "@/components/DocumentImporter";
+import { useLang } from "@/lib/app-i18n";
 
 export const Route = createFileRoute("/_authenticated/settings")({
   ssr: false,
