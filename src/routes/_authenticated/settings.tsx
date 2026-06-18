@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { KnowledgeEditor } from "@/components/KnowledgeEditor";
 import { KnowledgeTester } from "@/components/KnowledgeTester";
 import { DocumentImporter } from "@/components/DocumentImporter";
+import { useLang } from "@/lib/app-i18n";
 
 export const Route = createFileRoute("/_authenticated/settings")({
   ssr: false,
@@ -21,6 +22,7 @@ export const Route = createFileRoute("/_authenticated/settings")({
 });
 
 function Settings() {
+  const { t } = useLang();
   const qc = useQueryClient();
   const getR = useServerFn(getMyReceptionist);
   const upd = useServerFn(updateMyReceptionist);
@@ -33,28 +35,28 @@ function Settings() {
 
   const m = useMutation({
     mutationFn: (data: any) => upd({ data }),
-    onSuccess: () => { toast.success("Saved"); qc.invalidateQueries({ queryKey: ["me"] }); },
+    onSuccess: () => { toast.success(t.saved); qc.invalidateQueries({ queryKey: ["me"] }); },
     onError: (e: Error) => toast.error(e.message),
   });
 
-  if (!form) return <div className="p-8 text-sm text-muted-foreground">Loading…</div>;
+  if (!form) return <div className="p-8 text-sm text-muted-foreground">{t.loading}</div>;
 
   const set = (k: string, v: any) => setForm((f: any) => ({ ...f, [k]: v }));
 
   return (
     <div className="max-w-3xl mx-auto p-4 md:p-8 space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Settings</h1>
-        <p className="text-sm text-muted-foreground">Configure how your AI receptionist talks and where leads go.</p>
+        <h1 className="text-2xl font-bold">{t.settings_title}</h1>
+        <p className="text-sm text-muted-foreground">{t.settings_subtitle}</p>
       </div>
 
       <Card>
-        <CardHeader><CardTitle className="text-base">Business</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-base">{t.business}</CardTitle></CardHeader>
         <CardContent className="space-y-4">
-          <Field label="Business name">
+          <Field label={t.business_name}>
             <Input value={form.business_name} onChange={(e) => set("business_name", e.target.value)} />
           </Field>
-          <Field label="Short description" hint="One or two sentences about what you do.">
+          <Field label={t.short_desc} hint={t.short_desc_hint}>
             <Textarea rows={2} value={form.description || ""} onChange={(e) => set("description", e.target.value)} />
           </Field>
         </CardContent>
@@ -62,12 +64,8 @@ function Settings() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Knowledge base</CardTitle>
-          <p className="text-xs text-muted-foreground">
-            Add the FAQs your AI receptionist should answer — prices, services,
-            opening hours, policies. The AI uses ONLY this info to answer
-            customers, in English or French.
-          </p>
+          <CardTitle className="text-base">{t.kb}</CardTitle>
+          <p className="text-xs text-muted-foreground">{t.kb_hint}</p>
         </CardHeader>
         <CardContent className="space-y-6">
           <DocumentImporter
@@ -85,11 +83,8 @@ function Settings() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Test the AI</CardTitle>
-          <p className="text-xs text-muted-foreground">
-            Ask a customer question and see how the AI would answer using your
-            current knowledge base.
-          </p>
+          <CardTitle className="text-base">{t.test_ai}</CardTitle>
+          <p className="text-xs text-muted-foreground">{t.test_ai_hint}</p>
         </CardHeader>
         <CardContent>
           <KnowledgeTester draftFaqs={form.faqs || ""} />
@@ -97,13 +92,13 @@ function Settings() {
       </Card>
 
       <Card>
-        <CardHeader><CardTitle className="text-base">Calendly booking</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-base">{t.calendly}</CardTitle></CardHeader>
         <CardContent className="space-y-4">
-          <Field label="15-min call URL">
+          <Field label={t.cal_15}>
             <Input placeholder="https://calendly.com/you/15min" value={form.calendly_15 || ""}
               onChange={(e) => set("calendly_15", e.target.value)} />
           </Field>
-          <Field label="30-min consultation URL">
+          <Field label={t.cal_30}>
             <Input placeholder="https://calendly.com/you/30min" value={form.calendly_30 || ""}
               onChange={(e) => set("calendly_30", e.target.value)} />
           </Field>
@@ -111,25 +106,25 @@ function Settings() {
       </Card>
 
       <Card>
-        <CardHeader><CardTitle className="text-base">Lead destinations</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-base">{t.lead_dest}</CardTitle></CardHeader>
         <CardContent className="space-y-4">
-          <Field label="Google Sheet URL" hint="Leads will be appended as rows. Share the sheet with the workspace's connected Google account.">
+          <Field label={t.sheet_url} hint={t.sheet_hint}>
             <Input placeholder="https://docs.google.com/spreadsheets/d/…" value={form.sheet_url || ""}
               onChange={(e) => set("sheet_url", e.target.value)} />
           </Field>
-          <Field label="Notification email" hint="We email you whenever a lead is captured.">
+          <Field label={t.notif_email} hint={t.notif_hint}>
             <Input type="email" value={form.notif_email || ""} onChange={(e) => set("notif_email", e.target.value)} />
           </Field>
           <div className="flex items-center justify-between rounded-md border p-3">
             <div>
-              <div className="text-sm font-medium">WhatsApp notifications</div>
-              <div className="text-xs text-muted-foreground">Send a WhatsApp message on every lead.</div>
+              <div className="text-sm font-medium">{t.wa_title}</div>
+              <div className="text-xs text-muted-foreground">{t.wa_sub}</div>
             </div>
             <Switch checked={!!form.whatsapp_enabled}
               onCheckedChange={(v) => set("whatsapp_enabled", v)} />
           </div>
           {form.whatsapp_enabled && (
-            <Field label="WhatsApp number (E.164)" hint="Include country code, e.g. +14155551234">
+            <Field label={t.wa_num} hint={t.wa_num_hint}>
               <Input placeholder="+14155551234" value={form.whatsapp_number || ""}
                 onChange={(e) => set("whatsapp_number", e.target.value)} />
             </Field>
@@ -149,7 +144,7 @@ function Settings() {
           whatsapp_enabled: !!form.whatsapp_enabled,
           whatsapp_number: form.whatsapp_number || "",
         })} disabled={m.isPending}>
-          {m.isPending ? "Saving…" : "Save changes"}
+          {m.isPending ? t.saving : t.save}
         </Button>
       </div>
     </div>

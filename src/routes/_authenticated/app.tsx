@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Copy, ExternalLink, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
+import { useLang } from "@/lib/app-i18n";
 
 export const Route = createFileRoute("/_authenticated/app")({
   ssr: false,
@@ -15,6 +16,7 @@ export const Route = createFileRoute("/_authenticated/app")({
 });
 
 function Dashboard() {
+  const { t, lang } = useLang();
   const router = useRouter();
   const qc = useQueryClient();
   const getR = useServerFn(getMyReceptionist);
@@ -38,44 +40,44 @@ function Dashboard() {
     <div className="max-w-6xl mx-auto p-4 md:p-8 space-y-6">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold">{rQuery.data?.business_name || "Your receptionist"}</h1>
-          <p className="text-sm text-muted-foreground">Share your AI receptionist with visitors and watch leads come in.</p>
+          <h1 className="text-2xl font-bold">{rQuery.data?.business_name || t.your_receptionist}</h1>
+          <p className="text-sm text-muted-foreground">{t.dash_subtitle}</p>
         </div>
         <Link to="/settings">
-          <Button variant="outline">Configure</Button>
+          <Button variant="outline">{t.configure}</Button>
         </Link>
       </div>
 
       <Card>
-        <CardHeader><CardTitle className="text-base">Your shareable chat link</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-base">{t.share_link}</CardTitle></CardHeader>
         <CardContent className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
           <code className="flex-1 px-3 py-2 rounded-md bg-muted text-sm truncate">{widgetUrl || "…"}</code>
-          <Button variant="secondary" onClick={() => { navigator.clipboard.writeText(widgetUrl); toast.success("Copied!"); }}>
-            <Copy className="size-4" /> Copy
+          <Button variant="secondary" onClick={() => { navigator.clipboard.writeText(widgetUrl); toast.success(t.copied); }}>
+            <Copy className="size-4" /> {t.copy}
           </Button>
           <a href={widgetUrl} target="_blank" rel="noreferrer">
-            <Button><ExternalLink className="size-4" /> Open</Button>
+            <Button><ExternalLink className="size-4" /> {t.open}</Button>
           </a>
         </CardContent>
       </Card>
 
       <Card>
-        <CardHeader><CardTitle className="text-base">Leads ({lQuery.data?.length ?? 0})</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-base">{t.leads} ({lQuery.data?.length ?? 0})</CardTitle></CardHeader>
         <CardContent>
           {lQuery.isLoading ? (
-            <p className="text-sm text-muted-foreground">Loading…</p>
+            <p className="text-sm text-muted-foreground">{t.loading}</p>
           ) : !lQuery.data?.length ? (
-            <p className="text-sm text-muted-foreground">No leads yet. Share your link to get started.</p>
+            <p className="text-sm text-muted-foreground">{t.no_leads}</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="text-left text-muted-foreground border-b">
                   <tr>
-                    <th className="py-2 pr-3">When</th>
-                    <th className="py-2 pr-3">Name</th>
-                    <th className="py-2 pr-3">Contact</th>
-                    <th className="py-2 pr-3">Company</th>
-                    <th className="py-2 pr-3">Message</th>
+                    <th className="py-2 pr-3">{t.col_when}</th>
+                    <th className="py-2 pr-3">{t.col_name}</th>
+                    <th className="py-2 pr-3">{t.col_contact}</th>
+                    <th className="py-2 pr-3">{t.col_company}</th>
+                    <th className="py-2 pr-3">{t.col_message}</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -83,7 +85,7 @@ function Dashboard() {
                   {lQuery.data.map((l: any) => (
                     <tr key={l.id} className="border-b last:border-0 align-top">
                       <td className="py-3 pr-3 whitespace-nowrap text-muted-foreground">
-                        {new Date(l.created_at).toLocaleString()}
+                        {new Date(l.created_at).toLocaleString(lang === "fr" ? "fr-FR" : "en-US")}
                       </td>
                       <td className="py-3 pr-3 font-medium">{l.name}</td>
                       <td className="py-3 pr-3">
