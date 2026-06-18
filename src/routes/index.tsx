@@ -46,9 +46,9 @@ function HomePage() {
             <span className="font-semibold tracking-tight">AI Receptionist</span>
           </div>
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
-            <a href="#features" className="hover:text-foreground">Features</a>
-            <a href="#how" className="hover:text-foreground">How it works</a>
-            <a href="#demo" className="hover:text-foreground">Demo</a>
+            <Link to="/app" className="hover:text-foreground">Dashboard</Link>
+            <Link to="/settings" className="hover:text-foreground">Settings</Link>
+            <Link to="/r/$slug" params={{ slug: "demo" }} className="hover:text-foreground">Demo</Link>
           </nav>
           <div className="flex items-center gap-2">
             <Button asChild variant="ghost" size="sm">
