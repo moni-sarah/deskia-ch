@@ -55,6 +55,12 @@ const dict = {
     save: "Save changes",
     saving: "Saving…",
     saved: "Saved",
+    total_leads: "Total Leads",
+    todays_leads: "Today",
+    active_destinations: "Active Destinations",
+    widget_live: "Widget Live",
+    widget_offline: "Widget Offline",
+    sources: "Sources",
   },
   fr: {
     brand: "Réceptionniste IA",
@@ -105,6 +111,12 @@ const dict = {
     save: "Enregistrer",
     saving: "Enregistrement…",
     saved: "Enregistré",
+    total_leads: "Prospects total",
+    todays_leads: "Aujourd'hui",
+    active_destinations: "Destinations actives",
+    widget_live: "Widget actif",
+    widget_offline: "Widget inactif",
+    sources: "Sources",
   },
 } as const;
 

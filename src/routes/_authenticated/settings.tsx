@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { getMyReceptionist, updateMyReceptionist } from "@/lib/receptionist.functions";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ComponentType } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,12 +14,22 @@ import { KnowledgeEditor } from "@/components/KnowledgeEditor";
 import { KnowledgeTester } from "@/components/KnowledgeTester";
 import { DocumentImporter } from "@/components/DocumentImporter";
 import { useLang } from "@/lib/app-i18n";
+import { Building2, BookOpen, FlaskConical, CalendarCheck, Share2, MessageCircle } from "lucide-react";
 
 export const Route = createFileRoute("/_authenticated/settings")({
   ssr: false,
   head: () => ({ meta: [{ title: "Settings — AI Receptionist" }] }),
   component: Settings,
 });
+
+const sectionMeta: Record<string, { icon: ComponentType<{ className?: string }>; color: string }> = {
+  business: { icon: Building2, color: "border-l-chart-2" },
+  kb: { icon: BookOpen, color: "border-l-chart-1" },
+  test_ai: { icon: FlaskConical, color: "border-l-chart-4" },
+  calendly: { icon: CalendarCheck, color: "border-l-chart-5" },
+  lead_dest: { icon: Share2, color: "border-l-chart-3" },
+  wa_title: { icon: MessageCircle, color: "border-l-chart-2" },
+};
 
 function Settings() {
   const { t } = useLang();
@@ -52,25 +62,19 @@ function Settings() {
         <p className="text-sm text-muted-foreground">{t.settings_subtitle}</p>
       </div>
 
-
-      <Card>
-        <CardHeader><CardTitle className="text-base">{t.business}</CardTitle></CardHeader>
-        <CardContent className="space-y-4">
+      <SettingsCard id="business" title={t.business}>
+        <div className="space-y-4">
           <Field label={t.business_name}>
             <Input value={form.business_name} onChange={(e) => set("business_name", e.target.value)} />
           </Field>
           <Field label={t.short_desc} hint={t.short_desc_hint}>
             <Textarea rows={2} value={form.description || ""} onChange={(e) => set("description", e.target.value)} />
           </Field>
-        </CardContent>
-      </Card>
+        </div>
+      </SettingsCard>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">{t.kb}</CardTitle>
-          <p className="text-xs text-muted-foreground">{t.kb_hint}</p>
-        </CardHeader>
-        <CardContent className="space-y-6">
+      <SettingsCard id="kb" title={t.kb} subtitle={t.kb_hint}>
+        <div className="space-y-6">
           <DocumentImporter
             onAppend={(text, name) => {
               const header = `\n\n--- From ${name} ---\n`;
@@ -81,22 +85,15 @@ function Settings() {
             value={form.faqs || ""}
             onChange={(next) => set("faqs", next)}
           />
-        </CardContent>
-      </Card>
+        </div>
+      </SettingsCard>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">{t.test_ai}</CardTitle>
-          <p className="text-xs text-muted-foreground">{t.test_ai_hint}</p>
-        </CardHeader>
-        <CardContent>
-          <KnowledgeTester draftFaqs={form.faqs || ""} />
-        </CardContent>
-      </Card>
+      <SettingsCard id="test_ai" title={t.test_ai} subtitle={t.test_ai_hint}>
+        <KnowledgeTester draftFaqs={form.faqs || ""} />
+      </SettingsCard>
 
-      <Card>
-        <CardHeader><CardTitle className="text-base">{t.calendly}</CardTitle></CardHeader>
-        <CardContent className="space-y-4">
+      <SettingsCard id="calendly" title={t.calendly}>
+        <div className="space-y-4">
           <Field label={t.cal_15}>
             <Input placeholder="https://calendly.com/you/15min" value={form.calendly_15 || ""}
               onChange={(e) => set("calendly_15", e.target.value)} />
@@ -105,12 +102,11 @@ function Settings() {
             <Input placeholder="https://calendly.com/you/30min" value={form.calendly_30 || ""}
               onChange={(e) => set("calendly_30", e.target.value)} />
           </Field>
-        </CardContent>
-      </Card>
+        </div>
+      </SettingsCard>
 
-      <Card>
-        <CardHeader><CardTitle className="text-base">{t.lead_dest}</CardTitle></CardHeader>
-        <CardContent className="space-y-4">
+      <SettingsCard id="lead_dest" title={t.lead_dest}>
+        <div className="space-y-4">
           <Field label={t.sheet_url} hint={t.sheet_hint}>
             <Input placeholder="https://docs.google.com/spreadsheets/d/…" value={form.sheet_url || ""}
               onChange={(e) => set("sheet_url", e.target.value)} />
@@ -136,8 +132,8 @@ function Settings() {
                 onChange={(e) => set("whatsapp_number", e.target.value)} />
             </Field>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </SettingsCard>
 
       <div className="sticky bottom-4 flex justify-end">
         <Button
@@ -160,6 +156,25 @@ function Settings() {
       </div>
 
     </div>
+  );
+}
+
+function SettingsCard({ id, title, subtitle, children }: { id: string; title: string; subtitle?: string; children: React.ReactNode }) {
+  const meta = sectionMeta[id] ?? { icon: Building2, color: "border-l-chart-2" };
+  const Icon = meta.icon;
+  return (
+    <Card className={`border-l-4 ${meta.color}`}>
+      <CardHeader className="flex flex-row items-center gap-3">
+        <div className={`p-2 rounded-lg ${meta.color.replace("border-l-", "bg-")}/10 ${meta.color.replace("border-l-", "text-")}`}>
+          <Icon className="size-5" />
+        </div>
+        <div>
+          <CardTitle className="text-base">{title}</CardTitle>
+          {subtitle && <p className="text-xs text-muted-foreground">{subtitle}</p>}
+        </div>
+      </CardHeader>
+      <CardContent>{children}</CardContent>
+    </Card>
   );
 }
 

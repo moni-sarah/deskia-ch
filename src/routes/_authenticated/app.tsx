@@ -4,7 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { getMyReceptionist, getMyLeads, deleteLead } from "@/lib/receptionist.functions";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, ExternalLink, Trash2 } from "lucide-react";
+import { Copy, ExternalLink, Trash2, Users, CalendarDays, Radio, Zap } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useLang } from "@/lib/app-i18n";
@@ -35,9 +35,52 @@ function Dashboard() {
   if (typeof window !== "undefined" && !origin) setOrigin(window.location.origin);
 
   const widgetUrl = rQuery.data ? `${origin}/r/${rQuery.data.slug}` : "";
+  const leads = lQuery.data ?? [];
+  const totalLeads = leads.length;
+  const today = new Date().toDateString();
+  const todaysLeads = leads.filter((l: any) => new Date(l.created_at).toDateString() === today).length;
+
+  const destinations = [
+    rQuery.data?.sheet_url,
+    rQuery.data?.notif_email,
+    rQuery.data?.webhook_url,
+    rQuery.data?.whatsapp_enabled,
+  ].filter(Boolean).length;
+
+  const tiles = [
+    {
+      label: t.total_leads,
+      value: totalLeads,
+      icon: Users,
+      color: "bg-chart-2/10 text-chart-2",
+      iconBg: "bg-chart-2/15",
+    },
+    {
+      label: t.todays_leads,
+      value: todaysLeads,
+      icon: CalendarDays,
+      color: "bg-chart-1/10 text-chart-1",
+      iconBg: "bg-chart-1/15",
+    },
+    {
+      label: t.active_destinations,
+      value: destinations,
+      icon: Zap,
+      color: "bg-chart-3/10 text-chart-3",
+      iconBg: "bg-chart-3/15",
+    },
+    {
+      label: rQuery.data ? t.widget_live : t.widget_offline,
+      value: rQuery.data ? "Yes" : "No",
+      icon: Radio,
+      color: rQuery.data ? "bg-chart-4/10 text-chart-4" : "bg-muted text-muted-foreground",
+      iconBg: rQuery.data ? "bg-chart-4/15" : "bg-muted",
+    },
+  ];
 
   return (
     <div className="max-w-6xl mx-auto p-4 md:p-8 space-y-6">
+      {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold">{rQuery.data?.business_name || t.your_receptionist}</h1>
@@ -48,7 +91,27 @@ function Dashboard() {
         </Link>
       </div>
 
-      <Card>
+      {/* Stat Tiles */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        {tiles.map((tile) => (
+          <Card key={tile.label} className="overflow-hidden border-0 shadow-sm">
+            <CardContent className="p-5">
+              <div className="flex items-start justify-between">
+                <div className="space-y-1">
+                  <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{tile.label}</p>
+                  <p className="text-2xl font-bold">{tile.value}</p>
+                </div>
+                <div className={`p-2.5 rounded-xl ${tile.iconBg} ${tile.color}`}>
+                  <tile.icon className="size-5" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Widget URL Card */}
+      <Card className="border-l-4 border-l-chart-2">
         <CardHeader><CardTitle className="text-base">{t.share_link}</CardTitle></CardHeader>
         <CardContent className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
           <code className="flex-1 px-3 py-2 rounded-md bg-muted text-sm truncate">{widgetUrl || "…"}</code>
@@ -61,7 +124,8 @@ function Dashboard() {
         </CardContent>
       </Card>
 
-      <Card>
+      {/* Leads Table */}
+      <Card className="border-l-4 border-l-chart-1">
         <CardHeader><CardTitle className="text-base">{t.leads} ({lQuery.data?.length ?? 0})</CardTitle></CardHeader>
         <CardContent>
           {lQuery.isLoading ? (
