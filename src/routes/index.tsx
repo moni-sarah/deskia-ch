@@ -12,6 +12,11 @@ import {
   Clock,
   Languages,
   ShieldCheck,
+  Check,
+  Headphones,
+  Users,
+  TrendingUp,
+  HeartHandshake,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -19,6 +24,7 @@ type Lang = "en" | "fr";
 
 const t = {
   en: {
+    navAbout: "About",
     navDashboard: "Dashboard",
     navSettings: "Settings",
     navDemo: "Demo",
@@ -29,6 +35,16 @@ const t = {
       "Replies to FAQs, collects leads and books meetings — automatically in French and English, trained on your FAQs and documents.",
     ctaDashboard: "Open dashboard",
     ctaDemo: "Try the live demo",
+    aboutTitle: "Deskia AI – Your 24/7 AI Receptionist",
+    aboutSubtitle: "Never miss another call or customer.",
+    aboutDesc:
+      "Deskia automatically answers calls, qualifies leads, books appointments and answers your customers' questions in French, English, German and Italian.",
+    aboutChecks: [
+      "Available 24/7",
+      "Reduces admin costs",
+      "Generates more appointments",
+      "Improves customer experience",
+    ],
     badge24: "24/7 availability",
     badgeLang: "FR & EN auto-detect",
     badgeData: "Your data, your rules",
@@ -72,6 +88,7 @@ const t = {
     langLabel: "EN",
   },
   fr: {
+    navAbout: "À propos",
     navDashboard: "Tableau de bord",
     navSettings: "Paramètres",
     navDemo: "Démo",
@@ -82,6 +99,16 @@ const t = {
       "Répond aux FAQ, collecte les prospects et planifie les rendez-vous — automatiquement en français et en anglais, formée sur vos FAQ et documents.",
     ctaDashboard: "Ouvrir le tableau de bord",
     ctaDemo: "Essayer la démo en direct",
+    aboutTitle: "Deskia AI – Votre réceptionniste IA 24h/24",
+    aboutSubtitle: "Ne manquez plus aucun appel ni aucun client.",
+    aboutDesc:
+      "Deskia répond automatiquement aux appels, qualifie les prospects, prend les rendez-vous et répond aux questions de vos clients en français, anglais, allemand et italien.",
+    aboutChecks: [
+      "Disponible 24h/24",
+      "Réduit les coûts administratifs",
+      "Génère plus de rendez-vous",
+      "Améliore l'expérience client",
+    ],
     badge24: "Disponible 24h/24",
     badgeLang: "FR & EN détection auto",
     badgeData: "Vos données, vos règles",
@@ -191,6 +218,7 @@ function HomePage() {
             <span className="font-semibold tracking-tight">Deskia</span>
           </div>
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
+            <a href="#about" className="hover:text-foreground">{copy.navAbout}</a>
             <Link to="/app" className="hover:text-foreground">{copy.navDashboard}</Link>
             <Link to="/settings" className="hover:text-foreground">{copy.navSettings}</Link>
             <Link to="/r/$slug" params={{ slug: "demo" }} className="hover:text-foreground">{copy.navDemo}</Link>
