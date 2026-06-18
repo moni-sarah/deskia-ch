@@ -4,7 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { getMyReceptionist, getMyLeads, deleteLead } from "@/lib/receptionist.functions";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, ExternalLink, Trash2, Users, CalendarDays, Radio, Zap } from "lucide-react";
+import { Copy, ExternalLink, Trash2, Users, CalendarCheck, MessageCircleQuestion, TrendingUp, Radio } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useLang } from "@/lib/app-i18n";
@@ -39,6 +39,14 @@ function Dashboard() {
   const totalLeads = leads.length;
   const today = new Date().toDateString();
   const todaysLeads = leads.filter((l: any) => new Date(l.created_at).toDateString() === today).length;
+  void todaysLeads;
+
+  // Heuristic: a lead counts as a booked appointment if the captured message
+  // mentions a booking/appointment intent. Customer "questions" = every lead message.
+  const bookingRe = /\b(book|booking|appointment|appt|schedule|reservation|reserve|rendez[- ]?vous|réserv|rdv|consult)/i;
+  const appointmentsBooked = leads.filter((l: any) => bookingRe.test(l.message || "")).length;
+  const conversionRate = totalLeads > 0 ? Math.round((appointmentsBooked / totalLeads) * 100) : 0;
+  const customerQuestions = leads.filter((l: any) => (l.message || "").trim().length > 0).length;
 
   const destinations = [
     rQuery.data?.sheet_url,
@@ -56,18 +64,25 @@ function Dashboard() {
       iconBg: "bg-chart-2/15",
     },
     {
-      label: t.todays_leads,
-      value: todaysLeads,
-      icon: CalendarDays,
+      label: t.appointments_booked,
+      value: appointmentsBooked,
+      icon: CalendarCheck,
       color: "bg-chart-1/10 text-chart-1",
       iconBg: "bg-chart-1/15",
     },
     {
-      label: t.active_destinations,
-      value: destinations,
-      icon: Zap,
+      label: t.conversion_rate,
+      value: `${conversionRate}%`,
+      icon: TrendingUp,
       color: "bg-chart-3/10 text-chart-3",
       iconBg: "bg-chart-3/15",
+    },
+    {
+      label: t.customer_questions,
+      value: customerQuestions,
+      icon: MessageCircleQuestion,
+      color: "bg-chart-5/10 text-chart-5",
+      iconBg: "bg-chart-5/15",
     },
     {
       label: rQuery.data ? t.widget_live : t.widget_offline,
@@ -75,6 +90,13 @@ function Dashboard() {
       icon: Radio,
       color: rQuery.data ? "bg-chart-4/10 text-chart-4" : "bg-muted text-muted-foreground",
       iconBg: rQuery.data ? "bg-chart-4/15" : "bg-muted",
+    },
+    {
+      label: t.active_destinations,
+      value: destinations,
+      icon: Radio,
+      color: "bg-chart-4/10 text-chart-4",
+      iconBg: "bg-chart-4/15",
     },
   ];
 
@@ -92,7 +114,7 @@ function Dashboard() {
       </div>
 
       {/* Stat Tiles */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
         {tiles.map((tile) => (
           <Card key={tile.label} className="overflow-hidden border-0 shadow-sm">
             <CardContent className="p-5">
@@ -109,6 +131,33 @@ function Dashboard() {
           </Card>
         ))}
       </div>
+
+      {/* Recent Customer Questions */}
+      <Card className="border-l-4 border-l-chart-5">
+        <CardHeader><CardTitle className="text-base">{t.recent_questions}</CardTitle></CardHeader>
+        <CardContent>
+          {lQuery.isLoading ? (
+            <p className="text-sm text-muted-foreground">{t.loading}</p>
+          ) : !leads.length ? (
+            <p className="text-sm text-muted-foreground">{t.no_questions}</p>
+          ) : (
+            <ul className="space-y-3">
+              {leads.slice(0, 5).map((l: any) => (
+                <li key={l.id} className="flex gap-3 items-start">
+                  <MessageCircleQuestion className="size-4 mt-1 text-chart-5 shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm whitespace-pre-wrap">{l.message}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      {l.name} · {new Date(l.created_at).toLocaleString(lang === "fr" ? "fr-FR" : "en-US")}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </CardContent>
+      </Card>
+
 
       {/* Widget URL Card */}
       <Card className="border-l-4 border-l-chart-2">
