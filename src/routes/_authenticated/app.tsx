@@ -4,7 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { getMyReceptionist, getMyLeads, deleteLead } from "@/lib/receptionist.functions";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Copy, ExternalLink, Trash2, Users, CalendarDays, Radio, Zap } from "lucide-react";
+import { Copy, ExternalLink, Trash2, Users, CalendarCheck, MessageCircleQuestion, TrendingUp, Radio } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
 import { useLang } from "@/lib/app-i18n";
