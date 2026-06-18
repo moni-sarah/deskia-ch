@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Copy, ExternalLink, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useState } from "react";
+import { useLang } from "@/lib/app-i18n";
 
 export const Route = createFileRoute("/_authenticated/app")({
   ssr: false,
