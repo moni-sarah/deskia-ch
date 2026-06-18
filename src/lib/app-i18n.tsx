@@ -90,6 +90,8 @@ const dict = {
     lead_dest: "Destinations des prospects",
     sheet_url: "URL Google Sheet",
     sheet_hint: "Les prospects seront ajoutés en lignes. Partagez la feuille avec le compte Google connecté.",
+    webhook_url: "URL CRM / Webhook",
+    webhook_hint: "Envoyez chaque prospect vers votre CRM ou logiciel de rendez-vous (HubSpot, Pipedrive, Zoho, Dentrix, Jane, NexHealth…). Collez une URL de webhook Zapier ou Make — nous envoyons le prospect en JSON.",
     notif_email: "Email de notification",
     notif_hint: "Nous vous écrivons à chaque nouveau prospect.",
     wa_title: "Notifications WhatsApp",
