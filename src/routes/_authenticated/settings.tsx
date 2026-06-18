@@ -145,6 +145,7 @@ function Settings() {
           calendly_30: form.calendly_30 || "",
           sheet_url: form.sheet_url || "",
           notif_email: form.notif_email || "",
+          webhook_url: form.webhook_url || "",
           whatsapp_enabled: !!form.whatsapp_enabled,
           whatsapp_number: form.whatsapp_number || "",
         })} disabled={m.isPending}>
