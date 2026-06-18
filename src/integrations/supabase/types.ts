@@ -71,7 +71,7 @@ export type Database = {
           sheet_url: string | null
           slug: string
           updated_at: string
-          user_id: string
+          user_id: string | null
           whatsapp_enabled: boolean
           whatsapp_number: string | null
         }
@@ -87,7 +87,7 @@ export type Database = {
           sheet_url?: string | null
           slug: string
           updated_at?: string
-          user_id: string
+          user_id?: string | null
           whatsapp_enabled?: boolean
           whatsapp_number?: string | null
         }
@@ -103,7 +103,7 @@ export type Database = {
           sheet_url?: string | null
           slug?: string
           updated_at?: string
-          user_id?: string
+          user_id?: string | null
           whatsapp_enabled?: boolean
           whatsapp_number?: string | null
         }
