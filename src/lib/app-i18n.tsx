@@ -9,6 +9,8 @@ const dict = {
     nav_leads: "Leads",
     nav_settings: "Settings",
     lang_toggle: "FR",
+    back: "Back",
+    home: "Home",
     // Dashboard
     your_receptionist: "Your receptionist",
     dash_subtitle: "Share your AI receptionist with visitors and watch leads come in.",
