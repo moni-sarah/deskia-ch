@@ -114,7 +114,7 @@ function Dashboard() {
       </div>
 
       {/* Stat Tiles */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
         {tiles.map((tile) => (
           <Card key={tile.label} className="overflow-hidden border-0 shadow-sm">
             <CardContent className="p-5">
@@ -131,6 +131,33 @@ function Dashboard() {
           </Card>
         ))}
       </div>
+
+      {/* Recent Customer Questions */}
+      <Card className="border-l-4 border-l-chart-5">
+        <CardHeader><CardTitle className="text-base">{t.recent_questions}</CardTitle></CardHeader>
+        <CardContent>
+          {lQuery.isLoading ? (
+            <p className="text-sm text-muted-foreground">{t.loading}</p>
+          ) : !leads.length ? (
+            <p className="text-sm text-muted-foreground">{t.no_questions}</p>
+          ) : (
+            <ul className="space-y-3">
+              {leads.slice(0, 5).map((l: any) => (
+                <li key={l.id} className="flex gap-3 items-start">
+                  <MessageCircleQuestion className="size-4 mt-1 text-chart-5 shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm whitespace-pre-wrap">{l.message}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                      {l.name} · {new Date(l.created_at).toLocaleString(lang === "fr" ? "fr-FR" : "en-US")}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </CardContent>
+      </Card>
+
 
       {/* Widget URL Card */}
       <Card className="border-l-4 border-l-chart-2">
