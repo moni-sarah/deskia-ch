@@ -61,6 +61,8 @@ const dict = {
     nav_leads: "Prospects",
     nav_settings: "Paramètres",
     lang_toggle: "EN",
+    back: "Retour",
+    home: "Accueil",
     your_receptionist: "Votre réceptionniste",
     dash_subtitle: "Partagez votre réceptionniste IA avec vos visiteurs et recevez des prospects.",
     configure: "Configurer",
