@@ -162,6 +162,24 @@ export const Route = createFileRoute("/")({
 });
 
 function HomePage() {
+  const [lang, setLang] = useLang();
+  const copy = t[lang];
+
+  const features = [
+    { icon: MessageSquare, title: copy.feat1Title, desc: copy.feat1Desc },
+    { icon: Bot, title: copy.feat2Title, desc: copy.feat2Desc },
+    { icon: CalendarCheck, title: copy.feat3Title, desc: copy.feat3Desc },
+    { icon: Globe2, title: copy.feat4Title, desc: copy.feat4Desc },
+    { icon: FileText, title: copy.feat5Title, desc: copy.feat5Desc },
+    { icon: Clock, title: copy.feat6Title, desc: copy.feat6Desc },
+  ];
+
+  const steps = [
+    { title: copy.step1Title, desc: copy.step1Desc },
+    { title: copy.step2Title, desc: copy.step2Desc },
+    { title: copy.step3Title, desc: copy.step3Desc },
+  ];
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <header className="border-b border-border/60">
@@ -173,17 +191,25 @@ function HomePage() {
             <span className="font-semibold tracking-tight">AI Receptionist</span>
           </div>
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
-            <Link to="/app" className="hover:text-foreground">Dashboard</Link>
-            <Link to="/settings" className="hover:text-foreground">Settings</Link>
-            <Link to="/r/$slug" params={{ slug: "demo" }} className="hover:text-foreground">Demo</Link>
+            <Link to="/app" className="hover:text-foreground">{copy.navDashboard}</Link>
+            <Link to="/settings" className="hover:text-foreground">{copy.navSettings}</Link>
+            <Link to="/r/$slug" params={{ slug: "demo" }} className="hover:text-foreground">{copy.navDemo}</Link>
           </nav>
           <div className="flex items-center gap-2">
+            <button
+              onClick={() => setLang(lang === "en" ? "fr" : "en")}
+              className="inline-flex items-center gap-1 rounded-md border border-input bg-background px-2.5 py-1 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+              aria-label="Toggle language"
+            >
+              <Languages className="h-3.5 w-3.5" />
+              {copy.langLabel}
+            </button>
             <Button asChild variant="ghost" size="sm">
-              <Link to="/settings">Settings</Link>
+              <Link to="/settings">{copy.navSettings}</Link>
             </Button>
             <Button asChild size="sm">
               <Link to="/app">
-                Open app <ArrowRight className="ml-1 h-4 w-4" />
+                {copy.navDashboard} <ArrowRight className="ml-1 h-4 w-4" />
               </Link>
             </Button>
           </div>
@@ -194,40 +220,41 @@ function HomePage() {
         <div className="mx-auto max-w-6xl px-6 pt-20 pb-24 text-center">
           <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1 text-xs text-muted-foreground">
             <Sparkles className="h-3.5 w-3.5 text-primary" />
-            Powered by your own knowledge base
+            {copy.badge}
           </div>
           <h1 className="mx-auto max-w-3xl text-balance text-4xl font-semibold tracking-tight sm:text-6xl">
-            A 24/7 AI receptionist that <span className="text-primary">answers, captures & books</span>
+            {copy.heroTitle.split(copy.heroHighlight)[0]}
+            <span className="text-primary">{copy.heroHighlight}</span>
+            {copy.heroTitle.split(copy.heroHighlight)[1] || ""}
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
-            Replies to FAQs, collects leads and books meetings — automatically in
-            French and English, trained on your FAQs and documents.
+            {copy.heroDesc}
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Button asChild size="lg">
               <Link to="/app">
-                Open dashboard <ArrowRight className="ml-2 h-4 w-4" />
+                {copy.ctaDashboard} <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
               <Link to="/r/$slug" params={{ slug: "demo" }}>
-                Try the live demo
+                {copy.ctaDemo}
               </Link>
             </Button>
           </div>
           <div className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
-            <span className="inline-flex items-center gap-2"><Clock className="h-4 w-4 text-primary" /> 24/7 availability</span>
-            <span className="inline-flex items-center gap-2"><Languages className="h-4 w-4 text-primary" /> FR & EN auto-detect</span>
-            <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-primary" /> Your data, your rules</span>
+            <span className="inline-flex items-center gap-2"><Clock className="h-4 w-4 text-primary" /> {copy.badge24}</span>
+            <span className="inline-flex items-center gap-2"><Languages className="h-4 w-4 text-primary" /> {copy.badgeLang}</span>
+            <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-primary" /> {copy.badgeData}</span>
           </div>
         </div>
       </section>
 
       <section id="features" className="border-t border-border/60 bg-muted/20">
         <div className="mx-auto max-w-6xl px-6 py-20">
-          <h2 className="text-center text-3xl font-semibold tracking-tight">Everything a receptionist does — without the wait</h2>
+          <h2 className="text-center text-3xl font-semibold tracking-tight">{copy.featuresTitle}</h2>
           <p className="mx-auto mt-3 max-w-2xl text-center text-muted-foreground">
-            One AI agent on your site that handles the repetitive work and routes the rest to you.
+            {copy.featuresSubtitle}
           </p>
           <div className="mt-12 grid gap-4 md:grid-cols-3">
             {features.map((f) => (
@@ -247,7 +274,7 @@ function HomePage() {
 
       <section id="how" className="border-t border-border/60">
         <div className="mx-auto max-w-6xl px-6 py-20">
-          <h2 className="text-center text-3xl font-semibold tracking-tight">How it works</h2>
+          <h2 className="text-center text-3xl font-semibold tracking-tight">{copy.howTitle}</h2>
           <div className="mt-12 grid gap-6 md:grid-cols-3">
             {steps.map((s, i) => (
               <div key={s.title} className="rounded-xl border border-border/60 p-6">
@@ -262,16 +289,16 @@ function HomePage() {
 
       <section id="demo" className="border-t border-border/60 bg-muted/20">
         <div className="mx-auto max-w-3xl px-6 py-20 text-center">
-          <h2 className="text-3xl font-semibold tracking-tight">Ready to see it answer your customers?</h2>
+          <h2 className="text-3xl font-semibold tracking-tight">{copy.demoTitle}</h2>
           <p className="mt-3 text-muted-foreground">
-            Add your FAQs, upload a PDF, and share your receptionist link.
+            {copy.demoDesc}
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Button asChild size="lg">
-              <Link to="/settings">Configure your receptionist</Link>
+              <Link to="/settings">{copy.demoConfigure}</Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link to="/r/$slug" params={{ slug: "demo" }}>Open demo page</Link>
+              <Link to="/r/$slug" params={{ slug: "demo" }}>{copy.demoOpen}</Link>
             </Button>
           </div>
         </div>
@@ -279,28 +306,13 @@ function HomePage() {
 
       <footer className="border-t border-border/60">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-2 px-6 py-8 text-sm text-muted-foreground md:flex-row">
-          <span>© {new Date().getFullYear()} AI Receptionist</span>
+          <span>© {new Date().getFullYear()} {copy.footerCopy}</span>
           <div className="flex gap-4">
-            <Link to="/app" className="hover:text-foreground">Dashboard</Link>
-            <Link to="/settings" className="hover:text-foreground">Settings</Link>
+            <Link to="/app" className="hover:text-foreground">{copy.footerDashboard}</Link>
+            <Link to="/settings" className="hover:text-foreground">{copy.footerSettings}</Link>
           </div>
         </div>
       </footer>
     </div>
   );
 }
-
-const features = [
-  { icon: MessageSquare, title: "Answers FAQs instantly", desc: "Prices, services, hours — replied to in seconds using your own knowledge base." },
-  { icon: Bot, title: "Captures leads", desc: "Collects name, phone, email and request, saved to your dashboard." },
-  { icon: CalendarCheck, title: "Books meetings", desc: "Shares your Calendly link for 15-min calls or 30-min consultations." },
-  { icon: Globe2, title: "French & English", desc: "Detects the customer's language automatically and replies in kind." },
-  { icon: FileText, title: "Trained on your docs", desc: "Upload PDFs or Word documents — the AI uses them to answer." },
-  { icon: Clock, title: "Always on", desc: "Working 24/7 so you never miss another lead, even after hours." },
-];
-
-const steps = [
-  { title: "Add your knowledge", desc: "Paste FAQs or import a PDF / Word document in Settings." },
-  { title: "Share your link", desc: "Send your receptionist page to customers or embed it on your site." },
-  { title: "Get notified", desc: "Leads appear in your dashboard with optional email or WhatsApp alerts." },
-];
