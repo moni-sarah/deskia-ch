@@ -11,7 +11,7 @@ import { useLang } from "@/lib/app-i18n";
 
 export const Route = createFileRoute("/_authenticated/app")({
   ssr: false,
-  head: () => ({ meta: [{ title: "Dashboard — AI Receptionist" }] }),
+  head: () => ({ meta: [{ title: "Dashboard — Deskia" }] }),
   component: Dashboard,
 });
 
