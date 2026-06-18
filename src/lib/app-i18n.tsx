@@ -100,7 +100,7 @@ const dict = {
   },
 } as const;
 
-type Dict = typeof dict.en;
+type Dict = Record<keyof typeof dict.en, string>;
 type Ctx = { lang: Lang; setLang: (l: Lang) => void; toggle: () => void; t: Dict };
 const LangCtx = createContext<Ctx | null>(null);
 
