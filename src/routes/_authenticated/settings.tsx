@@ -39,7 +39,7 @@ function Settings() {
     onError: (e: Error) => toast.error(e.message),
   });
 
-  if (!form) return <div className="p-8 text-sm text-muted-foreground">Loading…</div>;
+  if (!form) return <div className="p-8 text-sm text-muted-foreground">{t.loading}</div>;
 
   const set = (k: string, v: any) => setForm((f: any) => ({ ...f, [k]: v }));
 
