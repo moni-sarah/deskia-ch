@@ -16,6 +16,7 @@ export const Route = createFileRoute("/_authenticated/app")({
 });
 
 function Dashboard() {
+  const { t, lang } = useLang();
   const router = useRouter();
   const qc = useQueryClient();
   const getR = useServerFn(getMyReceptionist);
