@@ -11,6 +11,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { KnowledgeEditor } from "@/components/KnowledgeEditor";
+import { KnowledgeTester } from "@/components/KnowledgeTester";
+import { DocumentImporter } from "@/components/DocumentImporter";
 
 export const Route = createFileRoute("/_authenticated/settings")({
   ssr: false,
@@ -67,11 +69,30 @@ function Settings() {
             customers, in English or French.
           </p>
         </CardHeader>
-        <CardContent>
+        <CardContent className="space-y-6">
+          <DocumentImporter
+            onAppend={(text, name) => {
+              const header = `\n\n--- From ${name} ---\n`;
+              set("faqs", (form.faqs || "") + header + text);
+            }}
+          />
           <KnowledgeEditor
             value={form.faqs || ""}
             onChange={(next) => set("faqs", next)}
           />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Test the AI</CardTitle>
+          <p className="text-xs text-muted-foreground">
+            Ask a customer question and see how the AI would answer using your
+            current knowledge base.
+          </p>
+        </CardHeader>
+        <CardContent>
+          <KnowledgeTester draftFaqs={form.faqs || ""} />
         </CardContent>
       </Card>
 
