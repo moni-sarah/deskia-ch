@@ -22,6 +22,7 @@ export const Route = createFileRoute("/_authenticated/settings")({
 });
 
 function Settings() {
+  const { t } = useLang();
   const qc = useQueryClient();
   const getR = useServerFn(getMyReceptionist);
   const upd = useServerFn(updateMyReceptionist);
