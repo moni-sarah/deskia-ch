@@ -38,6 +38,7 @@ const UpdateSchema = z.object({
   calendly_30: z.string().trim().url().or(z.literal("")).nullable().optional(),
   sheet_url: z.string().trim().url().or(z.literal("")).nullable().optional(),
   notif_email: z.string().trim().email().or(z.literal("")).nullable().optional(),
+  webhook_url: z.string().trim().url().or(z.literal("")).nullable().optional(),
   whatsapp_enabled: z.boolean(),
   whatsapp_number: z
     .string()
@@ -58,6 +59,7 @@ export const updateMyReceptionist = createServerFn({ method: "POST" })
       calendly_30: data.calendly_30 || null,
       sheet_url: data.sheet_url || null,
       notif_email: data.notif_email || null,
+      webhook_url: data.webhook_url || null,
       whatsapp_number: data.whatsapp_number || null,
     };
     const sb = await admin();
