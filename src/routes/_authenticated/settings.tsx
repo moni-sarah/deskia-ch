@@ -35,7 +35,7 @@ function Settings() {
 
   const m = useMutation({
     mutationFn: (data: any) => upd({ data }),
-    onSuccess: () => { toast.success("Saved"); qc.invalidateQueries({ queryKey: ["me"] }); },
+    onSuccess: () => { toast.success(t.saved); qc.invalidateQueries({ queryKey: ["me"] }); },
     onError: (e: Error) => toast.error(e.message),
   });
 
