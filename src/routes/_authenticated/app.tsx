@@ -85,7 +85,7 @@ function Dashboard() {
                   {lQuery.data.map((l: any) => (
                     <tr key={l.id} className="border-b last:border-0 align-top">
                       <td className="py-3 pr-3 whitespace-nowrap text-muted-foreground">
-                        {new Date(l.created_at).toLocaleString()}
+                        {new Date(l.created_at).toLocaleString(lang === "fr" ? "fr-FR" : "en-US")}
                       </td>
                       <td className="py-3 pr-3 font-medium">{l.name}</td>
                       <td className="py-3 pr-3">
