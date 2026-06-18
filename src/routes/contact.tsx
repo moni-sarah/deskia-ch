@@ -1,7 +1,8 @@
+import logoAsset from "@/assets/deskia-logo.png.asset.json";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Bot, Mail, ArrowLeft, MessageSquare, MapPin, Clock } from "lucide-react";
+import { Mail, ArrowLeft, MessageSquare, MapPin, Clock } from "lucide-react";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -21,12 +22,13 @@ function ContactPage() {
     <div className="min-h-screen bg-background text-foreground">
       <header className="border-b border-border/60">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary">
-              <Bot className="h-5 w-5" />
-            </div>
-            <span className="font-semibold tracking-tight">Deskia</span>
-          </div>
+          <Link to="/" className="flex items-center gap-2">
+            <img
+              src={logoAsset.url}
+              alt="Deskia AI"
+              className="h-9 w-auto"
+            />
+          </Link>
           <Button asChild variant="ghost" size="sm">
             <Link to="/">
               <ArrowLeft className="mr-1 h-4 w-4" />
