@@ -17,7 +17,7 @@ from PIL import Image, ImageChops
 from playwright.async_api import async_playwright
 
 ROOT = Path(__file__).parent
-URL = os.environ.get("URL", "http://localhost:8080/r/demo")
+URL = os.environ.get("URL", "https://id-preview--2c73aff8-1811-46af-98ee-ccd1e19e9c73.lovable.app/r/demo")
 UPDATE = "--update" in sys.argv
 DIFF_THRESHOLD = 0.02  # 2% of pixels may differ
 
