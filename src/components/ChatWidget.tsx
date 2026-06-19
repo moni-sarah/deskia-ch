@@ -10,6 +10,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { Send, User, Calendar, CheckCircle2 } from "lucide-react";
 import { toast } from "sonner";
+import logoAsset from "@/assets/deskia-logo.png.asset.json";
+
 
 type Msg = { role: "user" | "assistant"; content: string };
 
