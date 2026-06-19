@@ -95,7 +95,7 @@ export function ChatWidget({
   return (
     <Card className="overflow-hidden">
       <div className="bg-primary/5 px-4 py-3 border-b flex items-center gap-2">
-        <Bot className="size-5 text-primary" />
+        <img src={logoAsset.url} alt="Deskia" className="h-6 w-auto rounded-sm" />
         <span className="font-medium text-sm">Deskia · 24/7</span>
       </div>
 
@@ -104,7 +104,7 @@ export function ChatWidget({
           <div key={i} className={`flex gap-2 ${m.role === "user" ? "justify-end" : ""}`}>
             {m.role === "assistant" && (
               <div className="size-8 shrink-0 rounded-full bg-primary/10 flex items-center justify-center">
-                <Bot className="size-4 text-primary" />
+                <img src={logoAsset.url} alt="Deskia" className="h-5 w-auto rounded-sm" />
               </div>
             )}
             <div className={`max-w-[80%] px-3 py-2 rounded-2xl text-sm prose prose-sm max-w-none ${
@@ -122,7 +122,7 @@ export function ChatWidget({
         {busy && (
           <div className="flex gap-2">
             <div className="size-8 shrink-0 rounded-full bg-primary/10 flex items-center justify-center">
-              <Bot className="size-4 text-primary" />
+              <img src={logoAsset.url} alt="Deskia" className="h-5 w-auto rounded-sm" />
             </div>
             <div className="px-3 py-2 rounded-2xl bg-muted text-sm text-muted-foreground">…</div>
           </div>
