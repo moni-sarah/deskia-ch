@@ -72,7 +72,8 @@ async def main():
                 from urllib.parse import urlparse
                 async def _proxy_asset(route):
                     path = urlparse(route.request.url).path
-                    await route.continue_(url=ASSET_ORIGIN + path)
+                    resp = await route.fetch(url=ASSET_ORIGIN + path)
+                    await route.fulfill(response=resp)
                 await ctx.route("**/__l5e/**", _proxy_asset)
 
                 await page.goto(URL, wait_until="networkidle")
