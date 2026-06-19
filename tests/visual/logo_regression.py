@@ -61,6 +61,16 @@ async def main():
             for name, w, h in VIEWPORTS:
                 ctx = await browser.new_context(viewport={"width": w, "height": h})
                 page = await ctx.new_page()
+                # Proxy /__l5e/* asset requests to the Lovable CDN.
+                async def _proxy_asset(route):
+                    req = route.request
+                    target = ASSET_ORIGIN + req.url.split("://", 1)[1].split("/", 1)[1].replace(req.url.split("/", 3)[2], "", 1)
+                    # simpler: rebuild from path
+                    from urllib.parse import urlparse
+                    path = urlparse(req.url).path
+                    await route.continue_(url=ASSET_ORIGIN + path)
+                await ctx.route("**/__l5e/**", _proxy_asset)
+
                 await page.goto(URL, wait_until="networkidle")
                 await page.wait_for_selector('img[alt="Deskia"]', timeout=10_000)
                 await page.wait_for_function(
