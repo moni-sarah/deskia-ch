@@ -220,7 +220,7 @@ function HomePage() {
             <img
               src={logoAsset.url}
               alt="Deskia AI"
-              className="h-12 w-auto rounded-lg border border-border/60 bg-white p-1"
+              className="h-8 w-auto sm:h-10 md:h-12 rounded-lg border border-border/60 bg-white p-1"
             />
           </Link>
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
