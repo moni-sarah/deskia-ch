@@ -63,6 +63,13 @@ async def main():
                 page = await ctx.new_page()
                 await page.goto(URL, wait_until="networkidle")
                 await page.wait_for_selector('img[alt="Deskia"]', timeout=10_000)
+                await page.wait_for_function(
+                    """() => {
+                        const imgs = [...document.querySelectorAll('img[alt=\"Deskia\"]')];
+                        return imgs.length > 0 && imgs.every(i => i.complete && i.naturalWidth > 0);
+                    }""",
+                    timeout=10_000,
+                )
 
                 imgs = await page.eval_on_selector_all(
                     'img[alt="Deskia"]',
