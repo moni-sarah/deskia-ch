@@ -47,6 +47,13 @@ function PublicChat() {
         <header className="mb-6 text-center">
           <h1 className="text-2xl md:text-3xl font-bold">{r.business_name}</h1>
           {r.description && <p className="text-sm text-muted-foreground mt-1">{r.description}</p>}
+          <div className="mt-4 flex justify-center">
+            <Link to="/r/$slug/call" params={{ slug: r.slug }}>
+              <Button size="lg" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white">
+                <Video className="size-4" /> Start live voice & video call
+              </Button>
+            </Link>
+          </div>
         </header>
         <ChatWidget
           receptionistId={r.id}
