@@ -16,6 +16,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as RSlugRouteImport } from './routes/r.$slug'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
+import { Route as RSlugCallRouteImport } from './routes/r.$slug.call'
 
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
@@ -51,6 +52,11 @@ const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
   path: '/app',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const RSlugCallRoute = RSlugCallRouteImport.update({
+  id: '/call',
+  path: '/call',
+  getParentRoute: () => RSlugRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -58,7 +64,8 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/app': typeof AuthenticatedAppRoute
   '/settings': typeof AuthenticatedSettingsRoute
-  '/r/$slug': typeof RSlugRoute
+  '/r/$slug': typeof RSlugRouteWithChildren
+  '/r/$slug/call': typeof RSlugCallRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -66,7 +73,8 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/app': typeof AuthenticatedAppRoute
   '/settings': typeof AuthenticatedSettingsRoute
-  '/r/$slug': typeof RSlugRoute
+  '/r/$slug': typeof RSlugRouteWithChildren
+  '/r/$slug/call': typeof RSlugCallRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -76,13 +84,28 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/_authenticated/app': typeof AuthenticatedAppRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
-  '/r/$slug': typeof RSlugRoute
+  '/r/$slug': typeof RSlugRouteWithChildren
+  '/r/$slug/call': typeof RSlugCallRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contact' | '/privacy' | '/app' | '/settings' | '/r/$slug'
+  fullPaths:
+    | '/'
+    | '/contact'
+    | '/privacy'
+    | '/app'
+    | '/settings'
+    | '/r/$slug'
+    | '/r/$slug/call'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contact' | '/privacy' | '/app' | '/settings' | '/r/$slug'
+  to:
+    | '/'
+    | '/contact'
+    | '/privacy'
+    | '/app'
+    | '/settings'
+    | '/r/$slug'
+    | '/r/$slug/call'
   id:
     | '__root__'
     | '/'
@@ -92,6 +115,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app'
     | '/_authenticated/settings'
     | '/r/$slug'
+    | '/r/$slug/call'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -99,7 +123,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   ContactRoute: typeof ContactRoute
   PrivacyRoute: typeof PrivacyRoute
-  RSlugRoute: typeof RSlugRoute
+  RSlugRoute: typeof RSlugRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -153,6 +177,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/r/$slug/call': {
+      id: '/r/$slug/call'
+      path: '/call'
+      fullPath: '/r/$slug/call'
+      preLoaderRoute: typeof RSlugCallRouteImport
+      parentRoute: typeof RSlugRoute
+    }
   }
 }
 
@@ -169,12 +200,22 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface RSlugRouteChildren {
+  RSlugCallRoute: typeof RSlugCallRoute
+}
+
+const RSlugRouteChildren: RSlugRouteChildren = {
+  RSlugCallRoute: RSlugCallRoute,
+}
+
+const RSlugRouteWithChildren = RSlugRoute._addFileChildren(RSlugRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   ContactRoute: ContactRoute,
   PrivacyRoute: PrivacyRoute,
-  RSlugRoute: RSlugRoute,
+  RSlugRoute: RSlugRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
