@@ -50,7 +50,7 @@ function PublicChat() {
           <div className="mt-4 flex justify-center">
             <Link to="/r/$slug/call" params={{ slug: r.slug }}>
               <Button size="lg" className="gap-2 bg-emerald-600 hover:bg-emerald-500 text-white">
-                <Video className="size-4" /> Start live voice & video call
+                <Video className="size-4" /> Start live call
               </Button>
             </Link>
           </div>
