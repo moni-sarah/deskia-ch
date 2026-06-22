@@ -545,6 +545,9 @@ function HomePage() {
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 text-sm text-muted-foreground md:flex-row">
           <span>© {new Date().getFullYear()} Deskia — {copy.footerRights}</span>
           <div className="flex flex-wrap justify-center gap-4">
+            <Link to="/ai-receptionist-switzerland" className="hover:text-foreground">
+              AI Receptionist Switzerland
+            </Link>
             <Link to="/privacy" className="hover:text-foreground">{copy.footerPrivacy}</Link>
             <Link to="/contact" className="hover:text-foreground">{copy.footerContact}</Link>
           </div>

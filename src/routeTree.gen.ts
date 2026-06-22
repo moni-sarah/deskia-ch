@@ -9,12 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as AiReceptionistSwitzerlandRouteImport } from './routes/ai-receptionist-switzerland'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as RSlugRouteImport } from './routes/r.$slug'
 import { Route as RSlugCallRouteImport } from './routes/r.$slug.call'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -25,6 +32,12 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AiReceptionistSwitzerlandRoute =
+  AiReceptionistSwitzerlandRouteImport.update({
+    id: '/ai-receptionist-switzerland',
+    path: '/ai-receptionist-switzerland',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -43,43 +56,80 @@ const RSlugCallRoute = RSlugCallRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ai-receptionist-switzerland': typeof AiReceptionistSwitzerlandRoute
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/r/$slug': typeof RSlugRouteWithChildren
   '/r/$slug/call': typeof RSlugCallRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ai-receptionist-switzerland': typeof AiReceptionistSwitzerlandRoute
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/r/$slug': typeof RSlugRouteWithChildren
   '/r/$slug/call': typeof RSlugCallRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ai-receptionist-switzerland': typeof AiReceptionistSwitzerlandRoute
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/r/$slug': typeof RSlugRouteWithChildren
   '/r/$slug/call': typeof RSlugCallRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contact' | '/privacy' | '/r/$slug' | '/r/$slug/call'
+  fullPaths:
+    | '/'
+    | '/ai-receptionist-switzerland'
+    | '/contact'
+    | '/privacy'
+    | '/sitemap.xml'
+    | '/r/$slug'
+    | '/r/$slug/call'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contact' | '/privacy' | '/r/$slug' | '/r/$slug/call'
-  id: '__root__' | '/' | '/contact' | '/privacy' | '/r/$slug' | '/r/$slug/call'
+  to:
+    | '/'
+    | '/ai-receptionist-switzerland'
+    | '/contact'
+    | '/privacy'
+    | '/sitemap.xml'
+    | '/r/$slug'
+    | '/r/$slug/call'
+  id:
+    | '__root__'
+    | '/'
+    | '/ai-receptionist-switzerland'
+    | '/contact'
+    | '/privacy'
+    | '/sitemap.xml'
+    | '/r/$slug'
+    | '/r/$slug/call'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AiReceptionistSwitzerlandRoute: typeof AiReceptionistSwitzerlandRoute
   ContactRoute: typeof ContactRoute
   PrivacyRoute: typeof PrivacyRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   RSlugRoute: typeof RSlugRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacy': {
       id: '/privacy'
       path: '/privacy'
@@ -92,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ai-receptionist-switzerland': {
+      id: '/ai-receptionist-switzerland'
+      path: '/ai-receptionist-switzerland'
+      fullPath: '/ai-receptionist-switzerland'
+      preLoaderRoute: typeof AiReceptionistSwitzerlandRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -130,8 +187,10 @@ const RSlugRouteWithChildren = RSlugRoute._addFileChildren(RSlugRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AiReceptionistSwitzerlandRoute: AiReceptionistSwitzerlandRoute,
   ContactRoute: ContactRoute,
   PrivacyRoute: PrivacyRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   RSlugRoute: RSlugRouteWithChildren,
 }
 export const routeTree = rootRouteImport
