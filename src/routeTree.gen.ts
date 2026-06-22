@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AiReceptionistSwitzerlandRouteImport } from './routes/ai-receptionist-switzerland'
@@ -16,6 +17,11 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as RSlugRouteImport } from './routes/r.$slug'
 import { Route as RSlugCallRouteImport } from './routes/r.$slug.call'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrivacyRoute = PrivacyRouteImport.update({
   id: '/privacy',
   path: '/privacy',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/ai-receptionist-switzerland': typeof AiReceptionistSwitzerlandRoute
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/r/$slug': typeof RSlugRouteWithChildren
   '/r/$slug/call': typeof RSlugCallRoute
 }
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/ai-receptionist-switzerland': typeof AiReceptionistSwitzerlandRoute
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/r/$slug': typeof RSlugRouteWithChildren
   '/r/$slug/call': typeof RSlugCallRoute
 }
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/ai-receptionist-switzerland': typeof AiReceptionistSwitzerlandRoute
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/r/$slug': typeof RSlugRouteWithChildren
   '/r/$slug/call': typeof RSlugCallRoute
 }
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/ai-receptionist-switzerland'
     | '/contact'
     | '/privacy'
+    | '/sitemap.xml'
     | '/r/$slug'
     | '/r/$slug/call'
   fileRoutesByTo: FileRoutesByTo
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/ai-receptionist-switzerland'
     | '/contact'
     | '/privacy'
+    | '/sitemap.xml'
     | '/r/$slug'
     | '/r/$slug/call'
   id:
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/ai-receptionist-switzerland'
     | '/contact'
     | '/privacy'
+    | '/sitemap.xml'
     | '/r/$slug'
     | '/r/$slug/call'
   fileRoutesById: FileRoutesById
@@ -105,11 +117,19 @@ export interface RootRouteChildren {
   AiReceptionistSwitzerlandRoute: typeof AiReceptionistSwitzerlandRoute
   ContactRoute: typeof ContactRoute
   PrivacyRoute: typeof PrivacyRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   RSlugRoute: typeof RSlugRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/privacy': {
       id: '/privacy'
       path: '/privacy'
@@ -170,6 +190,7 @@ const rootRouteChildren: RootRouteChildren = {
   AiReceptionistSwitzerlandRoute: AiReceptionistSwitzerlandRoute,
   ContactRoute: ContactRoute,
   PrivacyRoute: PrivacyRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   RSlugRoute: RSlugRouteWithChildren,
 }
 export const routeTree = rootRouteImport
