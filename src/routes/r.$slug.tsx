@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { getReceptionistBySlug } from "@/lib/public.functions";
 import { ChatWidget } from "@/components/ChatWidget";
 import { Button } from "@/components/ui/button";
-import { Video } from "lucide-react";
+import { Video, ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/r/$slug")({
   loader: async ({ params }) => {
