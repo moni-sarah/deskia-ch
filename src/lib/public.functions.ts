@@ -100,7 +100,7 @@ export const submitLead = createServerFn({ method: "POST" })
         const match = r.sheet_url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
         if (match) {
           const sid = match[1];
-          const range = "Sheet1!A:H";
+          const range = "Sheet1!A:N";
           const url = `https://connector-gateway.lovable.dev/google_sheets/v4/spreadsheets/${sid}/values/${range}:append?valueInputOption=USER_ENTERED`;
           const res = await fetch(url, {
             method: "POST",
@@ -119,6 +119,12 @@ export const submitLead = createServerFn({ method: "POST" })
                 data.message,
                 data.language ?? "",
                 r.business_name,
+                a.utm_source ?? "",
+                a.utm_medium ?? "",
+                a.utm_campaign ?? "",
+                a.search_query ?? "",
+                a.landing_path ?? "",
+                a.referrer ?? "",
               ]],
             }),
           });
