@@ -5,7 +5,8 @@ import { getConversions } from "@/lib/public.functions";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, MessageSquare, Calendar, Search } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
+import { Input } from "@/components/ui/input";
 
 export const Route = createFileRoute("/admin/conversions")({
   head: () => ({ meta: [{ title: "Conversions — Deskia" }, { name: "robots", content: "noindex" }] }),
