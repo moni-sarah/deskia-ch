@@ -5,6 +5,7 @@ import serviceSupport from "@/assets/service-support.jpg";
 import serviceAppointments from "@/assets/service-appointments.jpg";
 import serviceSurvey from "@/assets/service-survey.jpg";
 import serviceDebt from "@/assets/service-debt.jpg";
+import heroVideo from "@/assets/hero.mp4.asset.json";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import {
@@ -327,9 +328,14 @@ function HomePage() {
           </div>
           <div className="relative">
             <div className="overflow-hidden rounded-3xl border border-border/60 shadow-xl">
-              <img
-                src={serviceReceptionist}
-                alt="AI receptionist on a call"
+              <video
+                src={heroVideo.url}
+                poster={serviceReceptionist}
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="auto"
                 className="aspect-[4/3] w-full object-cover"
               />
             </div>
