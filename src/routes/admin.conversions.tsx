@@ -111,9 +111,14 @@ function ConversionsPage() {
             <Button asChild variant="ghost" size="sm"><Link to="/"><ArrowLeft className="size-4 mr-1" /> Home</Link></Button>
             <h1 className="text-lg font-semibold">Conversions</h1>
           </div>
-          <Button size="sm" variant="outline" onClick={() => refetch()} disabled={isFetching}>
-            {isFetching ? "Refreshing…" : "Refresh"}
-          </Button>
+          <div className="flex gap-2">
+            <Button size="sm" variant="outline" onClick={() => refetch()} disabled={isFetching}>
+              {isFetching ? "Refreshing…" : "Refresh"}
+            </Button>
+            <Button size="sm" variant="ghost" onClick={() => { localStorage.removeItem("deskia_admin_pw"); setPassword(null); }}>
+              Lock
+            </Button>
+          </div>
         </div>
       </header>
 
