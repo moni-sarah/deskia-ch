@@ -269,8 +269,23 @@ export const trackBooking = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
-export const getConversions = createServerFn({ method: "GET" })
-  .handler(async () => {
+function timingSafeEqStr(a: string, b: string) {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
+export const getConversions = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) =>
+    z.object({ password: z.string().min(1).max(200) }).parse(input),
+  )
+  .handler(async ({ data }) => {
+    const expected = process.env.ADMIN_PASSWORD;
+    if (!expected) throw new Error("Admin password not configured");
+    if (!timingSafeEqStr(data.password, expected)) {
+      throw new Error("Unauthorized");
+    }
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const [leadsRes, bookingsRes] = await Promise.all([
       supabaseAdmin.from("leads")
