@@ -238,12 +238,12 @@ function HomePage() {
   ];
 
   const useCases = [
-    { icon: Headset, label: lang === "fr" ? "Réceptionniste" : "Receptionist" },
-    { icon: Funnel, label: lang === "fr" ? "Qualification de leads" : "Lead Qualification" },
-    { icon: Building2, label: lang === "fr" ? "Service client" : "Customer Service" },
-    { icon: CalendarDays, label: lang === "fr" ? "Prise de rendez-vous" : "Appointment Setter" },
-    { icon: ClipboardList, label: lang === "fr" ? "Sondage" : "Survey" },
-    { icon: Banknote, label: lang === "fr" ? "Recouvrement de créances" : "Debt Collection" },
+    { icon: Headset, image: serviceReceptionist, label: lang === "fr" ? "Réceptionniste" : "Receptionist" },
+    { icon: Funnel, image: serviceLeads, label: lang === "fr" ? "Qualification de leads" : "Lead Qualification" },
+    { icon: Building2, image: serviceSupport, label: lang === "fr" ? "Service client" : "Customer Service" },
+    { icon: CalendarDays, image: serviceAppointments, label: lang === "fr" ? "Prise de rendez-vous" : "Appointment Setter" },
+    { icon: ClipboardList, image: serviceSurvey, label: lang === "fr" ? "Sondage" : "Survey" },
+    { icon: Banknote, image: serviceDebt, label: lang === "fr" ? "Recouvrement de créances" : "Debt Collection" },
   ];
 
   function startLiveCall(e: React.FormEvent) {
