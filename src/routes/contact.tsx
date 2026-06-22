@@ -216,21 +216,12 @@ function ContactPage() {
         <p className="mt-4 max-w-2xl text-muted-foreground">{copy.subtitle}</p>
 
         <div className="mt-12 grid gap-6 lg:grid-cols-[1fr_1.2fr]">
-          {/* Calendly card */}
+          {/* Info card */}
           <div className="rounded-3xl border border-border/60 bg-gradient-to-br from-sky-50 via-violet-50 to-rose-50 p-6 dark:from-sky-950/30 dark:via-violet-950/30 dark:to-rose-950/30">
-            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-              {copy.bookEyebrow}
-            </p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-tight">{copy.bookTitle}</h2>
-            <p className="mt-3 text-sm text-muted-foreground">{copy.bookDesc}</p>
-            <Button asChild size="lg" className="mt-5 w-full rounded-full">
-              <a href={CALENDLY_URL} target="_blank" rel="noreferrer" onClick={() => trackCalendly(CALENDLY_URL)}>
-                <Calendar className="mr-2 h-4 w-4" />
-                {copy.bookCta}
-              </a>
-            </Button>
+            <h2 className="text-2xl font-semibold tracking-tight">{copy.emailLabel}</h2>
+            <p className="mt-3 text-sm text-muted-foreground">{copy.emailDesc}</p>
 
-            <div className="mt-8 space-y-4 border-t border-border/60 pt-6 text-sm">
+            <div className="mt-6 space-y-4 text-sm">
               <div className="flex items-start gap-3">
                 <Mail className="mt-0.5 h-4 w-4 text-muted-foreground" />
                 <div>
