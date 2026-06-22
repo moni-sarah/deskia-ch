@@ -153,7 +153,6 @@ function ContactPage() {
   const { lang } = useSiteLang();
   const copy = COPY[lang];
 
-  const trackCalendly = useTrackCalendlyClick();
   const [form, setForm] = useState({ name: "", company: "", email: "", phone: "", message: "" });
   const [sending, setSending] = useState(false);
 
