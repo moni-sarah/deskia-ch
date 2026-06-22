@@ -34,7 +34,7 @@ type Copy = {
     lawful: { h: string; p: string };
     what: { h: string; p: string; items: string[] };
     ret: { h: string; p: string; items: string[] };
-    yours: { h: string; p: string; items: string[]; foot: (contact: string) => React.ReactNode };
+    yours: { h: string; p: string; items: string[]; foot: (contact: React.ReactNode) => React.ReactNode };
     intl: { h: string; p: string };
   };
   updated: string;
