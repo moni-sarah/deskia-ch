@@ -22,6 +22,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useSiteLang, LangSwitcher, CALENDLY_URL, type SiteLang } from "@/lib/site-lang";
+import { useTrackCalendlyClick } from "@/lib/use-track-booking";
 
 type Copy = {
   navServices: string;
@@ -328,7 +329,7 @@ function HomePage() {
           <div className="flex items-center gap-2">
             <LangSwitcher />
             <Button asChild size="sm" className="rounded-full">
-              <a href={CALENDLY_URL} target="_blank" rel="noreferrer">
+              <a href={CALENDLY_URL} target="_blank" rel="noreferrer" onClick={() => trackCalendly(CALENDLY_URL)}>
                 {copy.ctaPrimary} <ArrowRight className="ml-1 h-4 w-4" />
               </a>
             </Button>
@@ -355,7 +356,7 @@ function HomePage() {
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Button asChild size="lg" className="rounded-full px-6">
-                <a href={CALENDLY_URL} target="_blank" rel="noreferrer">
+                <a href={CALENDLY_URL} target="_blank" rel="noreferrer" onClick={() => trackCalendly(CALENDLY_URL)}>
                   <Calendar className="mr-2 h-4 w-4" />
                   {copy.ctaPrimary}
                 </a>
@@ -498,7 +499,7 @@ function HomePage() {
                   </Link>
                 </Button>
                 <Button asChild size="lg" variant="outline" className="rounded-full px-6">
-                  <a href={CALENDLY_URL} target="_blank" rel="noreferrer">
+                  <a href={CALENDLY_URL} target="_blank" rel="noreferrer" onClick={() => trackCalendly(CALENDLY_URL)}>
                     <Calendar className="mr-2 h-4 w-4" />
                     {copy.bookCall}
                   </a>
@@ -528,7 +529,7 @@ function HomePage() {
           <p className="mx-auto mt-4 max-w-2xl text-background/70">{copy.ctaSectionDesc}</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Button asChild size="lg" variant="secondary" className="rounded-full px-6">
-              <a href={CALENDLY_URL} target="_blank" rel="noreferrer">
+              <a href={CALENDLY_URL} target="_blank" rel="noreferrer" onClick={() => trackCalendly(CALENDLY_URL)}>
                 <Calendar className="mr-2 h-4 w-4" />
                 {copy.bookCall}
               </a>
