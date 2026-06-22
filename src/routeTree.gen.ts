@@ -15,6 +15,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AiReceptionistSwitzerlandRouteImport } from './routes/ai-receptionist-switzerland'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as RSlugRouteImport } from './routes/r.$slug'
+import { Route as AdminConversionsRouteImport } from './routes/admin.conversions'
 import { Route as RSlugCallRouteImport } from './routes/r.$slug.call'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -48,6 +49,11 @@ const RSlugRoute = RSlugRouteImport.update({
   path: '/r/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminConversionsRoute = AdminConversionsRouteImport.update({
+  id: '/admin/conversions',
+  path: '/admin/conversions',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RSlugCallRoute = RSlugCallRouteImport.update({
   id: '/call',
   path: '/call',
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin/conversions': typeof AdminConversionsRoute
   '/r/$slug': typeof RSlugRouteWithChildren
   '/r/$slug/call': typeof RSlugCallRoute
 }
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin/conversions': typeof AdminConversionsRoute
   '/r/$slug': typeof RSlugRouteWithChildren
   '/r/$slug/call': typeof RSlugCallRoute
 }
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/admin/conversions': typeof AdminConversionsRoute
   '/r/$slug': typeof RSlugRouteWithChildren
   '/r/$slug/call': typeof RSlugCallRoute
 }
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/privacy'
     | '/sitemap.xml'
+    | '/admin/conversions'
     | '/r/$slug'
     | '/r/$slug/call'
   fileRoutesByTo: FileRoutesByTo
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/privacy'
     | '/sitemap.xml'
+    | '/admin/conversions'
     | '/r/$slug'
     | '/r/$slug/call'
   id:
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/privacy'
     | '/sitemap.xml'
+    | '/admin/conversions'
     | '/r/$slug'
     | '/r/$slug/call'
   fileRoutesById: FileRoutesById
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   PrivacyRoute: typeof PrivacyRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  AdminConversionsRoute: typeof AdminConversionsRoute
   RSlugRoute: typeof RSlugRouteWithChildren
 }
 
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/conversions': {
+      id: '/admin/conversions'
+      path: '/admin/conversions'
+      fullPath: '/admin/conversions'
+      preLoaderRoute: typeof AdminConversionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/r/$slug/call': {
       id: '/r/$slug/call'
       path: '/call'
@@ -191,6 +211,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   PrivacyRoute: PrivacyRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  AdminConversionsRoute: AdminConversionsRoute,
   RSlugRoute: RSlugRouteWithChildren,
 }
 export const routeTree = rootRouteImport
