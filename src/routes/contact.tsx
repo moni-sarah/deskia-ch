@@ -68,8 +68,8 @@ const COPY: Record<SiteLang, Copy> = {
     errorRequired: "Merci de remplir les champs requis.",
     emailLabel: "E-mail",
     emailDesc: "Réponse sous 24 h ouvrables.",
-    locationLabel: "Basé en Suisse",
-    locationDesc: "Au service des PME romandes, alémaniques et tessinoises.",
+    locationLabel: "Basé à Genève, Suisse",
+    locationDesc: "Au service des PME romandes, alémaniques et tessinoises depuis Genève.",
   },
   en: {
     back: "Back",
@@ -95,8 +95,8 @@ const COPY: Record<SiteLang, Copy> = {
     errorRequired: "Please fill in the required fields.",
     emailLabel: "Email",
     emailDesc: "Reply within 24 business hours.",
-    locationLabel: "Based in Switzerland",
-    locationDesc: "Serving SMEs across French, German and Italian Switzerland.",
+    locationLabel: "Based in Geneva, Switzerland",
+    locationDesc: "Serving SMEs across French, German and Italian Switzerland from Geneva.",
   },
   de: {
     back: "Zurück",
@@ -122,8 +122,8 @@ const COPY: Record<SiteLang, Copy> = {
     errorRequired: "Bitte füllen Sie die Pflichtfelder aus.",
     emailLabel: "E-Mail",
     emailDesc: "Antwort innerhalb von 24 Geschäftsstunden.",
-    locationLabel: "Sitz in der Schweiz",
-    locationDesc: "Für KMU in der Deutsch-, Romandie- und Tessin-Schweiz.",
+    locationLabel: "Sitz in Genf, Schweiz",
+    locationDesc: "Für KMU in der Deutsch-, Romandie- und Tessin-Schweiz, von Genf aus.",
   },
 };
 
