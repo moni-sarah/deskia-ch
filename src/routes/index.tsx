@@ -1,4 +1,10 @@
 import logoAsset from "@/assets/deskia-logo.png.asset.json";
+import serviceReceptionist from "@/assets/service-receptionist.jpg";
+import serviceLeads from "@/assets/service-leads.jpg";
+import serviceSupport from "@/assets/service-support.jpg";
+import serviceAppointments from "@/assets/service-appointments.jpg";
+import serviceSurvey from "@/assets/service-survey.jpg";
+import serviceDebt from "@/assets/service-debt.jpg";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -232,12 +238,12 @@ function HomePage() {
   ];
 
   const useCases = [
-    { icon: Headset, label: lang === "fr" ? "Réceptionniste" : "Receptionist" },
-    { icon: Funnel, label: lang === "fr" ? "Qualification de leads" : "Lead Qualification" },
-    { icon: Building2, label: lang === "fr" ? "Service client" : "Customer Service" },
-    { icon: CalendarDays, label: lang === "fr" ? "Prise de rendez-vous" : "Appointment Setter" },
-    { icon: ClipboardList, label: lang === "fr" ? "Sondage" : "Survey" },
-    { icon: Banknote, label: lang === "fr" ? "Recouvrement de créances" : "Debt Collection" },
+    { icon: Headset, image: serviceReceptionist, label: lang === "fr" ? "Réceptionniste" : "Receptionist" },
+    { icon: Funnel, image: serviceLeads, label: lang === "fr" ? "Qualification de leads" : "Lead Qualification" },
+    { icon: Building2, image: serviceSupport, label: lang === "fr" ? "Service client" : "Customer Service" },
+    { icon: CalendarDays, image: serviceAppointments, label: lang === "fr" ? "Prise de rendez-vous" : "Appointment Setter" },
+    { icon: ClipboardList, image: serviceSurvey, label: lang === "fr" ? "Sondage" : "Survey" },
+    { icon: Banknote, image: serviceDebt, label: lang === "fr" ? "Recouvrement de créances" : "Debt Collection" },
   ];
 
   function startLiveCall(e: React.FormEvent) {
@@ -331,16 +337,29 @@ function HomePage() {
       <section className="border-t border-border/60 bg-muted/20">
         <div className="mx-auto max-w-6xl px-6 py-12 md:py-16">
           <h2 className="text-center text-2xl font-semibold tracking-tight">{copy.useCasesTitle}</h2>
-          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {useCases.map((u) => (
               <div
                 key={u.label}
-                className="flex items-center gap-3 rounded-xl border border-border/60 bg-background p-4 transition-colors hover:bg-accent/40"
+                className="group overflow-hidden rounded-2xl border border-border/60 bg-background transition-colors hover:bg-accent/40"
               >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <u.icon className="h-5 w-5" />
+                <div className="relative aspect-[4/3] overflow-hidden">
+                  <img
+                    src={u.image}
+                    alt={u.label}
+                    loading="lazy"
+                    width={1024}
+                    height={1024}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                  <div className="absolute bottom-3 left-3 flex h-9 w-9 items-center justify-center rounded-lg bg-white/90 text-primary shadow-sm backdrop-blur-sm">
+                    <u.icon className="h-4 w-4" />
+                  </div>
                 </div>
-                <span className="font-medium">{u.label}</span>
+                <div className="p-4">
+                  <span className="font-medium">{u.label}</span>
+                </div>
               </div>
             ))}
           </div>
