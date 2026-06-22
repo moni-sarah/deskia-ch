@@ -79,19 +79,40 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Deskia — AI Receptionist & Business Automation · Geneva, Switzerland" },
+      {
+        name: "description",
+        content:
+          "Deskia is a Geneva-based agency building 24/7 AI receptionists and custom business automation for Swiss SMEs. French, German and English.",
+      },
+      { name: "author", content: "Deskia" },
+      { property: "og:site_name", content: "Deskia" },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { property: "og:locale", content: "fr_CH" },
+      { property: "og:locale:alternate", content: "en_US" },
+      { property: "og:locale:alternate", content: "de_CH" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
+    ],
+    scripts: [
       {
-        rel: "stylesheet",
-        href: appCss,
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Deskia",
+          description:
+            "Swiss AI automation agency. 24/7 AI receptionists and custom workflow automation for SMEs.",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Geneva",
+            addressCountry: "CH",
+          },
+          areaServed: ["CH", "FR", "DE", "AT", "LU", "BE"],
+          knowsLanguage: ["fr", "en", "de"],
+        }),
       },
     ],
   }),

@@ -241,17 +241,56 @@ const COPY: Record<SiteLang, Copy> = {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Deskia — Swiss AI automation & 24/7 AI receptionist" },
+      { title: "AI Receptionist & Business Automation in Switzerland | Deskia" },
       {
         name: "description",
         content:
-          "Deskia is a Swiss agency that audits your business, automates repetitive tasks and runs a 24/7 AI receptionist in French, German and English.",
+          "Deskia builds 24/7 AI receptionists and custom automation for Swiss businesses. Geneva-based, GDPR/FADP compliant, EU hosting. FR / EN / DE.",
       },
-      { property: "og:title", content: "Deskia — Swiss AI automation agency" },
+      {
+        name: "keywords",
+        content:
+          "AI receptionist, virtual receptionist Switzerland, réceptionniste IA, KI Empfang, business automation Switzerland, automatisation entreprise, Geneva AI agency, agence automatisation Genève, 24/7 AI assistant",
+      },
+      { property: "og:title", content: "Deskia — Swiss AI Receptionist & Automation Agency" },
       {
         property: "og:description",
         content:
-          "We audit your business, automate the repetitive tasks and run your 24/7 AI receptionist. Based in Switzerland.",
+          "24/7 AI receptionist + custom business automation for Swiss SMEs. Geneva-based. FR / EN / DE.",
+      },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
+      { name: "twitter:title", content: "Deskia — Swiss AI Receptionist & Automation" },
+      {
+        name: "twitter:description",
+        content: "24/7 AI receptionist & automation for Swiss businesses. Geneva.",
+      },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ProfessionalService",
+          name: "Deskia",
+          description:
+            "AI receptionist and business automation agency based in Geneva, Switzerland. Serving SMEs in French, German and English.",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Geneva",
+            addressRegion: "GE",
+            addressCountry: "CH",
+          },
+          areaServed: ["Switzerland", "France", "Germany", "Austria"],
+          serviceType: [
+            "AI Receptionist",
+            "Business Process Automation",
+            "Lead Capture Automation",
+            "Custom AI Agents",
+          ],
+          availableLanguage: ["French", "English", "German"],
+        }),
       },
     ],
   }),
