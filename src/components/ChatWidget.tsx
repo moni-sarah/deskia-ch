@@ -94,6 +94,7 @@ export function ChatWidget({
           company: form.company.trim() || null,
           message: form.message.trim(),
           language: lang,
+          attribution: getAttribution(),
         },
       });
       setSubmitted(true);
