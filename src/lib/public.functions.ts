@@ -27,6 +27,18 @@ export const getReceptionistBySlug = createServerFn({ method: "GET" })
     return row;
   });
 
+const AttributionSchema = z.object({
+  landing_path: z.string().max(500).nullable().optional(),
+  referrer: z.string().max(500).nullable().optional(),
+  search_query: z.string().max(500).nullable().optional(),
+  utm_source: z.string().max(120).nullable().optional(),
+  utm_medium: z.string().max(120).nullable().optional(),
+  utm_campaign: z.string().max(120).nullable().optional(),
+  utm_term: z.string().max(200).nullable().optional(),
+  utm_content: z.string().max(200).nullable().optional(),
+  gclid: z.string().max(200).nullable().optional(),
+}).partial();
+
 const LeadSchema = z.object({
   receptionist_id: z.string().uuid(),
   name: z.string().trim().min(1).max(120),
@@ -35,6 +47,7 @@ const LeadSchema = z.object({
   company: z.string().trim().max(120).optional().nullable(),
   message: z.string().trim().min(1).max(2000),
   language: z.enum(["en", "fr"]).optional(),
+  attribution: AttributionSchema.optional(),
 });
 
 export const submitLead = createServerFn({ method: "POST" })
@@ -50,6 +63,8 @@ export const submitLead = createServerFn({ method: "POST" })
       .maybeSingle();
     if (rErr || !r) throw new Error("Receptionist not found");
 
+    const a = data.attribution || {};
+
     // Insert lead
     const { data: inserted, error: insErr } = await supabaseAdmin
       .from("leads")
@@ -58,6 +73,15 @@ export const submitLead = createServerFn({ method: "POST" })
         name: data.name,
         phone: data.phone,
         email: data.email,
+        landing_path: a.landing_path ?? null,
+        referrer: a.referrer ?? null,
+        search_query: a.search_query ?? null,
+        utm_source: a.utm_source ?? null,
+        utm_medium: a.utm_medium ?? null,
+        utm_campaign: a.utm_campaign ?? null,
+        utm_term: a.utm_term ?? null,
+        utm_content: a.utm_content ?? null,
+        gclid: a.gclid ?? null,
         company: data.company || null,
         message: data.message,
         language: data.language ?? null,
@@ -76,7 +100,7 @@ export const submitLead = createServerFn({ method: "POST" })
         const match = r.sheet_url.match(/\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/);
         if (match) {
           const sid = match[1];
-          const range = "Sheet1!A:H";
+          const range = "Sheet1!A:N";
           const url = `https://connector-gateway.lovable.dev/google_sheets/v4/spreadsheets/${sid}/values/${range}:append?valueInputOption=USER_ENTERED`;
           const res = await fetch(url, {
             method: "POST",
@@ -95,6 +119,12 @@ export const submitLead = createServerFn({ method: "POST" })
                 data.message,
                 data.language ?? "",
                 r.business_name,
+                a.utm_source ?? "",
+                a.utm_medium ?? "",
+                a.utm_campaign ?? "",
+                a.search_query ?? "",
+                a.landing_path ?? "",
+                a.referrer ?? "",
               ]],
             }),
           });
@@ -204,3 +234,56 @@ function escapeHtml(s: string) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
 }
+
+const BookingSchema = z.object({
+  receptionist_id: z.string().uuid().nullable().optional(),
+  kind: z.enum(["calendly", "calendly_15", "calendly_30", "other"]).default("calendly"),
+  destination: z.string().max(500).nullable().optional(),
+  page_path: z.string().max(500).nullable().optional(),
+  user_agent: z.string().max(500).nullable().optional(),
+  attribution: AttributionSchema.optional(),
+});
+
+export const trackBooking = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => BookingSchema.parse(input))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const a = data.attribution || {};
+    const { error } = await supabaseAdmin.from("bookings").insert({
+      receptionist_id: data.receptionist_id ?? null,
+      kind: data.kind,
+      destination: data.destination ?? null,
+      page_path: data.page_path ?? null,
+      user_agent: data.user_agent ?? null,
+      landing_path: a.landing_path ?? null,
+      referrer: a.referrer ?? null,
+      search_query: a.search_query ?? null,
+      utm_source: a.utm_source ?? null,
+      utm_medium: a.utm_medium ?? null,
+      utm_campaign: a.utm_campaign ?? null,
+      utm_term: a.utm_term ?? null,
+      utm_content: a.utm_content ?? null,
+      gclid: a.gclid ?? null,
+    });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const getConversions = createServerFn({ method: "GET" })
+  .handler(async () => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const [leadsRes, bookingsRes] = await Promise.all([
+      supabaseAdmin.from("leads")
+        .select("id, created_at, name, email, phone, company, message, language, landing_path, referrer, search_query, utm_source, utm_medium, utm_campaign, utm_term, utm_content, gclid")
+        .order("created_at", { ascending: false })
+        .limit(500),
+      supabaseAdmin.from("bookings")
+        .select("id, created_at, kind, destination, page_path, landing_path, referrer, search_query, utm_source, utm_medium, utm_campaign, utm_term, utm_content, gclid")
+        .order("created_at", { ascending: false })
+        .limit(500),
+    ]);
+    if (leadsRes.error) throw new Error(leadsRes.error.message);
+    if (bookingsRes.error) throw new Error(bookingsRes.error.message);
+    return { leads: leadsRes.data || [], bookings: bookingsRes.data || [] };
+  });
+

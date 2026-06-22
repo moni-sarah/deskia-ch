@@ -14,39 +14,131 @@ export type Database = {
   }
   public: {
     Tables: {
+      bookings: {
+        Row: {
+          created_at: string
+          destination: string | null
+          gclid: string | null
+          id: string
+          kind: string
+          landing_path: string | null
+          page_path: string | null
+          receptionist_id: string | null
+          referrer: string | null
+          search_query: string | null
+          user_agent: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          created_at?: string
+          destination?: string | null
+          gclid?: string | null
+          id?: string
+          kind?: string
+          landing_path?: string | null
+          page_path?: string | null
+          receptionist_id?: string | null
+          referrer?: string | null
+          search_query?: string | null
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          created_at?: string
+          destination?: string | null
+          gclid?: string | null
+          id?: string
+          kind?: string
+          landing_path?: string | null
+          page_path?: string | null
+          receptionist_id?: string | null
+          referrer?: string | null
+          search_query?: string | null
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_receptionist_id_fkey"
+            columns: ["receptionist_id"]
+            isOneToOne: false
+            referencedRelation: "receptionists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       leads: {
         Row: {
           company: string | null
           created_at: string
           email: string
+          gclid: string | null
           id: string
+          landing_path: string | null
           language: string | null
           message: string
           name: string
           phone: string
           receptionist_id: string
+          referrer: string | null
+          search_query: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
         }
         Insert: {
           company?: string | null
           created_at?: string
           email: string
+          gclid?: string | null
           id?: string
+          landing_path?: string | null
           language?: string | null
           message: string
           name: string
           phone: string
           receptionist_id: string
+          referrer?: string | null
+          search_query?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
         }
         Update: {
           company?: string | null
           created_at?: string
           email?: string
+          gclid?: string | null
           id?: string
+          landing_path?: string | null
           language?: string | null
           message?: string
           name?: string
           phone?: string
           receptionist_id?: string
+          referrer?: string | null
+          search_query?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
         }
         Relationships: [
           {

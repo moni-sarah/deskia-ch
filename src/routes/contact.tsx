@@ -15,6 +15,7 @@ import {
   CONTACT_EMAIL,
   type SiteLang,
 } from "@/lib/site-lang";
+import { useTrackCalendlyClick } from "@/lib/use-track-booking";
 
 type Copy = {
   back: string;
@@ -154,6 +155,7 @@ function ContactPage() {
   const { lang } = useSiteLang();
   const copy = COPY[lang];
 
+  const trackCalendly = useTrackCalendlyClick();
   const [form, setForm] = useState({ name: "", company: "", email: "", phone: "", message: "" });
   const [sending, setSending] = useState(false);
 
@@ -222,7 +224,7 @@ function ContactPage() {
             <h2 className="mt-2 text-2xl font-semibold tracking-tight">{copy.bookTitle}</h2>
             <p className="mt-3 text-sm text-muted-foreground">{copy.bookDesc}</p>
             <Button asChild size="lg" className="mt-5 w-full rounded-full">
-              <a href={CALENDLY_URL} target="_blank" rel="noreferrer">
+              <a href={CALENDLY_URL} target="_blank" rel="noreferrer" onClick={() => trackCalendly(CALENDLY_URL)}>
                 <Calendar className="mr-2 h-4 w-4" />
                 {copy.bookCta}
               </a>

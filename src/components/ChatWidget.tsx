@@ -2,7 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import ReactMarkdown from "react-markdown";
 import { chat } from "@/lib/chat.functions";
-import { submitLead } from "@/lib/public.functions";
+import { submitLead, trackBooking } from "@/lib/public.functions";
+import { captureAttribution, getAttribution } from "@/lib/attribution";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -25,6 +26,24 @@ export function ChatWidget({
 }) {
   const chatFn = useServerFn(chat);
   const leadFn = useServerFn(submitLead);
+  const bookingFn = useServerFn(trackBooking);
+
+  useEffect(() => { captureAttribution(); }, []);
+
+  function logBooking(kind: "calendly_15" | "calendly_30", destination: string | null) {
+    try {
+      void bookingFn({
+        data: {
+          receptionist_id: receptionistId,
+          kind,
+          destination,
+          page_path: typeof window !== "undefined" ? window.location.pathname : null,
+          user_agent: typeof navigator !== "undefined" ? navigator.userAgent.slice(0, 500) : null,
+          attribution: getAttribution(),
+        },
+      });
+    } catch {/* non-blocking */}
+  }
 
   const [messages, setMessages] = useState<Msg[]>([
     { role: "assistant", content: `Hi! I'm the AI assistant for **${businessName}**. Ask me anything — prices, services, hours, or book a call. _(Je parle aussi français — écrivez-moi simplement en français.)_` },
@@ -75,6 +94,7 @@ export function ChatWidget({
           company: form.company.trim() || null,
           message: form.message.trim(),
           language: lang,
+          attribution: getAttribution(),
         },
       });
       setSubmitted(true);
@@ -143,12 +163,12 @@ export function ChatWidget({
 
       <div className="border-t p-3 flex flex-wrap gap-2">
         {calendly15 && (
-          <a href={calendly15} target="_blank" rel="noreferrer">
+          <a href={calendly15} target="_blank" rel="noreferrer" onClick={() => logBooking("calendly_15", calendly15)}>
             <Button variant="outline" size="sm"><Calendar className="size-4" /> Book 15-min call</Button>
           </a>
         )}
         {calendly30 && (
-          <a href={calendly30} target="_blank" rel="noreferrer">
+          <a href={calendly30} target="_blank" rel="noreferrer" onClick={() => logBooking("calendly_30", calendly30)}>
             <Button variant="outline" size="sm"><Calendar className="size-4" /> Book 30-min consult</Button>
           </a>
         )}
