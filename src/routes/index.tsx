@@ -1,4 +1,10 @@
 import logoAsset from "@/assets/deskia-logo.png.asset.json";
+import serviceReceptionist from "@/assets/service-receptionist.jpg";
+import serviceLeads from "@/assets/service-leads.jpg";
+import serviceSupport from "@/assets/service-support.jpg";
+import serviceAppointments from "@/assets/service-appointments.jpg";
+import serviceSurvey from "@/assets/service-survey.jpg";
+import serviceDebt from "@/assets/service-debt.jpg";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
