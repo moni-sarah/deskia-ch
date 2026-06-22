@@ -5,252 +5,289 @@ import serviceSupport from "@/assets/service-support.jpg";
 import serviceAppointments from "@/assets/service-appointments.jpg";
 import serviceSurvey from "@/assets/service-survey.jpg";
 import serviceDebt from "@/assets/service-debt.jpg";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
   ArrowRight,
-  Languages,
-  Phone,
-  Mail,
-  Sparkles,
-  Wrench,
-  PlayCircle,
-  Rocket,
+  Search,
+  Workflow,
+  Bot,
   LineChart,
+  Calendar,
+  Mail,
+  PhoneCall,
+  ShieldCheck,
+  Clock,
+  Sparkles,
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useSiteLang, LangSwitcher, CALENDLY_URL, type SiteLang } from "@/lib/site-lang";
 
-type Lang = "en" | "fr";
+type Copy = {
+  navServices: string;
+  navProcess: string;
+  navDemo: string;
+  navContact: string;
+  ctaPrimary: string;
+  ctaSecondary: string;
+  heroEyebrow: string;
+  heroTitleA: string;
+  heroTitleB: string;
+  heroDesc: string;
+  trustLine: string;
+  servicesEyebrow: string;
+  servicesTitle: string;
+  services: { title: string; desc: string; image: string }[];
+  processEyebrow: string;
+  processTitle: string;
+  processDesc: string;
+  steps: { title: string; desc: string }[];
+  whyEyebrow: string;
+  whyTitle: string;
+  why: { title: string; desc: string }[];
+  demoEyebrow: string;
+  demoTitle: string;
+  demoDesc: string;
+  demoCta: string;
+  ctaSectionTitle: string;
+  ctaSectionDesc: string;
+  bookCall: string;
+  writeUs: string;
+  footerRights: string;
+  footerPrivacy: string;
+  footerContact: string;
+};
 
-const t = {
-  en: {
-    navAbout: "About",
-    navDashboard: "Dashboard",
-    navSettings: "Settings",
-    navDemo: "Demo",
-    useCaseBadge: "Use Case",
-    heroTitleA: "AI Receptionists",
-    heroTitleB: "That Deliver Human-Like Conversations",
-    heroDesc:
-      "With Deskia as your AI virtual receptionist, every interaction reflects your brand's values — during peak hours, after hours, or across time zones. No phone trees: warm, human-like conversations that keep callers engaged in French and English.",
-    heroPrimary: "TRY FOR FREE",
-    heroSecondary: "CONTACT SALES",
-
-    advantagesEyebrow: "Deskia Advantages",
-    advantagesTitle: "Benefits of using Deskia as your AI receptionist",
-    benefits: [
-      {
-        title: "Enhanced customer experience and first impressions",
-        desc: "Callers are greeted with immediate, natural responses instead of frustrating hold times or voicemails — building trust and long-term loyalty from the very first call.",
-      },
-      {
-        title: "Increased efficiency and cost savings",
-        desc: "Automating receptionist duties frees your team to focus on in-person interactions and complex requests. Cut staffing costs while keeping a consistent, high-quality service.",
-      },
-      {
-        title: "Scalable for businesses of all sizes",
-        desc: "From small clinics to large enterprises, Deskia handles high call volumes without sacrificing personalization — and answers in French or English automatically.",
-      },
-      {
-        title: "Advanced lead qualification",
-        desc: "Deskia identifies intent, captures key customer details and routes calls with full context — helping your sales team close more deals, faster.",
-      },
-    ],
-
-    progressEyebrow: "Progress",
-    progressTitle: "How a Deskia call works",
-    progressDesc:
-      "Deskia connects to your existing tools, understands caller intent, manages back-and-forth conversation, and executes actions in real time — on a build, test, deploy, monitor cycle.",
-    steps: [
-      { title: "Set up agents", desc: "Use a template to create an agent based on your call script." },
-      { title: "Test agents", desc: "Run live calls in seconds and refine your prompts." },
-      { title: "Deploy agents", desc: "Connect your own telephony or pick a Deskia number to go live." },
-      { title: "Monitor agents", desc: "Track every call and outcome from the Deskia dashboard." },
-    ],
-
-    demoEyebrow: "Use Cases",
-    demoTitle: "Try our live demo",
-    demoDesc: "Discover how our AI caller transforms customer conversations.",
-    callFormLabel: "Receive a live call from our agent",
-    callFormPhone: "Phone Number",
-    callFormEmail: "Email Address",
-    callFormButton: "GET A CALL",
-
-    integrationsEyebrow: "Integrations",
-    integrationsTitle: "Integrate your tech stack",
-    integrationsDesc:
-      "Deskia plugs into your existing telephony, CRM and scheduling tools — so going live takes minutes, not weeks.",
-
-    langLabel: "EN",
-    footerCopy: "Deskia",
-    footerDashboard: "Dashboard",
-    footerSettings: "Settings",
-    footerPrivacy: "Privacy",
-    footerContact: "Contact",
-  },
+const COPY: Record<SiteLang, Copy> = {
   fr: {
-    navAbout: "À propos",
-    navDashboard: "Tableau de bord",
-    navSettings: "Paramètres",
+    navServices: "Services",
+    navProcess: "Processus",
     navDemo: "Démo",
-    useCaseBadge: "Cas d'usage",
-    heroTitleA: "Réceptionnistes IA",
-    heroTitleB: "Qui mènent des conversations dignes d'un humain",
+    navContact: "Contact",
+    ctaPrimary: "Réserver un audit",
+    ctaSecondary: "Nous contacter",
+    heroEyebrow: "Agence Suisse d'automatisation IA",
+    heroTitleA: "Automatisation IA pour PME suisses,",
+    heroTitleB: "et une réception qui ne dort jamais.",
     heroDesc:
-      "Avec Deskia comme réceptionniste IA, chaque interaction reflète les valeurs de votre marque — en heures de pointe, hors horaires, ou sur plusieurs fuseaux. Pas d'arborescence téléphonique : des conversations chaleureuses en français et en anglais.",
-    heroPrimary: "ESSAYER GRATUITEMENT",
-    heroSecondary: "CONTACTER LES VENTES",
-
-    advantagesEyebrow: "Avantages Deskia",
-    advantagesTitle: "Les bénéfices de Deskia comme réceptionniste IA",
-    benefits: [
+      "Deskia est une agence basée en Suisse qui audite votre entreprise, identifie les tâches répétitives et les remplace par des automatisations sur mesure — y compris une réceptionniste IA disponible 24h/24, en français, allemand et anglais.",
+    trustLine: "Basé en Suisse · Conforme RGPD/LPD · Hébergé en Europe",
+    servicesEyebrow: "Ce que nous faisons",
+    servicesTitle: "Deux offres, un objectif : libérer votre équipe",
+    services: [
       {
-        title: "Une meilleure expérience client dès le premier contact",
-        desc: "Vos appelants sont accueillis par des réponses immédiates et naturelles, sans attente ni messagerie — créant la confiance dès le premier appel.",
+        title: "Réceptionniste IA 24/7",
+        desc: "Une voix IA naturelle qui répond à chaque appel, qualifie les demandes, prend les rendez-vous et transmet les urgences — en FR, DE et EN.",
+        image: serviceReceptionist,
       },
       {
-        title: "Plus d'efficacité, moins de coûts",
-        desc: "Automatisez les tâches d'accueil et libérez votre équipe pour les demandes complexes. Réduisez les coûts sans sacrifier la qualité de service.",
-      },
-      {
-        title: "Évolutif pour toutes les tailles d'entreprise",
-        desc: "De la petite clinique à la grande entreprise, Deskia gère de gros volumes d'appels — et répond automatiquement en français ou en anglais.",
-      },
-      {
-        title: "Qualification avancée des prospects",
-        desc: "Deskia identifie l'intention, collecte les informations clés et transmet les appels avec tout le contexte nécessaire à votre équipe commerciale.",
+        title: "Audit & automatisations sur mesure",
+        desc: "Nous cartographions vos tâches répétitives (devis, relances, prise de RDV, saisie CRM) et construisons les workflows qui les font disparaître.",
+        image: serviceAppointments,
       },
     ],
-
-    progressEyebrow: "Processus",
-    progressTitle: "Comment fonctionne un appel Deskia",
-    progressDesc:
-      "Deskia se connecte à vos outils existants, comprend l'intention de l'appelant, mène la conversation et déclenche les actions en temps réel.",
+    processEyebrow: "Notre méthode",
+    processTitle: "Vous n'avez rien à configurer.",
+    processDesc:
+      "Vous nous parlez de votre quotidien. Nous identifions les tâches à fort gain, nous les construisons, et nous les opérons pour vous.",
     steps: [
-      { title: "Configurez vos agents", desc: "Partez d'un modèle adapté à votre script d'appel." },
-      { title: "Testez vos agents", desc: "Lancez des appels en direct et affinez vos prompts." },
-      { title: "Déployez vos agents", desc: "Connectez votre téléphonie ou choisissez un numéro Deskia." },
-      { title: "Suivez vos agents", desc: "Pilotez chaque appel depuis votre tableau de bord." },
+      { title: "Audit gratuit", desc: "30 min d'échange : nous cartographions les tâches répétitives qui coûtent le plus de temps." },
+      { title: "Plan d'automatisation", desc: "Devis clair : ce qu'on automatise, le gain de temps estimé et le délai de livraison." },
+      { title: "Construction & connexion", desc: "Nous construisons l'IA et les workflows, branchés à vos outils (CRM, agenda, téléphonie, e-mail)." },
+      { title: "Pilotage continu", desc: "Nous monitorons, ajustons et faisons évoluer vos agents IA mois après mois." },
     ],
-
-    demoEyebrow: "Cas d'usage",
-    demoTitle: "Essayez notre démo en direct",
-    demoDesc: "Découvrez comment notre agent vocal IA transforme les conversations clients.",
-    callFormLabel: "Recevez un appel en direct de notre agent",
-    callFormPhone: "Numéro de téléphone",
-    callFormEmail: "Adresse e-mail",
-    callFormButton: "RECEVOIR UN APPEL",
-
-    integrationsEyebrow: "Intégrations",
-    integrationsTitle: "Intégrez votre stack technique",
-    integrationsDesc:
-      "Deskia se connecte à votre téléphonie, CRM et agenda existants — pour passer en production en quelques minutes.",
-
-    langLabel: "FR",
-    footerCopy: "Deskia",
-    footerDashboard: "Tableau de bord",
-    footerSettings: "Paramètres",
+    whyEyebrow: "Pourquoi Deskia",
+    whyTitle: "Une équipe Suisse, des résultats mesurables.",
+    why: [
+      { title: "Disponibilité 24/7", desc: "Plus aucun appel manqué, plus aucun lead perdu — y compris le soir et le week-end." },
+      { title: "Conformité Suisse / UE", desc: "Données hébergées en Europe, conformes LPD et RGPD. Confidentialité par défaut." },
+      { title: "Multilingue natif", desc: "Français, allemand suisse et anglais — détection automatique de la langue du client." },
+      { title: "ROI rapide", desc: "Premiers gains en quelques semaines, sans bouleverser vos outils existants." },
+    ],
+    demoEyebrow: "Démo en direct",
+    demoTitle: "Écoutez la réceptionniste IA en action.",
+    demoDesc:
+      "Lancez un appel vidéo de démonstration. Posez-lui une question, demandez un rendez-vous — comme le ferait un de vos clients.",
+    demoCta: "Lancer la démo",
+    ctaSectionTitle: "Prêt à automatiser les tâches qui vous épuisent ?",
+    ctaSectionDesc:
+      "Réservez un audit gratuit de 30 minutes. Nous regardons votre activité, nous chiffrons le potentiel d'automatisation, et nous vous remettons un plan clair.",
+    bookCall: "Réserver l'audit",
+    writeUs: "Écrire un message",
+    footerRights: "Tous droits réservés.",
     footerPrivacy: "Confidentialité",
     footerContact: "Contact",
   },
+  en: {
+    navServices: "Services",
+    navProcess: "Process",
+    navDemo: "Demo",
+    navContact: "Contact",
+    ctaPrimary: "Book a free audit",
+    ctaSecondary: "Contact us",
+    heroEyebrow: "Swiss AI automation agency",
+    heroTitleA: "AI automation for Swiss SMEs,",
+    heroTitleB: "and a front desk that never sleeps.",
+    heroDesc:
+      "Deskia is a Switzerland-based agency. We audit your business, find the repetitive tasks that drain your team, and replace them with custom automations — including a 24/7 AI receptionist in French, German and English.",
+    trustLine: "Based in Switzerland · GDPR / FADP compliant · EU hosting",
+    servicesEyebrow: "What we do",
+    servicesTitle: "Two services, one goal: free your team's time.",
+    services: [
+      {
+        title: "24/7 AI receptionist",
+        desc: "A natural AI voice that answers every call, qualifies requests, books appointments and routes urgent calls — in FR, DE and EN.",
+        image: serviceReceptionist,
+      },
+      {
+        title: "Audit & custom automations",
+        desc: "We map your repetitive tasks (quotes, follow-ups, scheduling, CRM data entry) and build the workflows that make them disappear.",
+        image: serviceAppointments,
+      },
+    ],
+    processEyebrow: "How we work",
+    processTitle: "You configure nothing. We do.",
+    processDesc:
+      "You tell us about your day-to-day. We identify the highest-impact tasks, we build them, and we operate them for you.",
+    steps: [
+      { title: "Free audit", desc: "30-minute call. We map the repetitive tasks costing your team the most time." },
+      { title: "Automation plan", desc: "Clear quote: what we automate, expected time saved, and delivery timeline." },
+      { title: "Build & connect", desc: "We build the AI agents and workflows, wired into your tools (CRM, calendar, phone, email)." },
+      { title: "Ongoing operation", desc: "We monitor, fine-tune and evolve your AI agents month after month." },
+    ],
+    whyEyebrow: "Why Deskia",
+    whyTitle: "A Swiss team. Measurable results.",
+    why: [
+      { title: "24/7 availability", desc: "No more missed calls, no more lost leads — evenings and weekends included." },
+      { title: "Swiss / EU compliant", desc: "Data hosted in Europe, FADP & GDPR compliant. Privacy by default." },
+      { title: "Native multilingual", desc: "French, Swiss German and English — automatic language detection per caller." },
+      { title: "Fast ROI", desc: "First wins within weeks, without disrupting your existing tooling." },
+    ],
+    demoEyebrow: "Live demo",
+    demoTitle: "Hear the AI receptionist in action.",
+    demoDesc:
+      "Launch a live video demo call. Ask a question, request an appointment — exactly like one of your customers would.",
+    demoCta: "Launch demo",
+    ctaSectionTitle: "Ready to automate the tasks that drain your team?",
+    ctaSectionDesc:
+      "Book a free 30-minute audit. We review your business, estimate the automation potential and hand you a clear plan.",
+    bookCall: "Book the audit",
+    writeUs: "Send a message",
+    footerRights: "All rights reserved.",
+    footerPrivacy: "Privacy",
+    footerContact: "Contact",
+  },
+  de: {
+    navServices: "Leistungen",
+    navProcess: "Prozess",
+    navDemo: "Demo",
+    navContact: "Kontakt",
+    ctaPrimary: "Kostenloses Audit buchen",
+    ctaSecondary: "Kontakt aufnehmen",
+    heroEyebrow: "Schweizer Agentur für KI-Automatisierung",
+    heroTitleA: "KI-Automatisierung für Schweizer KMU,",
+    heroTitleB: "und ein Empfang, der nie schläft.",
+    heroDesc:
+      "Deskia ist eine Agentur mit Sitz in der Schweiz. Wir auditieren Ihr Unternehmen, identifizieren wiederkehrende Aufgaben und ersetzen sie durch massgeschneiderte Automatisierungen — inklusive eines 24/7 KI-Empfangs auf Deutsch, Französisch und Englisch.",
+    trustLine: "Sitz in der Schweiz · DSG / DSGVO-konform · Hosting in der EU",
+    servicesEyebrow: "Was wir tun",
+    servicesTitle: "Zwei Leistungen, ein Ziel: Ihr Team entlasten.",
+    services: [
+      {
+        title: "24/7 KI-Empfang",
+        desc: "Eine natürliche KI-Stimme nimmt jeden Anruf entgegen, qualifiziert Anfragen, vereinbart Termine und leitet dringende Anrufe weiter — auf DE, FR und EN.",
+        image: serviceReceptionist,
+      },
+      {
+        title: "Audit & massgeschneiderte Automatisierungen",
+        desc: "Wir erfassen Ihre repetitiven Aufgaben (Offerten, Nachfassen, Terminierung, CRM-Eingaben) und bauen die Workflows, die sie eliminieren.",
+        image: serviceAppointments,
+      },
+    ],
+    processEyebrow: "So arbeiten wir",
+    processTitle: "Sie konfigurieren nichts. Wir schon.",
+    processDesc:
+      "Sie erzählen uns von Ihrem Alltag. Wir identifizieren die wirkungsvollsten Aufgaben, bauen sie und betreiben sie für Sie.",
+    steps: [
+      { title: "Kostenloses Audit", desc: "30 Minuten Gespräch: Wir kartieren die repetitiven Aufgaben, die am meisten Zeit kosten." },
+      { title: "Automatisierungsplan", desc: "Klare Offerte: Was automatisieren wir, geschätzte Zeitersparnis, Liefertermin." },
+      { title: "Aufbau & Anbindung", desc: "Wir bauen die KI-Agenten und Workflows und binden sie an Ihre Tools (CRM, Kalender, Telefonie, E-Mail) an." },
+      { title: "Laufender Betrieb", desc: "Wir überwachen, optimieren und entwickeln Ihre KI-Agenten Monat für Monat weiter." },
+    ],
+    whyEyebrow: "Warum Deskia",
+    whyTitle: "Ein Schweizer Team. Messbare Ergebnisse.",
+    why: [
+      { title: "24/7 erreichbar", desc: "Keine verpassten Anrufe, keine verlorenen Leads mehr — auch abends und am Wochenende." },
+      { title: "CH/EU-konform", desc: "Daten in Europa gehostet, DSG- und DSGVO-konform. Datenschutz von Anfang an." },
+      { title: "Mehrsprachig", desc: "Deutsch, Französisch und Englisch — automatische Spracherkennung pro Anrufer." },
+      { title: "Schneller ROI", desc: "Erste Erfolge in wenigen Wochen, ohne Ihre bestehenden Tools umzustellen." },
+    ],
+    demoEyebrow: "Live-Demo",
+    demoTitle: "Hören Sie den KI-Empfang in Aktion.",
+    demoDesc:
+      "Starten Sie einen Live-Video-Demoanruf. Stellen Sie eine Frage oder buchen Sie einen Termin — wie es Ihre Kunden tun würden.",
+    demoCta: "Demo starten",
+    ctaSectionTitle: "Bereit, die zeitfressenden Aufgaben zu automatisieren?",
+    ctaSectionDesc:
+      "Buchen Sie ein kostenloses 30-Minuten-Audit. Wir analysieren Ihr Geschäft, schätzen das Automatisierungspotenzial und übergeben Ihnen einen klaren Plan.",
+    bookCall: "Audit buchen",
+    writeUs: "Nachricht senden",
+    footerRights: "Alle Rechte vorbehalten.",
+    footerPrivacy: "Datenschutz",
+    footerContact: "Kontakt",
+  },
 };
-
-function useLang(): [Lang, (l: Lang) => void] {
-  const [lang, setLang] = useState<Lang>("en");
-  useEffect(() => {
-    const saved = localStorage.getItem("homepage-lang");
-    if (saved === "en" || saved === "fr") setLang(saved);
-  }, []);
-  const set = (l: Lang) => {
-    localStorage.setItem("homepage-lang", l);
-    setLang(l);
-  };
-  return [lang, set];
-}
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Deskia — AI Receptionists with Human-Like Conversations" },
+      { title: "Deskia — Swiss AI automation & 24/7 AI receptionist" },
       {
         name: "description",
         content:
-          "Deskia is your 24/7 AI receptionist in French & English — handling FAQs, qualifying leads and booking meetings with human-like conversations.",
+          "Deskia is a Swiss agency that audits your business, automates repetitive tasks and runs a 24/7 AI receptionist in French, German and English.",
       },
-      { property: "og:title", content: "Deskia — AI Receptionists" },
+      { property: "og:title", content: "Deskia — Swiss AI automation agency" },
       {
         property: "og:description",
         content:
-          "Human-like AI receptionists in French & English — answering calls, qualifying leads and booking meetings 24/7.",
+          "We audit your business, automate the repetitive tasks and run your 24/7 AI receptionist. Based in Switzerland.",
       },
     ],
   }),
   component: HomePage,
 });
 
-const INTEGRATION_LOGOS = [
-  "Twilio", "HubSpot", "Salesforce", "Calendly", "Cal.com", "Zapier",
-  "Make", "Slack", "Stripe", "Google", "Microsoft Teams", "Zendesk",
-  "Intercom", "Pipedrive", "Airtable", "Notion",
-];
+const stepIcons = [Search, Workflow, Bot, LineChart];
+const whyIcons = [Clock, ShieldCheck, Sparkles, LineChart];
 
 function HomePage() {
-  const [lang, setLang] = useLang();
-  const copy = t[lang];
-  const navigate = useNavigate();
-
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [activeCase, setActiveCase] = useState(0);
-
-  const useCases = [
-    { image: serviceReceptionist, label: lang === "fr" ? "Réceptionniste" : "Receptionist" },
-    { image: serviceAppointments, label: lang === "fr" ? "Prise de rendez-vous" : "Appointment Setter" },
-    { image: serviceLeads, label: lang === "fr" ? "Qualification de leads" : "Lead Qualification" },
-    { image: serviceSurvey, label: lang === "fr" ? "Sondage" : "Survey" },
-    { image: serviceSupport, label: lang === "fr" ? "Service client" : "Customer Service" },
-    { image: serviceDebt, label: lang === "fr" ? "Recouvrement" : "Debt Collection" },
-  ];
-
-  const stepIcons = [Wrench, PlayCircle, Rocket, LineChart];
-
-  function startLiveCall(e: React.FormEvent) {
-    e.preventDefault();
-    if (!phone.trim() && !email.trim()) return;
-    navigate({ to: "/r/$slug/call", params: { slug: "demo" } });
-  }
+  const { lang } = useSiteLang();
+  const copy = COPY[lang];
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="border-b border-border/60">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      {/* HEADER */}
+      <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
           <Link to="/" className="flex items-center gap-2">
             <img
               src={logoAsset.url}
-              alt="Deskia AI"
-              className="h-8 w-auto sm:h-10 md:h-12 rounded-lg border border-border/60 bg-white p-1"
+              alt="Deskia"
+              className="h-9 w-auto rounded-lg border border-border/60 bg-white p-1"
             />
           </Link>
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
-            <a href="#advantages" className="hover:text-foreground">{copy.navAbout}</a>
-            <Link to="/app" className="hover:text-foreground">{copy.navDashboard}</Link>
-            <Link to="/settings" className="hover:text-foreground">{copy.navSettings}</Link>
-            <Link to="/r/$slug" params={{ slug: "demo" }} className="hover:text-foreground">{copy.navDemo}</Link>
+            <a href="#services" className="hover:text-foreground">{copy.navServices}</a>
+            <a href="#process" className="hover:text-foreground">{copy.navProcess}</a>
+            <a href="#demo" className="hover:text-foreground">{copy.navDemo}</a>
+            <Link to="/contact" className="hover:text-foreground">{copy.navContact}</Link>
           </nav>
           <div className="flex items-center gap-2">
-            <button
-              onClick={() => setLang(lang === "en" ? "fr" : "en")}
-              className="inline-flex items-center gap-1 rounded-md border border-input bg-background px-2.5 py-1 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-              aria-label="Toggle language"
-            >
-              <Languages className="h-3.5 w-3.5" />
-              {copy.langLabel}
-            </button>
-            <Button asChild size="sm">
-              <Link to="/app">
-                {copy.navDashboard} <ArrowRight className="ml-1 h-4 w-4" />
-              </Link>
+            <LangSwitcher />
+            <Button asChild size="sm" className="rounded-full">
+              <a href={CALENDLY_URL} target="_blank" rel="noreferrer">
+                {copy.ctaPrimary} <ArrowRight className="ml-1 h-4 w-4" />
+              </a>
             </Button>
           </div>
         </div>
@@ -258,76 +295,95 @@ function HomePage() {
 
       {/* HERO */}
       <section className="relative overflow-hidden">
-        <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 py-16 md:py-24 lg:grid-cols-2">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,theme(colors.sky.400/0.12),transparent_60%),radial-gradient(circle_at_bottom_right,theme(colors.rose.400/0.10),transparent_60%)]" />
+        <div className="mx-auto grid max-w-6xl items-center gap-12 px-6 py-20 md:py-28 lg:grid-cols-[1.15fr_1fr]">
           <div>
-            <span className="inline-flex items-center rounded-full border border-border bg-muted/40 px-3 py-1 text-xs font-medium text-muted-foreground">
-              {copy.useCaseBadge}
+            <span className="inline-flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1 text-xs font-medium text-muted-foreground">
+              🇨🇭 {copy.heroEyebrow}
             </span>
             <h1 className="mt-5 text-balance text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl">
+              <span className="text-foreground">{copy.heroTitleA}</span>{" "}
               <span className="bg-gradient-to-r from-sky-400 via-violet-400 to-rose-400 bg-clip-text text-transparent">
-                {copy.heroTitleA}
+                {copy.heroTitleB}
               </span>
-              <br />
-              <span className="text-foreground">{copy.heroTitleB}</span>
             </h1>
             <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
               {copy.heroDesc}
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Button asChild size="lg" className="rounded-full px-6">
-                <Link to="/r/$slug/call" params={{ slug: "demo" }}>
-                  <Sparkles className="mr-2 h-4 w-4" />
-                  {copy.heroPrimary}
-                </Link>
+                <a href={CALENDLY_URL} target="_blank" rel="noreferrer">
+                  <Calendar className="mr-2 h-4 w-4" />
+                  {copy.ctaPrimary}
+                </a>
               </Button>
               <Button asChild size="lg" variant="outline" className="rounded-full px-6">
-                <Link to="/contact">{copy.heroSecondary}</Link>
+                <Link to="/contact">{copy.ctaSecondary}</Link>
               </Button>
             </div>
+            <p className="mt-6 text-xs uppercase tracking-wider text-muted-foreground">
+              {copy.trustLine}
+            </p>
           </div>
           <div className="relative">
             <div className="overflow-hidden rounded-3xl border border-border/60 shadow-xl">
               <img
                 src={serviceReceptionist}
-                alt="AI receptionist greeting a customer"
+                alt="AI receptionist on a call"
                 className="aspect-[4/3] w-full object-cover"
               />
             </div>
-            <div className="absolute -bottom-4 -left-4 hidden h-24 w-24 rounded-3xl bg-gradient-to-br from-sky-400/40 via-violet-400/40 to-rose-400/40 blur-2xl md:block" />
+            <div className="absolute -bottom-6 -left-6 hidden h-32 w-32 rounded-3xl bg-gradient-to-br from-sky-400/30 via-violet-400/30 to-rose-400/30 blur-2xl md:block" />
           </div>
         </div>
       </section>
 
-      {/* ADVANTAGES */}
-      <section id="advantages" className="border-t border-border/60 bg-muted/20">
+      {/* SERVICES */}
+      <section id="services" className="border-t border-border/60 bg-muted/20">
         <div className="mx-auto max-w-6xl px-6 py-20">
           <p className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
-            {copy.advantagesEyebrow}
+            {copy.servicesEyebrow}
           </p>
           <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl">
-            {copy.advantagesTitle}
+            {copy.servicesTitle}
           </h2>
-          <div className="mt-12 divide-y divide-border/60 border-y border-border/60">
-            {copy.benefits.map((b, i) => (
-              <div key={b.title} className="grid gap-6 py-8 md:grid-cols-[120px_1fr_2fr] md:items-start">
-                <span className="font-mono text-sm text-muted-foreground">0{i + 1}</span>
-                <h3 className="text-xl font-semibold tracking-tight">{b.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">{b.desc}</p>
+          <div className="mt-12 grid gap-6 md:grid-cols-2">
+            {copy.services.map((s, i) => (
+              <div
+                key={s.title}
+                className="group overflow-hidden rounded-3xl border border-border/60 bg-background shadow-sm transition-shadow hover:shadow-md"
+              >
+                <div className="aspect-[16/10] overflow-hidden">
+                  <img
+                    src={s.image}
+                    alt={s.title}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div className="p-6">
+                  <div className="flex items-center gap-2">
+                    <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground text-background">
+                      {i === 0 ? <PhoneCall className="h-4 w-4" /> : <Workflow className="h-4 w-4" />}
+                    </span>
+                    <h3 className="text-xl font-semibold tracking-tight">{s.title}</h3>
+                  </div>
+                  <p className="mt-3 text-muted-foreground leading-relaxed">{s.desc}</p>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* PROGRESS / HOW IT WORKS */}
-      <section className="border-t border-border/60">
+      {/* PROCESS */}
+      <section id="process" className="border-t border-border/60">
         <div className="mx-auto max-w-6xl px-6 py-20">
           <p className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
-            {copy.progressEyebrow}
+            {copy.processEyebrow}
           </p>
-          <div className="mt-3 grid gap-6 md:grid-cols-[1fr_1fr] md:items-end">
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">{copy.progressTitle}</h2>
-            <p className="text-muted-foreground">{copy.progressDesc}</p>
+          <div className="mt-3 grid gap-6 md:grid-cols-2 md:items-end">
+            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">{copy.processTitle}</h2>
+            <p className="text-muted-foreground">{copy.processDesc}</p>
           </div>
           <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {copy.steps.map((s, i) => {
@@ -350,109 +406,99 @@ function HomePage() {
         </div>
       </section>
 
-      {/* LIVE DEMO + USE CASES */}
+      {/* WHY DESKIA */}
       <section className="border-t border-border/60 bg-muted/20">
         <div className="mx-auto max-w-6xl px-6 py-20">
           <p className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
-            {copy.demoEyebrow}
+            {copy.whyEyebrow}
           </p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">{copy.demoTitle}</h2>
-          <p className="mt-3 max-w-2xl text-muted-foreground">{copy.demoDesc}</p>
-
-          <div className="mt-10 grid gap-8 lg:grid-cols-[1.1fr_1fr] lg:items-center">
-            <div className="relative overflow-hidden rounded-3xl border border-border/60 shadow-sm">
-              <img
-                src={useCases[activeCase].image}
-                alt={useCases[activeCase].label}
-                className="aspect-[4/3] w-full object-cover transition-opacity duration-500"
-              />
-              <div className="absolute bottom-4 left-4 rounded-full bg-background/90 px-3 py-1 text-sm font-medium backdrop-blur">
-                {useCases[activeCase].label}
-              </div>
-            </div>
-
-            <div>
-              <form
-                onSubmit={startLiveCall}
-                className="rounded-2xl border border-border/60 bg-background p-5 shadow-sm"
-              >
-                <p className="text-sm font-semibold">{copy.callFormLabel}</p>
-                <div className="mt-4 grid gap-3">
-                  <div className="relative">
-                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      type="tel"
-                      placeholder={copy.callFormPhone}
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      className="h-11 pl-9"
-                    />
-                  </div>
-                  <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      type="email"
-                      placeholder={copy.callFormEmail}
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="h-11 pl-9"
-                    />
-                  </div>
+          <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl">
+            {copy.whyTitle}
+          </h2>
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {copy.why.map((w, i) => {
+              const Icon = whyIcons[i];
+              return (
+                <div key={w.title} className="rounded-2xl border border-border/60 bg-background p-6">
+                  <Icon className="h-6 w-6 text-foreground" />
+                  <h3 className="mt-4 font-semibold">{w.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground">{w.desc}</p>
                 </div>
-                <Button type="submit" size="lg" className="mt-4 w-full rounded-full">
-                  {copy.callFormButton}
-                </Button>
-              </form>
-            </div>
-          </div>
-
-          <div className="mt-8 flex flex-wrap gap-2">
-            {useCases.map((u, i) => (
-              <button
-                key={u.label}
-                onClick={() => setActiveCase(i)}
-                className={`rounded-full border px-4 py-1.5 text-sm transition-colors ${
-                  i === activeCase
-                    ? "border-foreground bg-foreground text-background"
-                    : "border-border bg-background text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {u.label}
-              </button>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* INTEGRATIONS */}
-      <section className="border-t border-border/60">
+      {/* DEMO */}
+      <section id="demo" className="border-t border-border/60">
         <div className="mx-auto max-w-6xl px-6 py-20">
-          <p className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
-            {copy.integrationsEyebrow}
-          </p>
-          <div className="mt-3 grid gap-6 md:grid-cols-[1fr_1fr] md:items-end">
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">{copy.integrationsTitle}</h2>
-            <p className="text-muted-foreground">{copy.integrationsDesc}</p>
-          </div>
-          <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8">
-            {INTEGRATION_LOGOS.map((name) => (
-              <div
-                key={name}
-                className="flex aspect-square items-center justify-center rounded-2xl border border-border/60 bg-background p-3 text-center text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
-              >
-                {name}
+          <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
+            <div>
+              <p className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
+                {copy.demoEyebrow}
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+                {copy.demoTitle}
+              </h2>
+              <p className="mt-4 max-w-xl text-muted-foreground">{copy.demoDesc}</p>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Button asChild size="lg" className="rounded-full px-6">
+                  <Link to="/r/$slug/call" params={{ slug: "demo" }}>
+                    <Sparkles className="mr-2 h-4 w-4" />
+                    {copy.demoCta}
+                  </Link>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="rounded-full px-6">
+                  <a href={CALENDLY_URL} target="_blank" rel="noreferrer">
+                    <Calendar className="mr-2 h-4 w-4" />
+                    {copy.bookCall}
+                  </a>
+                </Button>
               </div>
-            ))}
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {[serviceReceptionist, serviceAppointments, serviceLeads, serviceSupport, serviceSurvey, serviceDebt].slice(0, 4).map((src, i) => (
+                <div
+                  key={i}
+                  className="overflow-hidden rounded-2xl border border-border/60 shadow-sm"
+                >
+                  <img src={src} alt="" className="aspect-square w-full object-cover" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="border-t border-border/60 bg-gradient-to-br from-foreground to-foreground/90 text-background">
+        <div className="mx-auto max-w-4xl px-6 py-20 text-center">
+          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+            {copy.ctaSectionTitle}
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-background/70">{copy.ctaSectionDesc}</p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Button asChild size="lg" variant="secondary" className="rounded-full px-6">
+              <a href={CALENDLY_URL} target="_blank" rel="noreferrer">
+                <Calendar className="mr-2 h-4 w-4" />
+                {copy.bookCall}
+              </a>
+            </Button>
+            <Button asChild size="lg" variant="outline" className="rounded-full border-background/30 bg-transparent px-6 text-background hover:bg-background/10 hover:text-background">
+              <Link to="/contact">
+                <Mail className="mr-2 h-4 w-4" />
+                {copy.writeUs}
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
 
       <footer className="border-t border-border/60">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 text-sm text-muted-foreground md:flex-row">
-          <span>© {new Date().getFullYear()} {copy.footerCopy}</span>
+          <span>© {new Date().getFullYear()} Deskia — {copy.footerRights}</span>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link to="/app" className="hover:text-foreground">{copy.footerDashboard}</Link>
-            <Link to="/settings" className="hover:text-foreground">{copy.footerSettings}</Link>
             <Link to="/privacy" className="hover:text-foreground">{copy.footerPrivacy}</Link>
             <Link to="/contact" className="hover:text-foreground">{copy.footerContact}</Link>
           </div>
