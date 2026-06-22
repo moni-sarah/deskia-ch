@@ -303,6 +303,8 @@ const whyIcons = [Clock, ShieldCheck, Sparkles, LineChart];
 function HomePage() {
   const { lang } = useSiteLang();
   const copy = COPY[lang];
+  const trackCalendly = useTrackCalendlyClick();
+
 
   return (
     <div className="min-h-screen bg-background text-foreground">
