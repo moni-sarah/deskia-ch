@@ -68,7 +68,13 @@ export interface FileRouteTypes {
   fullPaths: '/' | '/contact' | '/privacy' | '/r/$slug' | '/r/$slug/call'
   fileRoutesByTo: FileRoutesByTo
   to: '/' | '/contact' | '/privacy' | '/r/$slug' | '/r/$slug/call'
-  id: '__root__' | '/' | '/contact' | '/privacy' | '/r/$slug' | '/r/$slug/call'
+  id:
+    | '__root__'
+    | '/'
+    | '/contact'
+    | '/privacy'
+    | '/r/$slug'
+    | '/r/$slug/call'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
