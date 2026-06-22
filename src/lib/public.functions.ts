@@ -27,6 +27,18 @@ export const getReceptionistBySlug = createServerFn({ method: "GET" })
     return row;
   });
 
+const AttributionSchema = z.object({
+  landing_path: z.string().max(500).nullable().optional(),
+  referrer: z.string().max(500).nullable().optional(),
+  search_query: z.string().max(500).nullable().optional(),
+  utm_source: z.string().max(120).nullable().optional(),
+  utm_medium: z.string().max(120).nullable().optional(),
+  utm_campaign: z.string().max(120).nullable().optional(),
+  utm_term: z.string().max(200).nullable().optional(),
+  utm_content: z.string().max(200).nullable().optional(),
+  gclid: z.string().max(200).nullable().optional(),
+}).partial();
+
 const LeadSchema = z.object({
   receptionist_id: z.string().uuid(),
   name: z.string().trim().min(1).max(120),
@@ -35,6 +47,7 @@ const LeadSchema = z.object({
   company: z.string().trim().max(120).optional().nullable(),
   message: z.string().trim().min(1).max(2000),
   language: z.enum(["en", "fr"]).optional(),
+  attribution: AttributionSchema.optional(),
 });
 
 export const submitLead = createServerFn({ method: "POST" })
@@ -50,6 +63,8 @@ export const submitLead = createServerFn({ method: "POST" })
       .maybeSingle();
     if (rErr || !r) throw new Error("Receptionist not found");
 
+    const a = data.attribution || {};
+
     // Insert lead
     const { data: inserted, error: insErr } = await supabaseAdmin
       .from("leads")
@@ -58,6 +73,15 @@ export const submitLead = createServerFn({ method: "POST" })
         name: data.name,
         phone: data.phone,
         email: data.email,
+        landing_path: a.landing_path ?? null,
+        referrer: a.referrer ?? null,
+        search_query: a.search_query ?? null,
+        utm_source: a.utm_source ?? null,
+        utm_medium: a.utm_medium ?? null,
+        utm_campaign: a.utm_campaign ?? null,
+        utm_term: a.utm_term ?? null,
+        utm_content: a.utm_content ?? null,
+        gclid: a.gclid ?? null,
         company: data.company || null,
         message: data.message,
         language: data.language ?? null,
