@@ -270,12 +270,13 @@ function HomePage() {
       {/* HEADER */}
       <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
-          <Link to="/" className="flex items-center gap-2">
+          <Link to="/" className="flex items-center gap-3">
             <img
               src={logoAsset.url}
               alt="Deskia"
-              className="h-9 w-auto rounded-lg border border-border/60 bg-white p-1"
+              className="h-14 w-auto rounded-lg border border-border/60 bg-white p-1"
             />
+            <span className="text-2xl font-bold tracking-tight">Deskia</span>
           </Link>
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
             <a href="#services" className="hover:text-foreground">{copy.navServices}</a>
