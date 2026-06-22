@@ -163,12 +163,12 @@ export function ChatWidget({
 
       <div className="border-t p-3 flex flex-wrap gap-2">
         {calendly15 && (
-          <a href={calendly15} target="_blank" rel="noreferrer">
+          <a href={calendly15} target="_blank" rel="noreferrer" onClick={() => logBooking("calendly_15", calendly15)}>
             <Button variant="outline" size="sm"><Calendar className="size-4" /> Book 15-min call</Button>
           </a>
         )}
         {calendly30 && (
-          <a href={calendly30} target="_blank" rel="noreferrer">
+          <a href={calendly30} target="_blank" rel="noreferrer" onClick={() => logBooking("calendly_30", calendly30)}>
             <Button variant="outline" size="sm"><Calendar className="size-4" /> Book 30-min consult</Button>
           </a>
         )}
