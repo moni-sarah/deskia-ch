@@ -139,6 +139,11 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
+  useEffect(() => {
+    // Capture SEO/UTM attribution once per session as early as possible.
+    import("../lib/attribution").then((m) => m.captureAttribution()).catch(() => {});
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <SiteLangProvider>
