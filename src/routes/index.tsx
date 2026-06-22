@@ -1,6 +1,7 @@
 import logoAsset from "@/assets/deskia-logo.png.asset.json";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Bot,
@@ -18,6 +19,14 @@ import {
   Users,
   TrendingUp,
   HeartHandshake,
+  Phone,
+  Mail,
+  Headset,
+  Funnel,
+  Building2,
+  CalendarDays,
+  ClipboardList,
+  Banknote,
 } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -30,12 +39,15 @@ const t = {
     navSettings: "Settings",
     navDemo: "Demo",
     badge: "Powered by your own knowledge base",
-    heroTitle: "A 24/7 AI assistant that answers, captures & books",
-    heroHighlight: "answers, captures & books",
+    heroEyebrow: "Try Our Live Demo",
+    heroTitle: "Discover how our AI caller transforms customer conversations.",
     heroDesc:
       "Replies to FAQs, collects leads and books meetings — automatically in French and English, trained on your FAQs and documents.",
-    ctaDashboard: "Open dashboard",
-    ctaDemo: "Try the live demo",
+    callFormLabel: "Receive a live call from our AI",
+    callFormPhone: "Phone Number",
+    callFormEmail: "Email Address",
+    callFormButton: "GET A CALL",
+    useCasesTitle: "One AI caller for every front-desk job",
     aboutTitle: "Deskia AI – Your 24/7 Receptionist",
     aboutSubtitle: "Never miss another call or customer.",
     aboutDesc:
@@ -96,12 +108,15 @@ const t = {
     navSettings: "Paramètres",
     navDemo: "Démo",
     badge: "Alimenté par votre propre base de connaissances",
-    heroTitle: "Une IA d'accueil 24h/24 qui répond, capture et planifie",
-    heroHighlight: "répond, capture et planifie",
+    heroEyebrow: "Essayez notre démo en direct",
+    heroTitle: "Découvrez comment notre agent vocal IA transforme les conversations clients.",
     heroDesc:
       "Répond aux FAQ, collecte les prospects et planifie les rendez-vous — automatiquement en français et en anglais, formée sur vos FAQ et documents.",
-    ctaDashboard: "Ouvrir le tableau de bord",
-    ctaDemo: "Essayer la démo en direct",
+    callFormLabel: "Recevez un appel en direct de notre IA",
+    callFormPhone: "Numéro de téléphone",
+    callFormEmail: "Adresse e-mail",
+    callFormButton: "RECEVOIR UN APPEL",
+    useCasesTitle: "Un agent vocal IA pour chaque tâche d'accueil",
     aboutTitle: "Deskia AI – Votre réceptionniste 24h/24",
     aboutSubtitle: "Ne manquez plus aucun appel ni aucun client.",
     aboutDesc:
@@ -119,21 +134,21 @@ const t = {
     featuresSubtitle:
       "Un agent IA sur votre site qui gère le travail répétitif et vous transmet le reste.",
     feat1Title: "Répond aux FAQ instantanément",
+    feat2Title: "Capture les prospects",
+    feat3Title: "Planifie les rendez-vous",
+    feat4Title: "Français & Anglais",
+    feat5Title: "Formée sur vos documents",
+    feat6Title: "Toujours disponible",
     feat1Desc:
       "Prix, services, horaires — répondu en quelques secondes grâce à votre base de connaissances.",
-    feat2Title: "Capture les prospects",
     feat2Desc:
       "Collecte nom, téléphone, e-mail et demande, enregistrés dans votre tableau de bord.",
-    feat3Title: "Planifie les rendez-vous",
     feat3Desc:
       "Partage votre lien Calendly pour appels de 15 min ou consultations de 30 min.",
-    feat4Title: "Français & Anglais",
     feat4Desc:
       "Détecte automatiquement la langue du client et répond dans la même langue.",
-    feat5Title: "Formée sur vos documents",
     feat5Desc:
       "Importez des PDF ou Word — l'IA les utilise pour répondre.",
-    feat6Title: "Toujours disponible",
     feat6Desc:
       "Opérationnelle 24h/24 pour ne plus jamais manquer un prospect, même en dehors des heures.",
     howTitle: "Comment ça marche",
@@ -176,17 +191,17 @@ function useLang(): [Lang, (l: Lang) => void] {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Deskia — 24/7 Lead Capture in French & English" },
+      { title: "Deskia — 24/7 AI Caller in French & English" },
       {
         name: "description",
         content:
-          "An AI assistant that answers FAQs, captures leads and books meetings in French and English — trained on your own knowledge base.",
+          "An AI caller that answers FAQs, captures leads and books meetings in French and English — trained on your own knowledge base.",
       },
-      { property: "og:title", content: "Deskia — 24/7 Lead Capture" },
+      { property: "og:title", content: "Deskia — 24/7 AI Caller" },
       {
         property: "og:description",
         content:
-          "Answer customer questions, capture leads and book meetings 24/7 in French & English.",
+          "Answer customer calls, capture leads and book meetings 24/7 in French & English.",
       },
     ],
   }),
@@ -196,6 +211,10 @@ export const Route = createFileRoute("/")({
 function HomePage() {
   const [lang, setLang] = useLang();
   const copy = t[lang];
+  const navigate = useNavigate();
+
+  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
 
   const features = [
     { icon: MessageSquare, title: copy.feat1Title, desc: copy.feat1Desc },
@@ -211,6 +230,21 @@ function HomePage() {
     { title: copy.step2Title, desc: copy.step2Desc },
     { title: copy.step3Title, desc: copy.step3Desc },
   ];
+
+  const useCases = [
+    { icon: Headset, label: lang === "fr" ? "Réceptionniste" : "Receptionist" },
+    { icon: Funnel, label: lang === "fr" ? "Qualification de leads" : "Lead Qualification" },
+    { icon: Building2, label: lang === "fr" ? "Service client" : "Customer Service" },
+    { icon: CalendarDays, label: lang === "fr" ? "Prise de rendez-vous" : "Appointment Setter" },
+    { icon: ClipboardList, label: lang === "fr" ? "Sondage" : "Survey" },
+    { icon: Banknote, label: lang === "fr" ? "Recouvrement de créances" : "Debt Collection" },
+  ];
+
+  function startLiveCall(e: React.FormEvent) {
+    e.preventDefault();
+    if (!phone.trim() && !email.trim()) return;
+    navigate({ to: "/r/$slug/call", params: { slug: "demo" } });
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -238,7 +272,7 @@ function HomePage() {
               <Languages className="h-3.5 w-3.5" />
               {copy.langLabel}
             </button>
-            <Button asChild variant="ghost" size="sm">
+            <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
               <Link to="/settings">{copy.navSettings}</Link>
             </Button>
             <Button asChild size="sm">
@@ -251,40 +285,69 @@ function HomePage() {
       </header>
 
       <section className="relative overflow-hidden">
-        <div className="mx-auto max-w-6xl px-6 pt-20 pb-24 text-center">
+        <div className="mx-auto max-w-3xl px-6 pt-16 pb-12 text-center md:pt-24 md:pb-16">
           <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-muted/40 px-3 py-1 text-xs text-muted-foreground">
             <Sparkles className="h-3.5 w-3.5 text-primary" />
-            {copy.badge}
+            {copy.heroEyebrow}
           </div>
-          <h1 className="mx-auto max-w-3xl text-balance text-4xl font-semibold tracking-tight sm:text-6xl">
-            {copy.heroTitle.split(copy.heroHighlight)[0]}
-            <span className="text-primary">{copy.heroHighlight}</span>
-            {copy.heroTitle.split(copy.heroHighlight)[1] || ""}
+          <h1 className="mx-auto max-w-2xl text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
+            {copy.heroTitle}
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground">
+          <p className="mx-auto mt-5 max-w-xl text-base text-muted-foreground md:text-lg">
             {copy.heroDesc}
           </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Button asChild size="lg">
-              <Link to="/app">
-                {copy.ctaDashboard} <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
+
+          <form onSubmit={startLiveCall} className="mt-10 mx-auto max-w-xl rounded-2xl border border-border/60 bg-muted/20 p-2 text-left">
+            <p className="mb-3 px-2 text-sm font-medium text-center">{copy.callFormLabel}</p>
+            <div className="grid gap-2 sm:grid-cols-2">
+              <div className="relative">
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="tel"
+                  placeholder={copy.callFormPhone}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="pl-9 h-11 bg-background"
+                />
+              </div>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="email"
+                  placeholder={copy.callFormEmail}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="pl-9 h-11 bg-background"
+                />
+              </div>
+            </div>
+            <Button type="submit" size="lg" className="mt-3 w-full">
+              {copy.callFormButton}
             </Button>
-            <Button asChild size="lg" variant="outline">
-              <Link to="/r/$slug" params={{ slug: "demo" }}>
-                {copy.ctaDemo}
-              </Link>
-            </Button>
-          </div>
-          <div className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
-            <span className="inline-flex items-center gap-2"><Clock className="h-4 w-4 text-primary" /> {copy.badge24}</span>
-            <span className="inline-flex items-center gap-2"><Languages className="h-4 w-4 text-primary" /> {copy.badgeLang}</span>
-            <span className="inline-flex items-center gap-2"><ShieldCheck className="h-4 w-4 text-primary" /> {copy.badgeData}</span>
+          </form>
+        </div>
+      </section>
+
+      <section className="border-t border-border/60 bg-muted/20">
+        <div className="mx-auto max-w-6xl px-6 py-12 md:py-16">
+          <h2 className="text-center text-2xl font-semibold tracking-tight">{copy.useCasesTitle}</h2>
+          <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {useCases.map((u) => (
+              <div
+                key={u.label}
+                className="flex items-center gap-3 rounded-xl border border-border/60 bg-background p-4 transition-colors hover:bg-accent/40"
+              >
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                  <u.icon className="h-5 w-5" />
+                </div>
+                <span className="font-medium">{u.label}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      <section id="about" className="border-t border-border/60 bg-muted/20">
+      <section id="about" className="border-t border-border/60">
         <div className="mx-auto max-w-6xl px-6 py-20">
           <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
             <div>
