@@ -16,16 +16,26 @@ export type Database = {
     Tables: {
       bookings: {
         Row: {
+          calendly_event_uri: string | null
+          calendly_invitee_uri: string | null
+          company: string | null
           created_at: string
           destination: string | null
+          email: string | null
+          event_name: string | null
           gclid: string | null
           id: string
           kind: string
           landing_path: string | null
+          message: string | null
+          name: string | null
           page_path: string | null
+          phone: string | null
           receptionist_id: string | null
           referrer: string | null
+          scheduled_at: string | null
           search_query: string | null
+          status: string
           user_agent: string | null
           utm_campaign: string | null
           utm_content: string | null
@@ -34,16 +44,26 @@ export type Database = {
           utm_term: string | null
         }
         Insert: {
+          calendly_event_uri?: string | null
+          calendly_invitee_uri?: string | null
+          company?: string | null
           created_at?: string
           destination?: string | null
+          email?: string | null
+          event_name?: string | null
           gclid?: string | null
           id?: string
           kind?: string
           landing_path?: string | null
+          message?: string | null
+          name?: string | null
           page_path?: string | null
+          phone?: string | null
           receptionist_id?: string | null
           referrer?: string | null
+          scheduled_at?: string | null
           search_query?: string | null
+          status?: string
           user_agent?: string | null
           utm_campaign?: string | null
           utm_content?: string | null
@@ -52,16 +72,26 @@ export type Database = {
           utm_term?: string | null
         }
         Update: {
+          calendly_event_uri?: string | null
+          calendly_invitee_uri?: string | null
+          company?: string | null
           created_at?: string
           destination?: string | null
+          email?: string | null
+          event_name?: string | null
           gclid?: string | null
           id?: string
           kind?: string
           landing_path?: string | null
+          message?: string | null
+          name?: string | null
           page_path?: string | null
+          phone?: string | null
           receptionist_id?: string | null
           referrer?: string | null
+          scheduled_at?: string | null
           search_query?: string | null
+          status?: string
           user_agent?: string | null
           utm_campaign?: string | null
           utm_content?: string | null
