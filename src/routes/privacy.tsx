@@ -88,7 +88,7 @@ function PrivacyPage() {
             <p className="mt-3 text-muted-foreground leading-relaxed">
               Deskia uses the following subprocessors for hosting, AI inference, and optional integrations:
               cloud hosting provider, AI model provider, and any CRM or webhook destinations you configure (Google Sheets, Zapier, HubSpot, etc.).
-              You control which integrations are active in your Settings.
+              Integrations are only enabled when you ask us to activate them.
             </p>
           </section>
 
