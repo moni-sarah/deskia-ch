@@ -11,11 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ContactRouteImport } from './routes/contact'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as RSlugRouteImport } from './routes/r.$slug'
-import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
-import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
 import { Route as RSlugCallRouteImport } from './routes/r.$slug.call'
 
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -28,10 +25,6 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -41,16 +34,6 @@ const RSlugRoute = RSlugRouteImport.update({
   id: '/r/$slug',
   path: '/r/$slug',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedAppRoute = AuthenticatedAppRouteImport.update({
-  id: '/app',
-  path: '/app',
-  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const RSlugCallRoute = RSlugCallRouteImport.update({
   id: '/call',
@@ -62,8 +45,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
-  '/app': typeof AuthenticatedAppRoute
-  '/settings': typeof AuthenticatedSettingsRoute
   '/r/$slug': typeof RSlugRouteWithChildren
   '/r/$slug/call': typeof RSlugCallRoute
 }
@@ -71,56 +52,27 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
-  '/app': typeof AuthenticatedAppRoute
-  '/settings': typeof AuthenticatedSettingsRoute
   '/r/$slug': typeof RSlugRouteWithChildren
   '/r/$slug/call': typeof RSlugCallRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/contact': typeof ContactRoute
   '/privacy': typeof PrivacyRoute
-  '/_authenticated/app': typeof AuthenticatedAppRoute
-  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/r/$slug': typeof RSlugRouteWithChildren
   '/r/$slug/call': typeof RSlugCallRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/contact'
-    | '/privacy'
-    | '/app'
-    | '/settings'
-    | '/r/$slug'
-    | '/r/$slug/call'
+  fullPaths: '/' | '/contact' | '/privacy' | '/r/$slug' | '/r/$slug/call'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/contact'
-    | '/privacy'
-    | '/app'
-    | '/settings'
-    | '/r/$slug'
-    | '/r/$slug/call'
-  id:
-    | '__root__'
-    | '/'
-    | '/_authenticated'
-    | '/contact'
-    | '/privacy'
-    | '/_authenticated/app'
-    | '/_authenticated/settings'
-    | '/r/$slug'
-    | '/r/$slug/call'
+  to: '/' | '/contact' | '/privacy' | '/r/$slug' | '/r/$slug/call'
+  id: '__root__' | '/' | '/contact' | '/privacy' | '/r/$slug' | '/r/$slug/call'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   ContactRoute: typeof ContactRoute
   PrivacyRoute: typeof PrivacyRoute
   RSlugRoute: typeof RSlugRouteWithChildren
@@ -142,13 +94,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated': {
-      id: '/_authenticated'
-      path: ''
-      fullPath: '/'
-      preLoaderRoute: typeof AuthenticatedRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -163,20 +108,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_authenticated/settings': {
-      id: '/_authenticated/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/app': {
-      id: '/_authenticated/app'
-      path: '/app'
-      fullPath: '/app'
-      preLoaderRoute: typeof AuthenticatedAppRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/r/$slug/call': {
       id: '/r/$slug/call'
       path: '/call'
@@ -186,19 +117,6 @@ declare module '@tanstack/react-router' {
     }
   }
 }
-
-interface AuthenticatedRouteRouteChildren {
-  AuthenticatedAppRoute: typeof AuthenticatedAppRoute
-  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
-}
-
-const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
-  AuthenticatedAppRoute: AuthenticatedAppRoute,
-  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
-}
-
-const AuthenticatedRouteRouteWithChildren =
-  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface RSlugRouteChildren {
   RSlugCallRoute: typeof RSlugCallRoute
@@ -212,7 +130,6 @@ const RSlugRouteWithChildren = RSlugRoute._addFileChildren(RSlugRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   ContactRoute: ContactRoute,
   PrivacyRoute: PrivacyRoute,
   RSlugRoute: RSlugRouteWithChildren,
