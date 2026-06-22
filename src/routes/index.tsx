@@ -71,7 +71,7 @@ const COPY: Record<SiteLang, Copy> = {
     heroTitleB: "et une réception qui ne dort jamais.",
     heroDesc:
       "Deskia est une agence basée en Suisse qui audite votre entreprise, identifie les tâches répétitives et les remplace par des automatisations sur mesure — y compris une réceptionniste IA disponible 24h/24, en français, allemand et anglais.",
-    trustLine: "Basé en Suisse · Conforme RGPD/LPD · Hébergé en Europe",
+    trustLine: "Basé à Genève, Suisse · Conforme RGPD/LPD · Hébergé en Europe",
     servicesEyebrow: "Ce que nous faisons",
     servicesTitle: "Deux offres, un objectif : libérer votre équipe",
     services: [
@@ -130,7 +130,7 @@ const COPY: Record<SiteLang, Copy> = {
     heroTitleB: "and a front desk that never sleeps.",
     heroDesc:
       "Deskia is a Switzerland-based agency. We audit your business, find the repetitive tasks that drain your team, and replace them with custom automations — including a 24/7 AI receptionist in French, German and English.",
-    trustLine: "Based in Switzerland · GDPR / FADP compliant · EU hosting",
+    trustLine: "Based in Geneva, Switzerland · GDPR / FADP compliant · EU hosting",
     servicesEyebrow: "What we do",
     servicesTitle: "Two services, one goal: free your team's time.",
     services: [
@@ -189,7 +189,7 @@ const COPY: Record<SiteLang, Copy> = {
     heroTitleB: "und ein Empfang, der nie schläft.",
     heroDesc:
       "Deskia ist eine Agentur mit Sitz in der Schweiz. Wir auditieren Ihr Unternehmen, identifizieren wiederkehrende Aufgaben und ersetzen sie durch massgeschneiderte Automatisierungen — inklusive eines 24/7 KI-Empfangs auf Deutsch, Französisch und Englisch.",
-    trustLine: "Sitz in der Schweiz · DSG / DSGVO-konform · Hosting in der EU",
+    trustLine: "Sitz in Genf, Schweiz · DSG / DSGVO-konform · Hosting in der EU",
     servicesEyebrow: "Was wir tun",
     servicesTitle: "Zwei Leistungen, ein Ziel: Ihr Team entlasten.",
     services: [
