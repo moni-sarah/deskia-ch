@@ -4,18 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Mail, Calendar, MessageSquare, MapPin } from "lucide-react";
+import { ArrowLeft, Mail, MessageSquare, MapPin } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 import {
   useSiteLang,
   LangSwitcher,
-  CALENDLY_URL,
   CONTACT_EMAIL,
   type SiteLang,
 } from "@/lib/site-lang";
-import { useTrackCalendlyClick } from "@/lib/use-track-booking";
 
 type Copy = {
   back: string;
