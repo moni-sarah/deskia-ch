@@ -26,6 +26,24 @@ export function ChatWidget({
 }) {
   const chatFn = useServerFn(chat);
   const leadFn = useServerFn(submitLead);
+  const bookingFn = useServerFn(trackBooking);
+
+  useEffect(() => { captureAttribution(); }, []);
+
+  function logBooking(kind: "calendly_15" | "calendly_30", destination: string | null) {
+    try {
+      void bookingFn({
+        data: {
+          receptionist_id: receptionistId,
+          kind,
+          destination,
+          page_path: typeof window !== "undefined" ? window.location.pathname : null,
+          user_agent: typeof navigator !== "undefined" ? navigator.userAgent.slice(0, 500) : null,
+          attribution: getAttribution(),
+        },
+      });
+    } catch {/* non-blocking */}
+  }
 
   const [messages, setMessages] = useState<Msg[]>([
     { role: "assistant", content: `Hi! I'm the AI assistant for **${businessName}**. Ask me anything — prices, services, hours, or book a call. _(Je parle aussi français — écrivez-moi simplement en français.)_` },
