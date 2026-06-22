@@ -31,17 +31,8 @@ export function SiteLangProvider({ children }: { children: ReactNode }) {
 
 export function useSiteLang(): Ctx {
   const c = useContext(SiteLangCtx);
-  if (c) return c;
-  // Fallback: standalone (no provider) — local state
-  const [lang, setLangState] = useState<SiteLang>("fr");
-  useEffect(() => {
-    const stored = (typeof localStorage !== "undefined" && localStorage.getItem(KEY)) as SiteLang | null;
-    if (stored === "en" || stored === "fr" || stored === "de") setLangState(stored);
-  }, []);
-  return {
-    lang,
-    setLang: (l) => { setLangState(l); try { localStorage.setItem(KEY, l); } catch {} },
-  };
+  if (!c) throw new Error("useSiteLang must be used within SiteLangProvider");
+  return c;
 }
 
 export function LangSwitcher() {
