@@ -29,12 +29,61 @@ type Booking = {
 
 function ConversionsPage() {
   const fetchFn = useServerFn(getConversions);
+  const [password, setPassword] = useState<string | null>(null);
+  const [pwInput, setPwInput] = useState("");
+
+  useEffect(() => {
+    const saved = typeof window !== "undefined" ? localStorage.getItem("deskia_admin_pw") : null;
+    if (saved) setPassword(saved);
+  }, []);
+
   const { data, isLoading, error, refetch, isFetching } = useQuery({
-    queryKey: ["conversions"],
-    queryFn: () => fetchFn(),
+    queryKey: ["conversions", password],
+    queryFn: () => fetchFn({ data: { password: password! } }),
+    enabled: !!password,
+    retry: false,
   });
 
+  useEffect(() => {
+    if (error && /unauthorized/i.test((error as Error).message)) {
+      localStorage.removeItem("deskia_admin_pw");
+      setPassword(null);
+    }
+  }, [error]);
+
   const [tab, setTab] = useState<"overview" | "leads" | "bookings">("overview");
+
+  if (!password) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background text-foreground p-6">
+        <Card className="p-6 w-full max-w-sm space-y-4">
+          <div>
+            <h1 className="text-lg font-semibold">Admin access</h1>
+            <p className="text-sm text-muted-foreground">Enter the admin password to view conversions.</p>
+          </div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (!pwInput) return;
+              localStorage.setItem("deskia_admin_pw", pwInput);
+              setPassword(pwInput);
+              setPwInput("");
+            }}
+            className="space-y-3"
+          >
+            <Input
+              type="password"
+              autoFocus
+              value={pwInput}
+              onChange={(e) => setPwInput(e.target.value)}
+              placeholder="Password"
+            />
+            <Button type="submit" className="w-full">Unlock</Button>
+          </form>
+        </Card>
+      </div>
+    );
+  }
 
   const leads = (data?.leads || []) as Lead[];
   const bookings = (data?.bookings || []) as Booking[];
