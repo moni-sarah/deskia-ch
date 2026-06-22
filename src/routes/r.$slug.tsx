@@ -44,6 +44,13 @@ function PublicChat() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-muted/40 to-background">
       <div className="max-w-2xl mx-auto p-4 md:p-8">
+        <div className="mb-4">
+          <Button asChild variant="ghost" size="sm" className="gap-2 pl-2 text-muted-foreground hover:text-foreground">
+            <Link to="/">
+              <ArrowLeft className="size-4" /> Back
+            </Link>
+          </Button>
+        </div>
         <header className="mb-6 text-center">
           <h1 className="text-2xl md:text-3xl font-bold">{r.business_name}</h1>
           {r.description && <p className="text-sm text-muted-foreground mt-1">{r.description}</p>}
