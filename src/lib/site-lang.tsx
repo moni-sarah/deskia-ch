@@ -6,7 +6,7 @@ const KEY = "deskia-site-lang";
 type Ctx = { lang: SiteLang; setLang: (l: SiteLang) => void };
 const SiteLangCtx = createContext<Ctx | null>(null);
 
-export const CALENDLY_URL = "https://calendly.com/deskia-ai/audit";
+export const CALENDLY_URL = "https://calendly.com/b-moniboss45/audit-gratuit";
 export const CONTACT_EMAIL = "hello@deskia.ai";
 
 export function SiteLangProvider({ children }: { children: ReactNode }) {
