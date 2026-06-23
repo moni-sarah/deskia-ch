@@ -92,6 +92,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:locale:alternate", content: "en_US" },
       { property: "og:locale:alternate", content: "de_CH" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "Deskia — AI Receptionist & Business Automation · Geneva, Switzerland" },
+      { name: "twitter:title", content: "Deskia — AI Receptionist & Business Automation · Geneva, Switzerland" },
+      { name: "description", content: "AI Receptionist answers FAQs, collects leads, and books meetings 24/7 in French and English." },
+      { property: "og:description", content: "AI Receptionist answers FAQs, collects leads, and books meetings 24/7 in French and English." },
+      { name: "twitter:description", content: "AI Receptionist answers FAQs, collects leads, and books meetings 24/7 in French and English." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/994340d2-75e4-4f7c-9da8-50a7064f47f5/id-preview-1a0b62f0--2c73aff8-1811-46af-98ee-ccd1e19e9c73.lovable.app-1782211960380.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/994340d2-75e4-4f7c-9da8-50a7064f47f5/id-preview-1a0b62f0--2c73aff8-1811-46af-98ee-ccd1e19e9c73.lovable.app-1782211960380.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
