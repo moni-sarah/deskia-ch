@@ -1,22 +1,14 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 
-function publicSupabase() {
-  // Lazy import: keep server-only module out of client bundle
-  return import("@supabase/supabase-js").then(({ createClient }) =>
-    createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_PUBLISHABLE_KEY!, {
-      auth: { persistSession: false, autoRefreshToken: false },
-    }),
-  );
-}
-
 export const getReceptionistBySlug = createServerFn({ method: "GET" })
   .inputValidator((input: unknown) =>
     z.object({ slug: z.string().min(1).max(64) }).parse(input),
   )
   .handler(async ({ data }) => {
-    const supabase = await publicSupabase();
-    const { data: row, error } = await supabase
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    // Only safe public columns — never expose webhook_url, sheet_url, notif_email, etc.
+    const { data: row, error } = await supabaseAdmin
       .from("receptionists")
       .select(
         "id, slug, business_name, description, calendly_15, calendly_30",
