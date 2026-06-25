@@ -190,7 +190,7 @@ export const submitLead = createServerFn({ method: "POST" })
     }
 
     // Generic webhook (Zapier / Make / any CRM or appointment software)
-    if (r.webhook_url) {
+    if (r.webhook_url && isSafePublicHttpsUrl(r.webhook_url)) {
       try {
         const res = await fetch(r.webhook_url, {
           method: "POST",
@@ -214,6 +214,8 @@ export const submitLead = createServerFn({ method: "POST" })
       } catch (e) {
         errors.push(`webhook:${(e as Error).message}`);
       }
+    } else if (r.webhook_url) {
+      errors.push("webhook:blocked_unsafe_url");
     }
 
     return { ok: true, id: inserted.id, integrations, errors };
@@ -261,36 +263,30 @@ export const trackBooking = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
-function timingSafeEqStr(a: string, b: string) {
-  if (a.length !== b.length) return false;
-  let diff = 0;
-  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
-  return diff === 0;
+function isSafePublicHttpsUrl(raw: string): boolean {
+  let u: URL;
+  try { u = new URL(raw); } catch { return false; }
+  if (u.protocol !== "https:") return false;
+  const host = u.hostname.toLowerCase();
+  if (!host || host === "localhost" || host.endsWith(".localhost") || host.endsWith(".local") || host.endsWith(".internal")) return false;
+  // Block IP literals to prevent SSRF to internal/metadata services.
+  // IPv4
+  const v4 = host.match(/^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/);
+  if (v4) {
+    const [a, b] = [Number(v4[1]), Number(v4[2])];
+    if (
+      a === 10 ||
+      a === 127 ||
+      a === 0 ||
+      (a === 169 && b === 254) ||
+      (a === 172 && b >= 16 && b <= 31) ||
+      (a === 192 && b === 168) ||
+      a >= 224 // multicast + reserved
+    ) return false;
+    return true;
+  }
+  // IPv6 literal (bracketed in URL host? new URL strips brackets)
+  if (host.includes(":")) return false;
+  return true;
 }
-
-export const getConversions = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) =>
-    z.object({ password: z.string().min(1).max(200) }).parse(input),
-  )
-  .handler(async ({ data }) => {
-    const expected = process.env.ADMIN_PASSWORD;
-    if (!expected) throw new Error("Admin password not configured");
-    if (!timingSafeEqStr(data.password, expected)) {
-      throw new Error("Unauthorized");
-    }
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const [leadsRes, bookingsRes] = await Promise.all([
-      supabaseAdmin.from("leads")
-        .select("id, created_at, name, email, phone, company, message, language, landing_path, referrer, search_query, utm_source, utm_medium, utm_campaign, utm_term, utm_content, gclid")
-        .order("created_at", { ascending: false })
-        .limit(500),
-      supabaseAdmin.from("bookings")
-        .select("id, created_at, kind, destination, page_path, landing_path, referrer, search_query, utm_source, utm_medium, utm_campaign, utm_term, utm_content, gclid")
-        .order("created_at", { ascending: false })
-        .limit(500),
-    ]);
-    if (leadsRes.error) throw new Error(leadsRes.error.message);
-    if (bookingsRes.error) throw new Error(bookingsRes.error.message);
-    return { leads: leadsRes.data || [], bookings: bookingsRes.data || [] };
-  });
 

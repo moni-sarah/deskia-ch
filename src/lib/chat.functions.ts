@@ -74,38 +74,3 @@ export const chat = createServerFn({ method: "POST" })
     }
   });
 
-// Used by the in-app "Test the AI" panel. Lets the owner preview answers using
-// either the saved knowledge OR a draft they haven't saved yet (faqs_override).
-const TestInput = z.object({
-  question: z.string().trim().min(1).max(2000),
-  faqs_override: z.string().max(200_000).optional(),
-});
-
-export const testKnowledge = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => TestInput.parse(input))
-  .handler(async ({ data }) => {
-    const key = process.env.LOVABLE_API_KEY;
-    if (!key) throw new Error("AI is not configured");
-
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { data: r, error } = await supabaseAdmin
-      .from("receptionists")
-      .select("business_name, description, faqs, calendly_15, calendly_30")
-      .order("created_at", { ascending: true })
-      .limit(1)
-      .maybeSingle();
-    if (error || !r) throw new Error("Receptionist not found");
-
-    const merged = { ...r, faqs: data.faqs_override ?? r.faqs };
-    const gateway = createLovableAiGatewayProvider(key);
-    try {
-      const result = await generateText({
-        model: gateway("google/gemini-3-flash-preview"),
-        system: buildSystemPrompt(merged),
-        messages: [{ role: "user", content: data.question }],
-      });
-      return { text: result.text };
-    } catch (e) {
-      throw mapAiError(e);
-    }
-  });
