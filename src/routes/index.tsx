@@ -74,7 +74,7 @@ const COPY: Record<SiteLang, Copy> = {
       "Deskia est une agence basée en Suisse qui audite votre entreprise, identifie les tâches répétitives et les remplace par des automatisations sur mesure — y compris une réceptionniste IA disponible 24h/24, en français, allemand et anglais.",
     trustLine: "Basé à Genève, Suisse · Conforme RGPD/LPD · Hébergé en Europe",
     servicesEyebrow: "Ce que nous faisons",
-    servicesTitle: "Deux offres, un objectif : libérer votre équipe",
+    servicesTitle: "Trois offres, un objectif : libérer votre équipe",
     services: [
       {
         title: "Réceptionniste IA 24/7",
@@ -85,6 +85,11 @@ const COPY: Record<SiteLang, Copy> = {
         title: "Audit & automatisations sur mesure",
         desc: "Nous cartographions vos tâches répétitives (devis, relances, prise de RDV, saisie CRM) et construisons les workflows qui les font disparaître.",
         image: serviceAppointments,
+      },
+      {
+        title: "Intégration & Développement IA",
+        desc: "Solutions IA clé en main adaptées à votre entreprise : compétences et intégrations sur mesure, agents d'entreprise, RAG pour vos connaissances, architecture scalable et GenAIOps/MLOps complets.",
+        image: serviceSupport,
       },
     ],
     processEyebrow: "Notre méthode",
@@ -133,7 +138,7 @@ const COPY: Record<SiteLang, Copy> = {
       "Deskia is a Switzerland-based agency. We audit your business, find the repetitive tasks that drain your team, and replace them with custom automations — including a 24/7 AI receptionist in French, German and English.",
     trustLine: "Based in Geneva, Switzerland · GDPR / FADP compliant · EU hosting",
     servicesEyebrow: "What we do",
-    servicesTitle: "Two services, one goal: free your team's time.",
+    servicesTitle: "Three services, one goal: free your team's time.",
     services: [
       {
         title: "24/7 AI receptionist",
@@ -144,6 +149,11 @@ const COPY: Record<SiteLang, Copy> = {
         title: "Audit & custom automations",
         desc: "We map your repetitive tasks (quotes, follow-ups, scheduling, CRM data entry) and build the workflows that make them disappear.",
         image: serviceAppointments,
+      },
+      {
+        title: "AI Integration & Development",
+        desc: "End-to-end AI solutions tailored to your business: custom skills and integrations, enterprise agents, RAG for your knowledge base, scalable platform architecture, and full GenAIOps/MLOps.",
+        image: serviceSupport,
       },
     ],
     processEyebrow: "How we work",
@@ -192,7 +202,7 @@ const COPY: Record<SiteLang, Copy> = {
       "Deskia ist eine Agentur mit Sitz in der Schweiz. Wir auditieren Ihr Unternehmen, identifizieren wiederkehrende Aufgaben und ersetzen sie durch massgeschneiderte Automatisierungen — inklusive eines 24/7 KI-Empfangs auf Deutsch, Französisch und Englisch.",
     trustLine: "Sitz in Genf, Schweiz · DSG / DSGVO-konform · Hosting in der EU",
     servicesEyebrow: "Was wir tun",
-    servicesTitle: "Zwei Leistungen, ein Ziel: Ihr Team entlasten.",
+    servicesTitle: "Drei Leistungen, ein Ziel: Ihr Team entlasten.",
     services: [
       {
         title: "24/7 KI-Empfang",
@@ -203,6 +213,11 @@ const COPY: Record<SiteLang, Copy> = {
         title: "Audit & massgeschneiderte Automatisierungen",
         desc: "Wir erfassen Ihre repetitiven Aufgaben (Offerten, Nachfassen, Terminierung, CRM-Eingaben) und bauen die Workflows, die sie eliminieren.",
         image: serviceAppointments,
+      },
+      {
+        title: "KI-Integration & -Entwicklung",
+        desc: "Massgeschneiderte KI-Lösungen aus einer Hand: individuelle Fähigkeiten und Integrationen, Enterprise-Agenten, RAG für Ihr Wissen, skalierbare Architektur und vollständiges GenAIOps/MLOps.",
+        image: serviceSupport,
       },
     ],
     processEyebrow: "So arbeiten wir",
@@ -289,6 +304,7 @@ export const Route = createFileRoute("/")({
             "Business Process Automation",
             "Lead Capture Automation",
             "Custom AI Agents",
+            "AI Integration & Development",
           ],
           availableLanguage: ["French", "English", "German"],
         }),
@@ -396,7 +412,7 @@ function HomePage() {
           <h2 className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight sm:text-4xl">
             {copy.servicesTitle}
           </h2>
-          <div className="mt-12 grid gap-6 md:grid-cols-2">
+          <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {copy.services.map((s, i) => (
               <div
                 key={s.title}
@@ -412,7 +428,7 @@ function HomePage() {
                 <div className="p-6">
                   <div className="flex items-center gap-2">
                     <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-foreground text-background">
-                      {i === 0 ? <PhoneCall className="h-4 w-4" /> : <Workflow className="h-4 w-4" />}
+                      {i === 0 ? <PhoneCall className="h-4 w-4" /> : i === 1 ? <Workflow className="h-4 w-4" /> : <Bot className="h-4 w-4" />}
                     </span>
                     <h3 className="text-xl font-semibold tracking-tight">{s.title}</h3>
                   </div>
