@@ -88,7 +88,7 @@ const COPY: Record<SiteLang, Copy> = {
       },
       {
         title: "Intégration & Développement IA",
-        desc: "Solutions IA clé en main adaptées à votre entreprise : compétences et intégrations sur mesure, agents d'entreprise, RAG pour vos connaissances, architecture scalable et GenAIOps/MLOps complets.",
+        desc: "Solutions IA clé en main avec Microsoft Foundry et Microsoft Copilot : compétences et intégrations sur mesure, agents d'entreprise, RAG pour vos connaissances, architecture scalable et GenAIOps/MLOps complets.",
         image: serviceSupport,
       },
     ],
@@ -152,7 +152,7 @@ const COPY: Record<SiteLang, Copy> = {
       },
       {
         title: "AI Integration & Development",
-        desc: "End-to-end AI solutions tailored to your business: custom skills and integrations, enterprise agents, RAG for your knowledge base, scalable platform architecture, and full GenAIOps/MLOps.",
+        desc: "End-to-end AI solutions with Microsoft Foundry and Microsoft Copilot: custom skills and integrations, enterprise agents, RAG for your knowledge base, scalable platform architecture, and full GenAIOps/MLOps.",
         image: serviceSupport,
       },
     ],
@@ -216,7 +216,7 @@ const COPY: Record<SiteLang, Copy> = {
       },
       {
         title: "KI-Integration & -Entwicklung",
-        desc: "Massgeschneiderte KI-Lösungen aus einer Hand: individuelle Fähigkeiten und Integrationen, Enterprise-Agenten, RAG für Ihr Wissen, skalierbare Architektur und vollständiges GenAIOps/MLOps.",
+        desc: "Massgeschneiderte KI-Lösungen mit Microsoft Foundry und Microsoft Copilot: individuelle Fähigkeiten und Integrationen, Enterprise-Agenten, RAG für Ihr Wissen, skalierbare Architektur und vollständiges GenAIOps/MLOps.",
         image: serviceSupport,
       },
     ],
