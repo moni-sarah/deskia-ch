@@ -74,7 +74,7 @@ const COPY: Record<SiteLang, Copy> = {
       "Deskia est une agence basée en Suisse qui audite votre entreprise, identifie les tâches répétitives et les remplace par des automatisations sur mesure — y compris une réceptionniste IA disponible 24h/24, en français, allemand et anglais.",
     trustLine: "Basé à Genève, Suisse · Conforme RGPD/LPD · Hébergé en Europe",
     servicesEyebrow: "Ce que nous faisons",
-    servicesTitle: "Deux offres, un objectif : libérer votre équipe",
+    servicesTitle: "Trois offres, un objectif : libérer votre équipe",
     services: [
       {
         title: "Réceptionniste IA 24/7",
