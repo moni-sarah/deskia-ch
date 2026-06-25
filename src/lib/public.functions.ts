@@ -190,7 +190,7 @@ export const submitLead = createServerFn({ method: "POST" })
     }
 
     // Generic webhook (Zapier / Make / any CRM or appointment software)
-    if (r.webhook_url) {
+    if (r.webhook_url && isSafePublicHttpsUrl(r.webhook_url)) {
       try {
         const res = await fetch(r.webhook_url, {
           method: "POST",
@@ -214,6 +214,8 @@ export const submitLead = createServerFn({ method: "POST" })
       } catch (e) {
         errors.push(`webhook:${(e as Error).message}`);
       }
+    } else if (r.webhook_url) {
+      errors.push("webhook:blocked_unsafe_url");
     }
 
     return { ok: true, id: inserted.id, integrations, errors };
